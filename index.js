@@ -5,7 +5,8 @@ const mysql = require('mysql');
  
 // parse application/json
 app.use(bodyParser.json());
- 
+ app.use(bodyParser.json({ type: '*' }));
+
 //create database connection
 const conn = mysql.createConnection({
   host: 'localhost',

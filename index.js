@@ -21,7 +21,7 @@ conn.connect((err) =>{
 });
  
 //show all products
-app.get('/api/products',(req, res) => {
+app.get('/api/user',(req, res) => {
   let sql = "SELECT * FROM user";
   let query = conn.query(sql, (err, results) => {
     if(err) throw err;
@@ -38,15 +38,15 @@ app.get('/api/products',(req, res) => {
 //   });
 // });
 //  
-// //add new product
-// app.post('/api/products',(req, res) => {
-//   let data = {product_name: req.body.product_name, product_price: req.body.product_price};
-//   let sql = "INSERT INTO product SET ?";
-//   let query = conn.query(sql, data,(err, results) => {
-//     if(err) throw err;
-//     res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
-//   });
-// });
+//add new product
+app.post('/api/user',(req, res) => {
+  let data = {username: req.body.username, password: req.body.password};
+  let sql = "INSERT INTO user SET ?";
+  let query = conn.query(sql, data,(err, results) => {
+    if(err) throw err;
+    res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+  });
+});
 //  
 // //update product
 // app.put('/api/products/:id',(req, res) => {

@@ -43,6 +43,7 @@ app.get('/api/user',(req, res) => {
 //add new product
 app.post('/api/user', (req, res) => {
 	console.log(req.body);
+	console.log(req.body.username);
   let data = {username: req.body.username, password: req.body.password};
   let sql = "INSERT INTO user SET ?";
   let query = conn.query(sql, data,(err, results) => {

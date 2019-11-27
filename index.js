@@ -4,6 +4,7 @@ const app = express();
 const mysql = require('mysql');
  
 // parse application/json
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 

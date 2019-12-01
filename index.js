@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 
 //use connection 
 app.use(function (req, res, next) {
-	global.connection = mysql.createConnection({
+	connection = mysql.createConnection({
 		host: 'localhost',
 		user: 'pgraf_glas',
 		password: 'Fnligvu5abca@',

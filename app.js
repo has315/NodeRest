@@ -9,10 +9,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var app = express();
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+var port = 3000;
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -50,5 +47,10 @@ app.use(function(req, res, next){
 	res.locals.connect();
 	next();
 });
+
+app.listen(port, () => {
+	console.log(`Listening to requests on http://localhost:${port}`);
+  });
+  
 
 module.exports = app;

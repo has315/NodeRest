@@ -9,4 +9,4 @@ let connection = mysql.createConnection({
 });
 //export connection, you can optionally use 
 //connection.connect here. The same state of this module is passed everywhere. 
-exports.connection = connection;
+module.exports = connection;

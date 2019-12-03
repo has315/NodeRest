@@ -11,14 +11,6 @@ var port = 3000;
 
 var app = express();
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({
-  extended: false
-}));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-
 //Database connection
 app.use(function (req, res, next) {
   global.connection = mysql.createConnection({
@@ -28,8 +20,20 @@ app.use(function (req, res, next) {
     database: 'PgrafDB'
   });
   connection.connect();
+  console.log(connection);
+  console.log('mysql connected')
   next();
 });
+
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({
+  extended: false
+}));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+
+
 
 
 app.use('/', indexRouter);

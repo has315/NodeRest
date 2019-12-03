@@ -3,7 +3,7 @@ var router = express.Router();
 
 router.get('/', function(req, res, next) {
   let sql = 'SELECT * from user';
-	global.connection.query(sql, function (error, results) {
+	res.locals.connection.query(sql, function (error, results, fields) {
 		if (error) throw error;
 		res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
 	});

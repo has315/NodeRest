@@ -43,7 +43,7 @@ app.use(function (err, req, res, next) {
 
 //Database connection
 app.use(function (req, res, next) {
-  res.locals.connection = mysql.createConnection({
+  global.connection = mysql.createConnection({
     host: 'localhost',
     user: 'pgraf_glas',
     password: 'Fnligvu5abca@',

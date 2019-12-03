@@ -16,7 +16,7 @@ router.post('/', function(req, res, next){
   };
 
   let sql = "INSERT INTO user SET ?";
-  let query = global.connection.query(sql,data, (err, results) => {
+  let query = res.locals.connection.query(sql,data, (err, results) => {
     if(err) throw err;
     res.send(JSON.stringify({
       "status": 200,

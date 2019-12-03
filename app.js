@@ -27,7 +27,7 @@ app.use(function (req, res, next) {
     password: 'Fnligvu5abca@',
     database: 'PgrafDB'
   });
-  global.connection.connect();
+  connection.connect();
   next();
 });
 

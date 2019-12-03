@@ -13,13 +13,13 @@ var app = express();
 
 //Database connection
 app.use(function (req, res, next) {
-  global.connection = mysql.createConnection({
+  res.locals.connection = mysql.createConnection({
     host: 'localhost',
     user: 'pgraf_glas',
     password: 'Fnligvu5abca@',
     database: 'PgrafDB'
   });
-  connection.connect();
+  res.locals.connection.connect();
   console.log(connection);
   console.log('mysql connected')
   next();

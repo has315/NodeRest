@@ -5,7 +5,7 @@ var connection = require('../db');
 
 router.get('/', function(req, res, next) {
   let sql = 'SELECT * from user';
-	res.locals.connection.query(sql, function (error, results, fields) {
+	  connection.query(sql, function (error, results, fields) {
 		if (error) throw error;
 		res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
 	});

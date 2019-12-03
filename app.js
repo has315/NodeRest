@@ -4,26 +4,12 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mysql = require("mysql");
-
+var connection = require('./db');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var port = 3000;
 
 var app = express();
-
-//Database connection
-app.use(function (req, res, next) {
-  res.locals.connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'pgraf_glas',
-    password: 'Fnligvu5abca@',
-    database: 'PgrafDB'
-  });
-  res.locals.connection.connect();
-  console.log(connection);
-  console.log('mysql connected')
-  next();
-});
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -33,7 +19,12 @@ app.use(express.urlencoded({
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-
+app.use(function(req, res, next){
+  console.log('In');
+  res.locals.connection = connection
+  console.log('out');
+  next();
+});
 
 
 app.use('/', indexRouter);

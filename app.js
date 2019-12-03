@@ -19,6 +19,19 @@ app.use(express.urlencoded({
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//Database connection
+app.use(function (req, res, next) {
+  global.connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'pgraf_glas',
+    password: 'Fnligvu5abca@',
+    database: 'PgrafDB'
+  });
+  global.connection.connect();
+  next();
+});
+
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
@@ -41,17 +54,7 @@ app.use(function (err, req, res, next) {
   });
 });
 
-//Database connection
-app.use(function (req, res, next) {
-  global.connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'pgraf_glas',
-    password: 'Fnligvu5abca@',
-    database: 'PgrafDB'
-  });
-  global.connection.connect();
-  next();
-});
+
 
 app.listen(port, () => {
   console.log(`Listening to requests on http://localhost:${port}`);

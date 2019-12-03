@@ -49,7 +49,7 @@ app.use(function (req, res, next) {
     password: 'Fnligvu5abca@',
     database: 'PgrafDB'
   });
-  res.locals.connect();
+  global.connection.connect();
   next();
 });
 

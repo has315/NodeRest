@@ -33,9 +33,7 @@ router.post('/', function (req, res, next) {
 });
 
 router.delete('/', function (req, res, next) {
-  let data = {
-    selected: req.params.selected
-  };
+  let data = req.data.selected;
   console.log(req.params);
   console.log(req.params.selected);
   let sql = "DELETE from user WHERE user_id = ?"

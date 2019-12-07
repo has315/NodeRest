@@ -33,9 +33,11 @@ router.post('/', function (req, res, next) {
 });
 
 router.delete('/', function (req, res, next) {
-  let selected = req.body.selected;
+  let data = {
+    selected: req.body.selected
+  };
   let sql = "DELETE from user WHERE user_id = ?"
-  connection.query(sql, selected, (err, results) => {
+  connection.query(sql, data, (err, results) => {
     if (err) throw err;
     res.send(JSON.stringify({
       "stauts": 200,

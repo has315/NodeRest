@@ -36,13 +36,16 @@ router.delete('/', function (req, res, next) {
   let data = {
     selected: req.params.selected
   };
+  
   let sql = "DELETE from user WHERE user_id = ?"
   connection.query(sql, data, (err, results) => {
     if (err) throw err;
     res.send(JSON.stringify({
       "stauts": 200,
       "error": null,
-      "response": results
+      "response": results,
+      "consoleLog": req.params,
+      "aaa": req.params.selected
     }));
   });
 });

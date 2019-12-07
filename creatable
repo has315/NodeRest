@@ -6,5 +6,5 @@ CREATE TABLE IF NOT EXISTS vote (
     jmbg VARCHAR(16) NOT NULL,
     phone_number VARCHAR(255) NOT NULL,
     delegated VARCHAR(255) NOT NULL,
-    deleted TINYINT(1) NOT NULL,
-    FOREIGN KEY (vote_id) REFERENCES user(user_id);
+    deleted TINYINT(1) NOT NULL DEFAULT 0,
+    FOREIGN KEY (vote_id) REFERENCES user(user_id));

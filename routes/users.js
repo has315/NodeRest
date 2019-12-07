@@ -33,7 +33,7 @@ router.post('/', function (req, res, next) {
 });
 
 // router.delete('/', function (req, res, next) {
-//   let data = req.data.selected;
+//   let data = {user_id : req.data.selected};
 //   console.log(req.params);
 //   console.log(req.params.selected);
 //   console.log(req.body.selected);
@@ -49,9 +49,9 @@ router.post('/', function (req, res, next) {
 //   });
 // });
 
-router.post('/', function (req, res, next) {
+router.post('/delete', function (req, res, next) {
   let data = {
-    user_id: selected
+    user_id: req.body.selected
   };
 
   let sql = "DELETE from user WHERE user_id = ?"

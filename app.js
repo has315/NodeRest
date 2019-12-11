@@ -7,6 +7,7 @@ var connection = require('./db');
 var usersRouter = require('./routes/users');
 var votersRouter = require('./routes/voters');
 var port = 3000;
+var www = require('./bin/www');
 
 var app = express();
 
@@ -49,10 +50,9 @@ app.use(function (err, req, res, next) {
 });
 
 
-
-app.listen(port, () => {
-  console.log(`Listening to requests on http://localhost:${port}`);
-});
+// app.listen(port, () => {
+//   console.log(`Listening to requests on http://localhost:${port}`);
+// });
 
 
 module.exports = app;

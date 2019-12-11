@@ -7,6 +7,7 @@ var connection = require('./db');
 var usersRouter = require('./routes/users');
 var votersRouter = require('./routes/voters');
 var http = require('http');
+var debug = require('debug')('newproject:server');
 
 var port = 3000;
 

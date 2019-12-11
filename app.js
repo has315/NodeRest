@@ -9,7 +9,6 @@ var votersRouter = require('./routes/voters');
 var http = require('http');
 
 var port = 3000;
-app.set('port', port);
 
 
 var app = express();

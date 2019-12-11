@@ -7,7 +7,6 @@ var connection = require('./db');
 var usersRouter = require('./routes/users');
 var votersRouter = require('./routes/voters');
 var port = 3000;
-var www = require('./bin/www');
 
 var app = express();
 

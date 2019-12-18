@@ -1,3 +1,7 @@
+var express = require('express');
+var router = express.Router();
+
+
 const users = {
   user1: 'password1',
   user2: 'password2'
@@ -108,8 +112,4 @@ const refresh = (req, res) => {
   res.end()
 }
 
-module.exports = {
-  login,
-  welcome,
-  refresh
-}
+module.exports = router;

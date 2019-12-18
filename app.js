@@ -6,6 +6,7 @@ var logger = require('morgan');
 var connection = require('./db');
 var usersRouter = require('./routes/users');
 var votersRouter = require('./routes/voters');
+var usersLoginRouter = require('./routes/login');
 var http = require('http');
 var debug = require('debug')('newproject:server');
 var request = require('request');
@@ -13,8 +14,10 @@ request('https://www.izbori.ba/Default.aspx?CategoryID=509&Lang=3', function (er
   console.log('error:', error); // Print the error if one occurred
   console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
   console.log('body:', body); // Print the HTML for the Google homepage.
-
+  
 });
+
+
 var port = 3000;
 
 
@@ -38,6 +41,7 @@ app.use(function (req, res, next) {
 
 app.use('/users', usersRouter);
 app.use('/voters', votersRouter);
+app.use('/login', usersLoginRouter)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

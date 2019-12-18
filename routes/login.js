@@ -4,14 +4,9 @@ const users = {
 }
 
 const jwt = require('jsonwebtoken')
-
 const jwtKey = 'my_secret_key'
 const jwtExpirySeconds = 300
 
-const users = {
-  user1: 'password1',
-  user2: 'password2'
-}
 
 const login = (req, res) => {
   // Get credentials from JSON body

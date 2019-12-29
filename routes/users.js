@@ -23,13 +23,14 @@ router.post('/', function (req, res, next) {
   let data = {
     username: req.body.username,
     password: req.body.password,
-    salt: req.body.salt
   };
   console.log(data.password);
-  console.log(data.salt);
 
   var salt = bcrypt.genSaltSync(saltRounds);
-  var hash = bcrypt.hashSync(data.password, salt);
+  var password = bcrypt.hashSync(data.password, salt);
+
+  console.log(salt);
+  console.log(password);
 
   let sql = "INSERT INTO user SET ?";
   connection.query(sql, data, (err, results) => {

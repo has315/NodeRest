@@ -1,8 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var connection = require('../db');
-var jwt = require('jsonwebtoken');
-var atob = require('atob');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 

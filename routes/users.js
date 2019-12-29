@@ -22,7 +22,7 @@ router.get('/', function (req, res, next) {
 router.post('/', function (req, res, next) {
   let data = {
     username: req.body.username,
-    password = bcrypt.hashSync(myPlaintextPassword, saltRounds)
+    password: bcrypt.hashSync(req.body.password, saltRounds)
 
   };
   console.log(data);

@@ -27,7 +27,7 @@ router.post('/', function (req, res, next) {
   };
 
   bcrypt.genSalt(saltRounds, function (err, salt) {
-    bcrypt.hash(data, salt, function (err, hash) {
+    bcrypt.hash(data{password}, salt, function (err, hash) {
       let sql = "INSERT INTO user SET ?";
       connection.query(sql, data, (err, results) => {
         if (err) throw err;

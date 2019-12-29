@@ -1,6 +1,12 @@
 var express = require('express');
 var router = express.Router();
 var connection = require('../db');
+var jwt = require('jsonwebtoken');
+var atob = require('atob');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+
+
 
 
 router.get('/', function (req, res, next) {
@@ -18,17 +24,22 @@ router.get('/', function (req, res, next) {
 router.post('/', function (req, res, next) {
   let data = {
     username: req.body.username,
-    password: req.body.password
+    password: req.body.password,
+    salt: req.body.salt
   };
 
-  let sql = "INSERT INTO user SET ?";
-  connection.query(sql, data, (err, results) => {
-    if (err) throw err;
-    res.send(JSON.stringify({
-      "status": 200,
-      "error": null,
-      "response": results
-    }));
+  bcrypt.genSalt(saltRounds, function (err, salt) {
+    bcrypt.hash(password, salt, function (err, hash) {
+      let sql = "INSERT INTO user SET ?";
+      connection.query(sql, data, (err, results) => {
+        if (err) throw err;
+        res.send(JSON.stringify({
+          "status": 200,
+          "error": null,
+          "response": results
+        }));
+      });
+    });
   });
 });
 
@@ -64,4 +75,24 @@ router.post('/delete', function (req, res, next) {
     }));
   });
 });
+
+router.post('/login', function (req, res, next) {
+
+    
+
+});
+
+
+
+async function checkUser(username, password) {
+  //... fetch user from a db etc.
+
+  const match = await bcrypt.compare(password, user.password);
+
+  if(match) {
+      //login
+  }
+
+  //...
+}
 module.exports = router;

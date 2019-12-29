@@ -21,8 +21,8 @@ router.get('/', function (req, res, next) {
 
 router.post('/', function (req, res, next) {
 
-  var presalt =  bcrypt.genSaltSync(saltRounds);
-
+  let presalt =  bcrypt.genSaltSync(saltRounds);
+  console.log(presalt);
   let data = {
     username: req.body.username,
     password: bcrypt.hashSync(req.body.password, presalt),

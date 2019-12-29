@@ -6,7 +6,6 @@ var logger = require('morgan');
 var connection = require('./db');
 var usersRouter = require('./routes/users');
 var votersRouter = require('./routes/voters');
-var usersLoginRouter = require('./routes/login');
 var cors = require('cors');
 var http = require('http');
 var debug = require('debug')('newproject:server');
@@ -42,7 +41,6 @@ app.use(function (req, res, next) {
 
 app.use('/users', usersRouter);
 app.use('/voters', votersRouter);
-app.use('/login', usersLoginRouter)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

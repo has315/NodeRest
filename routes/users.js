@@ -75,9 +75,6 @@ router.post('/delete', function (req, res, next) {
 });
 
 router.post('/login', function (req, res, next) {
-
-    
-
 });
 
 

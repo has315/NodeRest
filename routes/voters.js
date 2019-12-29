@@ -17,7 +17,8 @@ router.post('/', function(req, res, next){
     last_name: req.body.last_name,
     jmbg: req.body.jmbg,
     phone_number: req.body.phone_number,
-    delegated: req.body.delegated
+    delegated: req.body.delegated,
+    added: req.body.added
   };
 
   let sql = "INSERT INTO vote SET ?";

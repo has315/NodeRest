@@ -23,7 +23,7 @@ router.post('/', function (req, res, next) {
   let data = {
     username: req.body.username,
     password: req.body.password,
-    salt: req.body.salt
+    hash: req.body.hash
   };
   console.log(data.password);
   console.log(data.salt);

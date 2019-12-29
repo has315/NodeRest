@@ -25,8 +25,11 @@ router.post('/', function (req, res, next) {
     password: req.body.password,
     salt: req.body.salt
   };
-  console.log(password);
-  console.log(salt);
+  console.log(data.password);
+  console.log(data.salt);
+
+  var salt = bcrypt.genSaltSync(saltRounds);
+  var hash = bcrypt.hashSync(password, salt);
 
   let sql = "INSERT INTO user SET ?";
   connection.query(sql, data, (err, results) => {

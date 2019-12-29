@@ -25,19 +25,17 @@ router.post('/', function (req, res, next) {
     password: req.body.password,
     salt: req.body.salt
   };
+  console.log(password);
+  console.log(salt);
 
-  bcrypt.genSalt(saltRounds, function (err, salt) {
-    bcrypt.hash(data{password}, salt, function (err, hash) {
-      let sql = "INSERT INTO user SET ?";
-      connection.query(sql, data, (err, results) => {
-        if (err) throw err;
-        res.send(JSON.stringify({
-          "status": 200,
-          "error": null,
-          "response": results
-        }));
-      });
-    });
+  let sql = "INSERT INTO user SET ?";
+  connection.query(sql, data, (err, results) => {
+    if (err) throw err;
+    res.send(JSON.stringify({
+      "status": 200,
+      "error": null,
+      "response": results
+    }));
   });
 });
 
@@ -74,8 +72,7 @@ router.post('/delete', function (req, res, next) {
   });
 });
 
-router.post('/login', function (req, res, next) {
-});
+router.post('/login', function (req, res, next) {});
 
 
 
@@ -84,8 +81,8 @@ async function checkUser(username, password) {
 
   const match = await bcrypt.compare(password, user.password);
 
-  if(match) {
-      //login
+  if (match) {
+    //login
   }
 
   //...

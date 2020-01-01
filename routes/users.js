@@ -80,9 +80,8 @@ router.post('/login', function (req, res, next) {
 
   let data = {
     username: req.body.username,
-    password: bcrypt.hashSync(req.body.password, presalt),
-    salt: presalt
-  };
+    password: bcrypt.hashSync(req.body.password, presalt)
+    };
 
   let sql = 'SELECT * from user WHERE username = ?';
   connection.query(sql, function (error, results, fields) {

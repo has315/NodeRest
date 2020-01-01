@@ -21,7 +21,7 @@ router.get('/', function (req, res, next) {
 
 router.post('/', function (req, res, next) {
 
-  let presalt =  bcrypt.genSaltSync(saltRounds);
+  let presalt = bcrypt.genSaltSync(saltRounds);
   console.log(presalt);
   let data = {
     username: req.body.username,
@@ -76,7 +76,22 @@ router.post('/delete', function (req, res, next) {
   });
 });
 
-router.post('/login', function (req, res, next) {});
+router.post('/login', function (req, res, next) {
+
+  let data = {
+    username: req.body.username,
+    password: bcrypt.hashSync(req.body.password, presalt),
+    salt: presalt
+  };
+
+  let sql = 'SELECT * from user WHERE username = ?';
+  connection.query(sql, function (error, results, fields) {
+    if (error) throw error;
+    if (username == results.username) {
+      checkUser(password, results.password);
+    }
+  });
+});
 
 
 

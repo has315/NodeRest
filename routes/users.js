@@ -80,7 +80,7 @@ router.post('/login', function (req, res, next) {
 
   let data = {
     username: req.body.username,
-    password: bcrypt.hashSync(req.body.password, presalt)
+    password: bcrypt.hashSync(req.body.password)
     };
 
   let sql = 'SELECT * from user WHERE username = ?';
@@ -94,10 +94,10 @@ router.post('/login', function (req, res, next) {
 
 
 
-async function checkUser(username, password) {
+async function checkUser(reqPassword, userPassword) {
   //... fetch user from a db etc.
 
-  const match = await bcrypt.compare(password, user.password);
+  const match = await bcrypt.compare(reqPassword, userPassword);
 
   if (match) {
     res.send(JSON.stringify({

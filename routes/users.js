@@ -101,9 +101,17 @@ async function checkUser(username, password) {
   const match = await bcrypt.compare(password, user.password);
 
   if (match) {
-    //login
+    res.send(JSON.stringify({
+      "status": 200,
+      "error": null,
+      "response": 1
+    }));
+  } else {
+    res.send(JSON.stringify({
+      "status": 200,
+      "error": null,
+      "response": 2
+    }));
   }
-
-  //...
 }
 module.exports = router;

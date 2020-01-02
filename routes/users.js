@@ -80,7 +80,6 @@ router.post('/login', function (req, res, next) {
 
   connection.query({
     sql: 'SELECT * FROM `user` WHERE `username` = ?',
-    timeout: 40000, // 40s
     values: req.body.username
   }, function (error, results, fields) {
   // var  password = bcrypt.hashSync(req.body.password, results.salt);

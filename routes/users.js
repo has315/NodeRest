@@ -84,7 +84,6 @@ router.post('/login', function (req, res, next) {
     values: req.body.username
   }, function (error, results, fields) {
   // var  password = bcrypt.hashSync(req.body.password, results.salt);
-  console.log(results);
   });
 });
 

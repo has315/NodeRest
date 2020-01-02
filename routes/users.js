@@ -81,7 +81,6 @@ router.post('/login', function (req, res, next) {
   }, function (error, results, fields) {
     if (error) throw error;
     // var salt = results[0].salt;
-    if (results.length > 0) {
 
       password_hash = results[0].password;
       
@@ -102,13 +101,6 @@ router.post('/login', function (req, res, next) {
           }));
         }
       });
-    } else {
-      res.send(JSON.stringify({
-        "status": 200,
-        "error": null,
-        "response": 3
-      }));
-    }
   });
 })
 

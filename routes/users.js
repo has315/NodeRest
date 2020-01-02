@@ -101,6 +101,12 @@ router.post('/login', function (req, res, next) {
           }));
         }
       });
+    } else {
+      res.send(JSON.stringify({
+        "status": 200,
+        "error": null,
+        "response": 2
+      }));
     }
   });
 })

@@ -75,59 +75,53 @@ router.post('/delete', function (req, res, next) {
 
 router.post('/login', function (req, res, next) {
 
-      connection.query({
-          sql: 'SELECT * FROM `user` WHERE `username` = ?',
-          values: req.body.username
-        }, function (error, results, fields) {
-          if (error) throw error;
-          // var salt = results[0].salt;
-          if (results.length > 0) {
+  connection.query({
+    sql: 'SELECT * FROM `user` WHERE `username` = ?',
+    values: req.body.username
+  }, function (error, results, fields) {
+    if (error) throw error;
+    // var salt = results[0].salt;
+    if (results.length > 0) {
 
-            pasword_hash = results[0].password;
+      pasword_hash = results[0].password;
 
-          
-            bcrypt.compare(myPlaintextPassword, hash, function (err, res) {
-              if (res) {
-                res.send(JSON.stringify({
-                  "status": 200,
-                  "error": null,
-                  "response": 1
-                }));
-              } else {
-                res.send(JSON.stringify({
-                  "status": 200,
-                  "error": null,
-                  "response": 2
-                }));
-              }
-            });
 
-            // console.log(password);
-            // res.send(JSON.stringify({
-            //   "status": 200,
-            //   "error": null,
-            //   "response": results
-            // }));
-          }});
-        })
-
-    async function checkUser(reqPassword, userPassword) {
-      //... fetch user from a db etc.
-
-      const match = await bcrypt.compare(reqPassword, userPassword);
-
-      if (match) {
-        res.send(JSON.stringify({
-          "status": 200,
-          "error": null,
-          "response": 1
-        }));
-      } else {
-        res.send(JSON.stringify({
-          "status": 200,
-          "error": null,
-          "response": 2
-        }));
-      }
+      bcrypt.compare(req.body.password, password_hash, function (err, res) {
+        if (res) {
+          res.send(JSON.stringify({
+            "status": 200,
+            "error": null,
+            "response": 1
+          }));
+        } else {
+          res.send(JSON.stringify({
+            "status": 200,
+            "error": null,
+            "response": 2
+          }));
+        }
+      });
     }
-    module.exports = router;
+  });
+})
+
+async function checkUser(reqPassword, userPassword) {
+  //... fetch user from a db etc.
+
+  const match = await bcrypt.compare(reqPassword, userPassword);
+
+  if (match) {
+    res.send(JSON.stringify({
+      "status": 200,
+      "error": null,
+      "response": 1
+    }));
+  } else {
+    res.send(JSON.stringify({
+      "status": 200,
+      "error": null,
+      "response": 2
+    }));
+  }
+}
+module.exports = router;

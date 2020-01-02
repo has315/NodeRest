@@ -80,7 +80,7 @@ router.post('/login', function (req, res, next) {
     values: req.body.username
   }, function (error, results, fields) {
     if (error) throw error;
-    var salt = results[0].salt;
+    // var salt = results[0].salt;
     if (results > 0) {
       var password = bcrypt.hashSync(req.body.password, 10);
       const match = bcrypt.compare(req.body.password, password);

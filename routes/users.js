@@ -78,42 +78,48 @@ router.post('/delete', function (req, res, next) {
 
 router.post('/login', function (req, res, next) {
 
-      var username = req.body.username;
-      var password = bcrypt.hashSync(req.body.password);
-      var salt = presalt;
+  var username = req.body.username;
+  var password = bcrypt.hashSync(req.body.password);
+  var salt = presalt;
 
-      let sql = 'SELECT * from user WHERE username = ?';
-      connection.query(sql, function (error, results, fields) {
-            if (error) throw error;
-            if (username == results.username) {
-              if (checkUser(password, results.password)) {
-                res.send(JSON.stringify({
-                    "status": 200,
-                    "error": null,
-                    "response": results
-                }));
-              };
-            };
-          });
-        });
+  let sql = 'SELECT * from user';
+  connection.query(sql, data, (err, results) => {
+    if (error) throw error;
+    if (username == results.username) {
+      if (checkUser(password, results.password)) {
+        res.send(JSON.stringify({
+          "status": 200,
+          "error": null,
+          "response": results
+        }));
+      };
+    } else {
+      res.send(JSON.stringify({
+        "status": 200,
+        "error": null,
+        "response": err
+      }));
+    }
+  });
+});
 
-          async function checkUser(reqPassword, userPassword) {
-            //... fetch user from a db etc.
+async function checkUser(reqPassword, userPassword) {
+  //... fetch user from a db etc.
 
-            const match = await bcrypt.compare(reqPassword, userPassword);
+  const match = await bcrypt.compare(reqPassword, userPassword);
 
-            if (match) {
-              res.send(JSON.stringify({
-                "status": 200,
-                "error": null,
-                "response": 1
-              }));
-            } else {
-              res.send(JSON.stringify({
-                "status": 200,
-                "error": null,
-                "response": 2
-              }));
-            }
-          }
-          module.exports = router;
+  if (match) {
+    res.send(JSON.stringify({
+      "status": 200,
+      "error": null,
+      "response": 1
+    }));
+  } else {
+    res.send(JSON.stringify({
+      "status": 200,
+      "error": null,
+      "response": 2
+    }));
+  }
+}
+module.exports = router;

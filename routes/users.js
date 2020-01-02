@@ -78,17 +78,12 @@ router.post('/delete', function (req, res, next) {
 
 router.post('/login', function (req, res, next) {
 
-  let data = {
-    username : req.body.username,
-    password : bcrypt.hashSync(req.body.password)
-  }
 
-  let sql = 'SELECT * from user';
-  connection.query(sql, data, (err, results) => {
+  var username = req.username;
+  let sql_salt = 'SELECT * from user WHERE username = ?';
+  connection.query(sql_salt, function (error, results, fields) {
     if (error) throw error;
-    if (username == results.username) {
-    // checkUser(password, results.password);
-    }
+    
   });
 });
 

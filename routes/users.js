@@ -97,7 +97,7 @@ router.post('/login', function (req, res, next) {
           res.send(JSON.stringify({
             "status": 200,
             "error": null,
-            "response": 2
+            "response": results
           }));
         }
       });

@@ -110,7 +110,7 @@ router.post('/login', function (req, res, next) {
        if (results) {
           return res.status(200).json({ msg: "Login success" })
       } else {
-          return res.status(401).json({ msg: "Invalid credencial" })
+          return res.status(401).json({ msg: "Invalid credencial " + response[0].password })
       }
      })
     }

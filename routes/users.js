@@ -83,7 +83,22 @@ router.post('/login', function (req, res, next) {
     var salt = results[0].salt;
     var  password = bcrypt.hashSync(req.body.password, 10);
     const match =  bcrypt.compare(req.body.password, password);
-    console.log(match);
+  
+    if (match) {
+      res.send(JSON.stringify({
+        "status": 200,
+        "error": null,
+        "response": 1
+      }));
+    } else {
+      res.send(JSON.stringify({
+        "status": 200,
+        "error": null,
+        "response": 2
+      }));
+    }
+
+
     // console.log(password);
     // res.send(JSON.stringify({
     //   "status": 200,

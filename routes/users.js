@@ -87,7 +87,7 @@ router.post('/login', function (req, res, next) {
   connection.query(sql, data, (err, results) => {
     if (error) throw error;
     if (username == results.username) {
-    checkUser(password, results.password);
+    // checkUser(password, results.password);
     }
   });
 });

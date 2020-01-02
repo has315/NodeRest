@@ -81,22 +81,25 @@ router.post('/login', function (req, res, next) {
   }, function (error, results, fields) {
     if (error) throw error;
     var salt = results[0].salt;
-    var  password = bcrypt.hashSync(req.body.password, 10);
-    const match =  bcrypt.compare(req.body.password, password);
-  
-    if (match) {
-      res.send(JSON.stringify({
-        "status": 200,
-        "error": null,
-        "response": 1
-      }));
-    } else {
-      res.send(JSON.stringify({
-        "status": 200,
-        "error": null,
-        "response": 2
-      }));
+    if (results > 0) {
+      var password = bcrypt.hashSync(req.body.password, 10);
+      const match = bcrypt.compare(req.body.password, password);
+      if (match) {
+        res.send(JSON.stringify({
+          "status": 200,
+          "error": null,
+          "response": 1
+        }));
+      } else {
+        res.send(JSON.stringify({
+          "status": 200,
+          "error": null,
+          "response": 2
+        }));
+      }
     }
+
+
 
 
     // console.log(password);

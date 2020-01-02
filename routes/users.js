@@ -87,19 +87,7 @@ router.post('/login', function (req, res, next) {
   connection.query(sql, data, (err, results) => {
     if (error) throw error;
     if (username == results.username) {
-      if (checkUser(password, results.password)) {
-        res.send(JSON.stringify({
-          "status": 200,
-          "error": null,
-          "response": results
-        }));
-      };
-    } else {
-      res.send(JSON.stringify({
-        "status": 200,
-        "error": null,
-        "response": err
-      }));
+    checkUser(password, results.password)
     }
   });
 });

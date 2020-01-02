@@ -80,15 +80,15 @@ router.post('/login', function (req, res, next) {
     values: req.body.username
   }, function (error, results, fields) {
     if (error) throw error;
-    var salt = results[0].salt;
+    // var salt = results[0].salt;
     // console.log(salt);
 
-    var hash = bcrypt.hashSync(req.body.password, salt);
+    // var hash = bcrypt.hashSync(req.body.password, salt);
     console.log(req.body.password);
     // console.log(hash);
     console.log(results[0].password)
 
-    bcrypt.compare(hash, results[0].password, function (err, response) {
+    bcrypt.compare(req.body.password, results[0].password, function (err, response) {
       if (response) {
         res.send(JSON.stringify({
           "status": 200,

@@ -82,7 +82,12 @@ router.post('/login', function (req, res, next) {
     sql: 'SELECT * FROM `user` WHERE `username` = ?',
     values: req.body.username
   }, function (error, results, fields) {
-  // var  password = bcrypt.hashSync(req.body.password, results.salt);
+    // var  password = bcrypt.hashSync(req.body.password, results.salt);
+    res.send(JSON.stringify({
+      "status": 200,
+      "error": null,
+      "response": results
+    }));
   });
 });
 

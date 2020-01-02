@@ -75,75 +75,59 @@ router.post('/delete', function (req, res, next) {
 
 router.post('/login', function (req, res, next) {
 
-  connection.query({
-    sql: 'SELECT * FROM `user` WHERE `username` = ?',
-    values: req.body.username
-  }, function (error, results, fields) {
-    if (error) throw error;
-    // var salt = results[0].salt;
-    if (results.length  > 0) {
-      var password = bcrypt.hashSync(req.body.password, 10);
-    //   const match = bcrypt.compare(req.body.password, password);
-    //   if (match) {
-    //     res.send(JSON.stringify({
-    //       "status": 200,
-    //       "error": null,
-    //       "response": 1
-    //     }));
-    //   } else {
-    //     res.send(JSON.stringify({
-    //       "status": 200,
-    //       "error": null,
-    //       "response": 2
-    //     }));
-    //   }
-    // } else {
-    //   res.send(JSON.stringify({
-    //     "status": 200,
-    //     "error": null,
-    //     "response": 3
-    //   }));
-    bcrypt.compare(req.body.password, results[0].password, function(err, results){
-      if(err){
-          throw new Error(err)
-       }
-       if (results) {
-          return res.status(200).json({ msg: "Login success" })
+      connection.query({
+          sql: 'SELECT * FROM `user` WHERE `username` = ?',
+          values: req.body.username
+        }, function (error, results, fields) {
+          if (error) throw error;
+          // var salt = results[0].salt;
+          if (results.length > 0) {
+
+            pasword_hash = results[0].password;
+
+          
+            bcrypt.compare(myPlaintextPassword, hash, function (err, res) {
+              if (res) {
+                res.send(JSON.stringify({
+                  "status": 200,
+                  "error": null,
+                  "response": 1
+                }));
+              } else {
+                res.send(JSON.stringify({
+                  "status": 200,
+                  "error": null,
+                  "response": 2
+                }));
+              }
+            });
+
+            // console.log(password);
+            // res.send(JSON.stringify({
+            //   "status": 200,
+            //   "error": null,
+            //   "response": results
+            // }));
+          }});
+        })
+
+    async function checkUser(reqPassword, userPassword) {
+      //... fetch user from a db etc.
+
+      const match = await bcrypt.compare(reqPassword, userPassword);
+
+      if (match) {
+        res.send(JSON.stringify({
+          "status": 200,
+          "error": null,
+          "response": 1
+        }));
       } else {
-          return res.status(401).json({ msg: "Invalid credencial " + results[0].password })
+        res.send(JSON.stringify({
+          "status": 200,
+          "error": null,
+          "response": 2
+        }));
       }
-     })
     }
-
-
-
-
-    // console.log(password);
-    // res.send(JSON.stringify({
-    //   "status": 200,
-    //   "error": null,
-    //   "response": results
-    // }));
-  });
-});
-
-async function checkUser(reqPassword, userPassword) {
-  //... fetch user from a db etc.
-
-  const match = await bcrypt.compare(reqPassword, userPassword);
-
-  if (match) {
-    res.send(JSON.stringify({
-      "status": 200,
-      "error": null,
-      "response": 1
-    }));
-  } else {
-    res.send(JSON.stringify({
-      "status": 200,
-      "error": null,
-      "response": 2
-    }));
-  }
-}
-module.exports = router;
+    module.exports = router;

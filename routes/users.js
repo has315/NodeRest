@@ -86,8 +86,8 @@ router.post('/login', function (req, res, next) {
       password_hash = results[0].password;
 
 
-      bcrypt.compare(req.body.password, password_hash, function (err, res) {
-        if (res) {
+      bcrypt.compare(req.body.password, password_hash, function (err, results) {
+        if (results) {
           res.send(JSON.stringify({
             "status": 200,
             "error": null,

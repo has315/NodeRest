@@ -80,8 +80,8 @@ router.post('/login', function (req, res, next) {
     values: req.body.username
   }, function (error, results, fields) {
     if (error) throw error;
-    var salt = results[0].salt;
-    console.log(salt);
+    // var salt = results[0].salt;
+    // console.log(salt);
 
     // var hash = bcrypt.hashSync(req.body.password, salt);
     console.log(password);

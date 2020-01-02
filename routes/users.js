@@ -81,7 +81,7 @@ router.post('/login', function (req, res, next) {
 
   var username = req.username;
   let sql_salt = 'SELECT * from user WHERE username = ?';
-  connection.query(sql, data, (err, results) => {
+  connection.query(sql_salt, data, (err, results) => {
     if (err) throw err;
 
   });

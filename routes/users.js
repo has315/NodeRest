@@ -85,7 +85,7 @@ router.post('/login', function (req, res, next) {
 
     // var hash = bcrypt.hashSync(req.body.password, salt);
     console.log(req.body.password);
-    console.log(hash);
+    // console.log(hash);
     console.log(results[0].password)
 
     bcrypt.compare(req.body.password, results[0].password, function (err, response) {

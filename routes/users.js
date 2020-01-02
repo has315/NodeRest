@@ -83,7 +83,7 @@ router.post('/login', function (req, res, next) {
     // var salt = results[0].salt;
     if (results.length > 0) {
 
-      pasword_hash = results[0].password;
+      password_hash = results[0].password;
 
 
       bcrypt.compare(req.body.password, password_hash, function (err, res) {

@@ -80,7 +80,6 @@ router.post('/login', function (req, res, next) {
 
   var username = req.body.username;
   var password = bcrypt.hashSync(req.body.password);
-  var salt = presalt;
 
   let sql = 'SELECT * from user';
   connection.query(sql, data, (err, results) => {

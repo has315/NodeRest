@@ -78,12 +78,16 @@ router.post('/delete', function (req, res, next) {
 
 router.post('/login', function (req, res, next) {
 
-
-  var username = req.username;
-  let sql_salt = 'SELECT * from user WHERE username = ?';
-  connection.query(sql_salt, username, (err, results) => {
-    if (err) throw err;
-
+  connection.query({
+    sql: 'SELECT * FROM `user` WHERE `username` = ?',
+    timeout: 40000, // 40s
+    values: req.body.username
+  }, function (error, results, fields) {
+    res.send(JSON.stringify({
+      "status": 200,
+      "error": null,
+      "response": 2
+    }));
   });
 });
 

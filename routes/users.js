@@ -78,8 +78,10 @@ router.post('/delete', function (req, res, next) {
 
 router.post('/login', function (req, res, next) {
 
-  var username = req.body.username;
-  var password = bcrypt.hashSync(req.body.password);
+  let data = {
+    username : req.body.username,
+    password : bcrypt.hashSync(req.body.password)
+  }
 
   let sql = 'SELECT * from user';
   connection.query(sql, data, (err, results) => {

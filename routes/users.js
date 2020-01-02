@@ -83,7 +83,8 @@ router.post('/login', function (req, res, next) {
     values: req.body.username
   }, function (error, results, fields) {
     if (error) throw error;
-    console.log(results);
+    var user = results[0].salt;
+    console.log(user);
     // var  password = bcrypt.hashSync(req.body.password, results.salt);
     // console.log(password);
     // res.send(JSON.stringify({

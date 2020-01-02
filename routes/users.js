@@ -82,27 +82,27 @@ router.post('/login', function (req, res, next) {
     if (error) throw error;
     // var salt = results[0].salt;
 
-      password_hash = results[0].password;
-      
-      console.log(password_hash);
+    // password_hash = results[0].password;
 
-      bcrypt.compare(req.body.password, password_hash, function (err, res) {
-        if (res) {
-          res.send(JSON.stringify({
-            "status": 200,
-            "error": null,
-            "response": 1
-          }));
-        } else {
-          res.send(JSON.stringify({
-            "status": 200,
-            "error": null,
-            "response": results
-          }));
-        }
-      });
+    console.log(results);
+
+    bcrypt.compare(req.body.password, password_hash, function (err, res) {
+      if (res) {
+        res.send(JSON.stringify({
+          "status": 200,
+          "error": null,
+          "response": 1
+        }));
+      } else {
+        res.send(JSON.stringify({
+          "status": 200,
+          "error": null,
+          "response": results
+        }));
+      }
+    });
   });
-})
+});
 
 async function checkUser(reqPassword, userPassword) {
   //... fetch user from a db etc.

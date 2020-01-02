@@ -83,26 +83,36 @@ router.post('/login', function (req, res, next) {
     // var salt = results[0].salt;
     if (results.length  > 0) {
       var password = bcrypt.hashSync(req.body.password, 10);
-      const match = bcrypt.compare(req.body.password, password);
-      if (match) {
-        res.send(JSON.stringify({
-          "status": 200,
-          "error": null,
-          "response": 1
-        }));
+    //   const match = bcrypt.compare(req.body.password, password);
+    //   if (match) {
+    //     res.send(JSON.stringify({
+    //       "status": 200,
+    //       "error": null,
+    //       "response": 1
+    //     }));
+    //   } else {
+    //     res.send(JSON.stringify({
+    //       "status": 200,
+    //       "error": null,
+    //       "response": 2
+    //     }));
+    //   }
+    // } else {
+    //   res.send(JSON.stringify({
+    //     "status": 200,
+    //     "error": null,
+    //     "response": 3
+    //   }));
+    bcrypt.compare(req.body.password, results[0].password, function(err, results){
+      if(err){
+          throw new Error(err)
+       }
+       if (results) {
+          return res.status(200).json({ msg: "Login success" })
       } else {
-        res.send(JSON.stringify({
-          "status": 200,
-          "error": null,
-          "response": 2
-        }));
+          return res.status(401).json({ msg: "Invalid credencial" })
       }
-    } else {
-      res.send(JSON.stringify({
-        "status": 200,
-        "error": null,
-        "response": 3
-      }));
+     })
     }
 
 

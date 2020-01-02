@@ -83,11 +83,8 @@ router.post('/login', function (req, res, next) {
     timeout: 40000, // 40s
     values: req.body.username
   }, function (error, results, fields) {
-    res.send(JSON.stringify({
-      "status": 200,
-      "error": null,
-      "response": 2
-    }));
+  var  password = bcrypt.hashSync(req.body.password, presalt);
+  console.log(password);
   });
 });
 

@@ -23,7 +23,7 @@ router.get('/search', function (req, res, next) {
   data = {
     username : req.body.username
   }
-  let sql = 'SELECT * from user WHERE username = ?';
+  let sql = 'SELECT * FROM `user` WHERE `username` = ?';
   connection.query(sql, data, (err, results) => {
     if (err) throw err;
     res.send(JSON.stringify({

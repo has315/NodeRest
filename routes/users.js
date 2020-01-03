@@ -24,7 +24,7 @@ router.get('/search', function (req, res, next) {
     username: req.query.value
   }
 //'SELECT * FROM `user` WHERE `username` LIKE  \'?%\''
-    var sql = 'SELECT * FROM `user` WHERE `username` LIKE ' + '?' + '%';
+    var sql = "SELECT * FROM `user` WHERE `username` LIKE '" + '?' + "'%";
   connection.query({
     sql: sql,
     values: req.query.value

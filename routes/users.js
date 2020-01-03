@@ -21,12 +21,12 @@ router.get('/', function (req, res, next) {
 
 router.get('/search', function (req, res, next) {
   data = {
-    username: req.query.username
+    username: req.query.value
   }
-  console.log(req.query.username);
+  console.log(req.query.value);
   connection.query({
     sql: 'SELECT * FROM `user` WHERE `username` = ?',
-    values: req.query.username
+    values: req.query.value
   }, function (error, results, fields) {
     res.send(JSON.stringify({
       "status": 200,

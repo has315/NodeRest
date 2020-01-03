@@ -23,10 +23,9 @@ router.get('/search', function (req, res, next) {
   data = {
     username: req.query.value
   }
-  var sql = "SELECT * from books where ${req.params.level} LIKE '${req.params.name}%' ";
-  
+
   connection.query({
-    sql: 'SELECT * FROM `user` WHERE `username` LIKE = %?',
+    sql: 'SELECT * FROM `user` WHERE `username` LIKE  ?%',
     values: req.query.value
   }, function (error, results, fields) {
     res.send(JSON.stringify({

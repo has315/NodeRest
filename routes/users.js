@@ -21,7 +21,7 @@ router.get('/', function (req, res, next) {
 
 router.get('/search', function (req, res, next) {
   data = {
-    username: req.params.username
+    username: req.query.username
   }
   let sql = 'SELECT * FROM `user` WHERE `username` = ?';
   connection.query(sql, data, (err, results) => {

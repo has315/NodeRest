@@ -24,9 +24,10 @@ router.get('/search', function (req, res, next) {
     username: req.query.username
   }
   console.log(req.query.username);
-  let sql = 'SELECT * FROM `user` WHERE `username` = ?';
-  connection.query(sql, data, (err, results) => {
-    if (err) throw err;
+  connection.query({
+    sql: 'SELECT * FROM `user` WHERE `username` = ?',
+    values: req.query.username
+  }, function (error, results, fields) {
     res.send(JSON.stringify({
       "status": 200,
       "error": null,
@@ -78,7 +79,6 @@ router.post('/delete', function (req, res, next) {
     user_id: req.body.selected
   };
 
-  let sql = "DELETE from user WHERE user_id = ?"
   connection.query(sql, data, (err, results) => {
     if (err) throw err;
     res.send(JSON.stringify({

@@ -24,8 +24,11 @@ router.get('/search', function (req, res, next) {
     username: req.query.value
   }
 
+ var sql =  mysql.format("SELECT * FROM `user` WHERE `username` LIKE CONCAT('%', ?,  '%')", req.body.search)
+
+
   connection.query({
-    sql: 'SELECT * FROM `user` WHERE `username` LIKE CONCAT('%', ?,  '%')',
+    sql: sql,
     values: req.query.value
   }, function (error, results, fields) {
     res.send(JSON.stringify({

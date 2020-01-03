@@ -31,4 +31,21 @@ router.post('/', function(req, res, next){
     }));
   });
 });
+
+router.get('/search', function (req, res, next) {
+  data = {
+    username: req.query.value
+  }
+//'SELECT * FROM `user` WHERE `username` LIKE  \'?%\''
+  connection.query({
+    sql: `SELECT * FROM vote WHERE ${req.query.key} LIKE '${req.query.value}%'`
+  }, (error, results, fields) => {
+    res.send(JSON.stringify({
+      "status": 200,
+      "error": null,
+      "response": results
+    }));
+  });
+});
+
 module.exports = router;

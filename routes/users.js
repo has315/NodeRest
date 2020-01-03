@@ -20,6 +20,7 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/search', function (req, res, next) {
+  username = req.body.username;
   let sql = 'SELECT * from user WHERE username = ?';
   connection.query(sql, function (error, results, fields) {
     if (error) throw error;
@@ -109,7 +110,7 @@ router.post('/login', function (req, res, next) {
         }));
       } else {
         res.send(JSON.stringify({
-          "status": 200,
+          "status": 401,
           "error": null,
           "response": -1
         }));

@@ -3,7 +3,7 @@ browser = new Browser()
 
 let zombie = {
 
-    get_cik: async function (data) {
+    get_cik: async (data)  => {
         let person = data;
         browser.visit("https://www.izbori.ba/Default.aspx?CategoryID=509&Lang=3", () => {
             console.log(browser.text("title"));

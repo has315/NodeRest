@@ -3,9 +3,9 @@ browser = new Browser()
 
 let zombie = {
 
-    get_cik: function (data) {
+    get_cik: async function (data) {
         let person = data;
-        let _ = await browser.visit("https://www.izbori.ba/Default.aspx?CategoryID=509&Lang=3", () => {
+        browser.visit("https://www.izbori.ba/Default.aspx?CategoryID=509&Lang=3", () => {
             console.log(browser.text("title"));
 
             let first_name = person.first_name;

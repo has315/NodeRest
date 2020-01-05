@@ -39,6 +39,8 @@ let zombie = {
                     data.voting_location_municipality = result['Opština za koju glasa :'];
                 }
                 console.log(data);
+                console.log(data.voting_location);
+                console.log(data.voting_location_address);
                 let sql = `UPDATE vote SET voting_location = '${data.voting_location}', voting_location_address = '${data.voting_location_address}', voting_location_name = '${data.voting_location_name}', voting_location_municipality = '${data.voting_location_municipality}' WHERE jmbg = '${data.jmbg}'`;
                 connection.query(sql, data, (err, results) => {
                     if (err) throw err;

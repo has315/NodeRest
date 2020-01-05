@@ -31,7 +31,7 @@ let zombie = {
                 }
             })
         })
-        return person;
+        return person.promise();
     }
 
 }

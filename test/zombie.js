@@ -30,8 +30,8 @@ let zombie = {
                     person.voting_location.municipality = result[7];
                 }
             })
-        })
-        return person.promise();
+        }).done();
+        return person;
     }
 
 }

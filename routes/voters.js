@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var connection = require('../db');
-
+var zombie = require('../test/zombie');
 
 router.get('/', function(req, res, next) {
   let sql = 'SELECT * from vote';
@@ -18,7 +18,8 @@ router.post('/', function(req, res, next){
     jmbg: req.body.jmbg,
     phone_number: req.body.phone_number,
     delegated: req.body.delegated,
-    added: req.body.added
+    added: req.body.added,
+    voting_location: req.body.voting_location
   };
 
   let sql = "INSERT INTO vote SET ?";

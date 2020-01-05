@@ -7,7 +7,10 @@ CREATE TABLE IF NOT EXISTS vote (
     phone_number VARCHAR(255) NOT NULL,
     delegated VARCHAR(255) NOT NULL,
     deleted TINYINT(1) NOT NULL DEFAULT 0,
-    added VARCHAR(30) NOT NULL )
+    added VARCHAR(30) NOT NULL,
+    voting_location VARCHAR(255),
+    FOREIGN KEY (vote_id) REFERENCES Persons(user_id)
+     )
     ENGINE=INNODB;
 
     CREATE TABLE IF NOT EXISTS user (

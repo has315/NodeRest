@@ -3,9 +3,9 @@ browser = new Browser()
 
 let zombie = {
 
-    get_cik: (data)  => {
+    get_cik: async (data) => {
         let person = data;
-        browser.visit("https://www.izbori.ba/Default.aspx?CategoryID=509&Lang=3", function() {
+        browser.visit("https://www.izbori.ba/Default.aspx?CategoryID=509&Lang=3", function () {
             console.log(browser.text("title"));
 
             let first_name = person.first_name;
@@ -18,7 +18,7 @@ let zombie = {
 
             browser.document.forms[0].submit();
 
-            browser.wait(() =>  {
+            browser.wait(() => {
                 console.log("Form submit ok");
 
                 let label1 = browser.document.getElementsByClassName("Label1");

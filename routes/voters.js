@@ -19,7 +19,7 @@ router.post('/', function(req, res, next){
     jmbg: req.body.jmbg,
     phone_number: req.body.phone_number,
     delegated: req.body.delegated,
-    added: req.body.added,
+    added: req.body.added
   };
 
    let aa = zombie.get_cik(data);

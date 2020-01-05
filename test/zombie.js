@@ -42,5 +42,5 @@ function get_cik(data) {
     })
 }
 
-module.exports = zombie;
+module.exports = browser;
 

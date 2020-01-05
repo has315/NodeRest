@@ -33,8 +33,8 @@ let zombie = {
 
                 if (label1.length == label2.length) {
                     // Access response data
-                    data.voting_location = result['Biračko mjesto :'];
-                    data.voting_location_address = result['Adresa biračkog mjesta :'];
+                    data.voting_location = result['Biračko mjesto : '];
+                    data.voting_location_address = result['Adresa biračkog mjesta : '];
                     data.voting_location_name = result['Naziv biračkog mjesta :'];
                     data.voting_location_municipality = result['Opština za koju glasa :'];
                 }

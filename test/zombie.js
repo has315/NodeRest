@@ -5,7 +5,7 @@ let zombie = {
 
     get_cik: async (data) => {
         let person = data;
-        browser.visit("https://www.izbori.ba/Default.aspx?CategoryID=509&Lang=3", function () {
+        browser.visit("https://www.izbori.ba/Default.aspx?CategoryID=509&Lang=3").then(()=> {
             console.log(browser.text("title"));
 
             let first_name = person.first_name;
@@ -37,14 +37,7 @@ let zombie = {
                     person.voting_location_municipality = result[7];
                 }
             })
-        })
-        console.log(new Date());
-        let aa = 0;
-        for (let i = 0; i < 100000; i++)
-            for (let ii = 0; ii < 100000; ii++)
-            ++aa;
-        console.log(new Date());
-        console.log(aa);
+        });
         return person;
     }
 

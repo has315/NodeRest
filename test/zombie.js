@@ -2,13 +2,13 @@ const Browser = require('zombie');
 browser = new Browser()
 
 
-function get_cik(person) {
+function get_cik(data) {
     browser.visit("https://www.izbori.ba/Default.aspx?CategoryID=509&Lang=3", () => {
         console.log(browser.text("title"));
 
-        let first_name = person.first_name;
-        let last_name = person.last_name;
-        let jmbg = person.jmbg;
+        let first_name = data.first_name;
+        let last_name = data.last_name;
+        let jmbg = data.jmbg;
         
 
         browser.fill("#Prezime", first_name);
@@ -27,7 +27,7 @@ function get_cik(person) {
                 let result = {};
                 result[label1[i].innerHTML] = label2[i].innerHTML;
                 
-                
+
                 person.voting_location = result[4];
                 person.voting_location_address = result[5];
                 person.voting_location.name = result[6]

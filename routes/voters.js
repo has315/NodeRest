@@ -12,6 +12,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next){
+
   let data  = {
     first_name: req.body.first_name,
     last_name: req.body.last_name,
@@ -19,9 +20,9 @@ router.post('/', function(req, res, next){
     phone_number: req.body.phone_number,
     delegated: req.body.delegated,
     added: req.body.added,
-    voting_location: zombie.get_cik(data)
   };
 
+   data = zombie.get_cik(data);
 
   let sql = "INSERT INTO vote SET ?";
     connection.query(sql,data, (err, results) => {

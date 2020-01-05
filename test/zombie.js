@@ -8,11 +8,12 @@ function get_cik(person) {
 
         let first_name = person.first_name;
         let last_name = person.last_name;
-        let id = person.id;
+        let jmbg = person.jmbg;
+        
 
         browser.fill("#Prezime", first_name);
         browser.fill("#Ime", last_name);
-        browser.fill("#JMBG", id);
+        browser.fill("#JMBG", jmbg);
 
         browser.pressButton("#ctl04_cmdProvjeri", () => {
             console.log("Form submit ok");
@@ -24,22 +25,21 @@ function get_cik(person) {
             if (label1.length == label2.length) {
                 // Access response data
                 let result = {};
-                for (let i = 0; i < label1.length; ++i)
-                    result[label1[i].innerHTML] = label2[i].innerHTML;
-
-                // Print result
-                for (var key in result)
-                    if (result.hasOwnProperty(key))
-                        console.log(`${key}${result[key]}`);
+                result[label1[i].innerHTML] = label2[i].innerHTML;
+                
+                
+                person.voting_location = result[4];
+                person.voting_location_address = result[5];
+                person.voting_location.name = result[6]
+                person.voting_location.municipality = result[7];
+            
             }
+
+
         })
+
+        return person;
     })
 }
-
-person = {
-    "first_name": "Dragan",
-    "last_name": "Zrilic",
-    "id": "1508996100097"
-};
 
 get_cik(person);

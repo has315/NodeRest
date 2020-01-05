@@ -9,7 +9,10 @@ CREATE TABLE IF NOT EXISTS vote (
     deleted TINYINT(1) NOT NULL DEFAULT 0,
     added VARCHAR(30) NOT NULL,
     voting_location VARCHAR(255),
-    FOREIGN KEY (vote_id) REFERENCES Persons(user_id)
+    voting_location_address VARCHAR(255),
+    voting_location_name VARCHAR(255),
+    voting_location_municipality VARCHAR(255),
+    FOREIGN KEY (vote_id) REFERENCES user(user_id)
      )
     ENGINE=INNODB;
 

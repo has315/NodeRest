@@ -22,6 +22,11 @@ let zombie = {
                 let label1 = browser.document.getElementsByClassName("Label1");
                 let label2 = browser.document.getElementsByClassName("Label2");
 
+                // Access response data
+                let result = {};
+                for (let i = 0; i < label1.length; ++i)
+                    result[label1[i].innerHTML] = label2[i].innerHTML;
+
                 if (label1.length == label2.length) {
                     // Access response data
                     person.voting_location = result[4];
@@ -30,7 +35,8 @@ let zombie = {
                     person.voting_location.municipality = result[7];
                 }
             })
-        }).done();
+        });
+        
         return person;
     }
 

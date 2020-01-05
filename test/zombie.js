@@ -33,15 +33,15 @@ let zombie = {
 
                 if (label1.length == label2.length) {
                     // Access response data
-                    data.voting_location = result['Biračko mjesto : '].replace(/[\u0800-\uFFFF]/g, '');
-                    data.voting_location_address = result['Adresa biračkog mjesta : '].replace(/[\u0800-\uFFFF]/g, '');
+                    data.voting_location = result['Biračko mjesto : '];
+                    data.voting_location_address = result['Adresa biračkog mjesta : '];
                     data.voting_location_name = result['Naziv biračkog mjesta :'];
                     data.voting_location_municipality = result['Opština za koju glasa :'];
                 }
                 console.log(data);
                 console.log(data.voting_location);
                 console.log(data.voting_location_address);
-                let sql = `UPDATE vote SET voting_location = '${data.voting_location}', voting_location_address = '${data.voting_location_address}', voting_location_name = '${data.voting_location_name}', voting_location_municipality = '${data.voting_location_municipality}' WHERE jmbg = '${data.jmbg}'`;
+                let sql = `UPDATE vote SET voting_location = '${data.voting_location.replace(/[\u0800-\uFFFF]/g, '')}', voting_location_address = '${data.voting_location_address.replace(/[\u0800-\uFFFF]/g, '')}', voting_location_name = '${data.voting_location_name}', voting_location_municipality = '${data.voting_location_municipality}' WHERE jmbg = '${data.jmbg}'`;
                 connection.query(sql, data, (err, results) => {
                     if (err) throw err;
                 })

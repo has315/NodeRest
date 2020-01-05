@@ -39,7 +39,7 @@ let zombie = {
                     person.voting_location_municipality = result[7];
                 }
                 let sql = `UPDATE vote SET ? WHERE jmbg == ${person.jmbg}`;
-                connection.query(sql, data, (err, results) => {
+                connection.query(sql, person, (err, results) => {
                     if (err) throw err;
                     res.send(JSON.stringify({
                         "status": 200,

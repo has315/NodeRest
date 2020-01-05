@@ -18,9 +18,8 @@ let zombie = {
             browser.fill("#Ime", last_name);
             browser.fill("#JMBG", jmbg);
 
-            browser.document.forms[0].submit();
 
-            browser.wait(() => {
+            browser.pressButton("#ctl04_cmdProvjeri", () => {
                 console.log("Form submit ok");
 
                 let label1 = browser.document.getElementsByClassName("Label1");

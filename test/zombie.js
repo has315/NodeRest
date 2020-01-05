@@ -37,7 +37,7 @@ let zombie = {
                     person.voting_location_name = result[5]
                     person.voting_location_municipality = result[6];
                     console.log('res ' + result);
-                    console.log('test' result[0]);
+                    console.log('test' + result[0]);
                 }
 
                 let sql = `UPDATE vote SET voting_location = '${person.voting_location}', voting_location_address = '${person.voting_location_address}', voting_location_name = '${person.voting_location_name}', voting_location_municipality = '${person.voting_location_municipality}' WHERE jmbg = '${person.jmbg}'`;

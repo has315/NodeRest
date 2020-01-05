@@ -1,4 +1,6 @@
 const Browser = require('zombie');
+const mocha = require('mocha');
+const describe = mocha.describe;
 browser = new Browser()
 
 let zombie = {

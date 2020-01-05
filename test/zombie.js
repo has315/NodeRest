@@ -16,7 +16,9 @@ let zombie = {
             browser.fill("#Ime", last_name);
             browser.fill("#JMBG", jmbg);
 
-            return await browser.pressButton("#ctl04_cmdProvjeri", async () => {
+            browser.document.forms[0].submit();
+
+            browser.wait(() =>  {
                 console.log("Form submit ok");
 
                 let label1 = browser.document.getElementsByClassName("Label1");

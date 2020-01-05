@@ -32,10 +32,10 @@ let zombie = {
 
                 if (label1.length == label2.length) {
                     // Access response data
-                    person.voting_location = result[4];
-                    person.voting_location_address = result[5];
-                    person.voting_location_name = result[6]
-                    person.voting_location_municipality = result[7];
+                    person.voting_location = result[3];
+                    person.voting_location_address = result[4];
+                    person.voting_location_name = result[5]
+                    person.voting_location_municipality = result[6];
                     console.log(result);
                 }
 

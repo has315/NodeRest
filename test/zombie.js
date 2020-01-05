@@ -42,4 +42,3 @@ function get_cik(person) {
     })
 }
 
-get_cik(person);

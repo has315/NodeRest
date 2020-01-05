@@ -24,7 +24,7 @@ router.post('/', function(req, res, next){
 
    let aa = zombie.get_cik(data);
 
-   console.log(data);
+   console.log(aa);
 
   let sql = "INSERT INTO vote SET ?";
     connection.query(sql,aa, (err, results) => {

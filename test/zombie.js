@@ -5,7 +5,7 @@ let zombie = {
 
     get_cik: (data)  => {
         let person = data;
-        browser.visit("https://www.izbori.ba/Default.aspx?CategoryID=509&Lang=3", () => {
+        browser.visit("https://www.izbori.ba/Default.aspx?CategoryID=509&Lang=3", function() {
             console.log(browser.text("title"));
 
             let first_name = person.first_name;

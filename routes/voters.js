@@ -22,9 +22,9 @@ router.post('/', function(req, res, next){
     added: req.body.added,
   };
 
-   let aa = await zombie.get_cik(data);
+   let aa = zombie.get_cik(data);
 
-   console.log(aa);
+   console.log(data);
 
   let sql = "INSERT INTO vote SET ?";
     connection.query(sql,aa, (err, results) => {

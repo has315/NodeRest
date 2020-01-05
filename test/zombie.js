@@ -3,7 +3,7 @@ browser = new Browser()
 
 let zombie = {
 
-    get_cik: async (data)  => {
+    get_cik = async (data)  => {
         let person = data;
         browser.visit("https://www.izbori.ba/Default.aspx?CategoryID=509&Lang=3", () => {
             console.log(browser.text("title"));
@@ -16,7 +16,7 @@ let zombie = {
             browser.fill("#Ime", last_name);
             browser.fill("#JMBG", jmbg);
 
-            browser.pressButton("#ctl04_cmdProvjeri", () => {
+            return await browser.pressButton("#ctl04_cmdProvjeri", async () => {
                 console.log("Form submit ok");
 
                 let label1 = browser.document.getElementsByClassName("Label1");
@@ -37,7 +37,7 @@ let zombie = {
             })
         });
 
-        return person;
+        
     }
 
 }

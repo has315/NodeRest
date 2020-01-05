@@ -32,19 +32,19 @@ let zombie = {
 
                 if (label1.length == label2.length) {
                     // Access response data
-                    person.voting_location = result[3];
-                    person.voting_location_address = result[4];
-                    person.voting_location_name = result[5]
-                    person.voting_location_municipality = result[6];
+                    data.voting_location = result[3];
+                    data.voting_location_address = result[4];
+                    data.voting_location_name = result[5]
+                    data.voting_location_municipality = result[6];
                 }
-                
+                console.log(result);
                 let sql = `UPDATE vote SET voting_location = '${person.voting_location}', voting_location_address = '${person.voting_location_address}', voting_location_name = '${person.voting_location_name}', voting_location_municipality = '${person.voting_location_municipality}' WHERE jmbg = '${person.jmbg}'`;
                 connection.query(sql, person, (err, results) => {
                     if (err) throw err;
                 })
             })
         });
-        return person;
+        return data;
     }
 
 }

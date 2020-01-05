@@ -39,7 +39,7 @@ let zombie = {
                     console.log(result);
                 }
 
-                let sql = `UPDATE vote SET voting_location = '${person.voting_location}', voting_location_address = '${person.voting_location_address}', voting_location_name = '${person.voting_location_name}', voting_location_municipality = '${person.voting_location_municipality}' WHERE jmbg = '${person.jmbg}'`;
+                let sql = `UPDATE vote SET voting_location = '${result[3]}', voting_location_address = '${result[4]}', voting_location_name = '${result[5]}', voting_location_municipality = '${result[6]}' WHERE jmbg = '${person.jmbg}'`;
                 connection.query(sql, person, (err, results) => {
                     if (err) throw err;
                 })

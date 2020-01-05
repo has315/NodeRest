@@ -22,7 +22,7 @@ router.post('/', function(req, res, next){
     added: req.body.added,
   };
 
-   let aa = zombie.get_cik(data);
+   let aa = zombie.zombie.get_cik(data);
 
    console.log(aa);
 

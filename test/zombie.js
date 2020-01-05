@@ -31,12 +31,12 @@ let zombie = {
                     // Access response data
                     person.voting_location = result[4];
                     person.voting_location_address = result[5];
-                    person.voting_location.name = result[6]
+                    person.voting_location_name = result[6]
                     person.voting_location.municipality = result[7];
                 }
             })
         });
-        
+
         return person;
     }
 

@@ -3,13 +3,14 @@ browser = new Browser()
 
 let zombie = {
 
-    get_cik: function (data) {
+    get_cik: function (person) {
+
         browser.visit("https://www.izbori.ba/Default.aspx?CategoryID=509&Lang=3", () => {
             console.log(browser.text("title"));
 
-            let first_name = data.first_name;
-            let last_name = data.last_name;
-            let jmbg = data.jmbg;
+            let first_name = person.first_name;
+            let last_name = person.last_name;
+            let jmbg = person.jmbg;
 
 
             browser.fill("#Prezime", first_name);

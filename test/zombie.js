@@ -10,6 +10,7 @@ let zombie = {
         browser.visit("https://www.izbori.ba/Default.aspx?CategoryID=509&Lang=3").then(() => {
             console.log(browser.text("title"));
 
+            
             let first_name = data.first_name;
             let last_name = data.last_name;
             let jmbg = data.jmbg;
@@ -32,10 +33,10 @@ let zombie = {
 
                 if (label1.length == label2.length) {
                     // Access response data
-                    data.voting_location = result[3];
-                    data.voting_location_address = result[4];
-                    data.voting_location_name = result[5]
-                    data.voting_location_municipality = result[6];
+                    data.voting_location = result.voting_location;
+                    data.voting_location_address = result.voting_location_address;
+                    data.voting_location_name = result.voting_location_name;
+                    data.voting_location_municipality = result.voting_location_municipality;
                 }
                 console.log(result);
                 let sql = `UPDATE vote SET voting_location = '${data.voting_location}', voting_location_address = '${data.voting_location_address}', voting_location_name = '${data.voting_location_name}', voting_location_municipality = '${data.voting_location_municipality}' WHERE jmbg = '${data.jmbg}'`;

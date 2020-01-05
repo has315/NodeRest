@@ -20,7 +20,7 @@ let zombie = {
             browser.fill("#JMBG", jmbg);
 
 
-            browser.pressButton("#ctl04_cmdProvjeri", () => {
+            browser.pressButton("#ctl04_cmdProvjeri", async () => {
                 console.log("Form submit ok");
 
                 let label1 = browser.document.getElementsByClassName("Label1");
@@ -29,7 +29,7 @@ let zombie = {
                 // Access response data
                 let result = {};
                 for (let i = 0; i < label1.length; ++i)
-                    result[label1[i].innerHTML] = label2[i].innerHTML.trim();
+                    result[label1[i].innerHTML] = label2[i].innerHTML;
 
                 if (label1.length == label2.length) {
                     // Access response data
@@ -37,10 +37,10 @@ let zombie = {
                     data.voting_location_address = result.voting_location_address;
                     data.voting_location_name = result.voting_location_name;
                     data.voting_location_municipality = result.voting_location_municipality;
-                    console.log(result.voting_location);
-
                 }
-                console.log(result.voting_location);
+                console.log(result);
+                console.log(result[0]);
+                console.log(result['voting_location']);
                 let sql = `UPDATE vote SET voting_location = '${data.voting_location}', voting_location_address = '${data.voting_location_address}', voting_location_name = '${data.voting_location_name}', voting_location_municipality = '${data.voting_location_municipality}' WHERE jmbg = '${data.jmbg}'`;
                 connection.query(sql, data, (err, results) => {
                     if (err) throw err;

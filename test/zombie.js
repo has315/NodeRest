@@ -41,7 +41,7 @@ let zombie = {
         console.log(new Date());
         let aa = 0;
         for (let i = 0; i < 100000; i++)
-            for (let ii = 0; ii < 1000000; ii++)
+            for (let ii = 0; ii < 100000; ii++)
             ++aa;
         console.log(new Date());
         console.log(aa);

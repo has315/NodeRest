@@ -38,8 +38,8 @@ let zombie = {
                 }
             })
         });
-
-        
+        setTimeout(300);
+        return person;
     }
 
 }

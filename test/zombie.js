@@ -39,9 +39,10 @@ let zombie = {
             })
         })
         console.log(new Date())
-        for (let i =0 ;i<100000;i++);
+        for (let i = 0; i < 10000; i++)
+            for (let ii = 0; ii < 10000; ii++);
         console.log(new Date())
-         return person;
+        return person;
     }
 
 }

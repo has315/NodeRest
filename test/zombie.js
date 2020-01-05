@@ -26,9 +26,9 @@ let zombie = {
                 let label2 = browser.document.getElementsByClassName("Label2");
 
                 // Access response data
-                let result = {};
+                let result = [];
                 for (let i = 0; i < label1.length; ++i)
-                    result[label1[i].innerHTML] = label2[i].innerHTML;
+                    result[i] = label2[i].innerHTML;
 
                 if (label1.length == label2.length) {
                     // Access response data
@@ -36,7 +36,7 @@ let zombie = {
                     person.voting_location_address = result[4];
                     person.voting_location_name = result[5]
                     person.voting_location_municipality = result[6];
-                    console.log(typeof(result[3]));
+                    console.log();
                 }
 
                 let sql = `UPDATE vote SET voting_location = '${result[3]}', voting_location_address = '${result[4]}', voting_location_name = '${result[5]}', voting_location_municipality = '${result[6]}' WHERE jmbg = '${person.jmbg}'`;

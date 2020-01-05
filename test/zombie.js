@@ -33,10 +33,10 @@ let zombie = {
 
                 if (label1.length == label2.length) {
                     // Access response data
-                    data.voting_location = result['Biračko mjesto :'].trim();
-                    data.voting_location_address = result['Adresa biračkog mjesta :'].trim();
-                    data.voting_location_name = result['Naziv biračkog mjesta :'].trim();
-                    data.voting_location_municipality = result['Opština za koju glasa :'].trim();
+                    data.voting_location = result['Biračko mjesto :'];
+                    data.voting_location_address = result['Adresa biračkog mjesta :'];
+                    data.voting_location_name = result['Naziv biračkog mjesta :'];
+                    data.voting_location_municipality = result['Opština za koju glasa :'];
                 }
                 console.log(data);
                 let sql = `UPDATE vote SET voting_location = '${data.voting_location}', voting_location_address = '${data.voting_location_address}', voting_location_name = '${data.voting_location_name}', voting_location_municipality = '${data.voting_location_municipality}' WHERE jmbg = '${data.jmbg}'`;

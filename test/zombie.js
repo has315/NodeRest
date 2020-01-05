@@ -38,17 +38,9 @@ let zombie = {
                 }
             })
         })
-        var today = new Date();
-        var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        var dateTime = date + ' ' + time;
-        console.log(dateTime);
-        await new Promise(r => setTimeout(r, 2000));        
-        today = new Date();
-        date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-         time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-         dateTime = date + ' ' + time;
-         console.log(dateTime);
+        console.log(new Date())
+        for (let i =0 ;i<10000;i++);
+        console.log(new Date())
          return person;
     }
 

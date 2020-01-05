@@ -38,7 +38,7 @@ let zombie = {
                 }
             })
         });
-        setTimeout(300);
+        await new Promise(r => setTimeout(r, 2000));
         return person;
     }
 

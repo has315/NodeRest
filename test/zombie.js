@@ -3,7 +3,8 @@ browser = new Browser()
 
 let zombie = {
 
-    get_cik: function (person) {
+    get_cik: function (data) {
+        let person = data;
         browser.visit("https://www.izbori.ba/Default.aspx?CategoryID=509&Lang=3", () => {
             console.log(browser.text("title"));
 

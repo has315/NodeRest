@@ -37,9 +37,19 @@ let zombie = {
                     person.voting_location_municipality = result[7];
                 }
             })
-        });
-        await new Promise(r => setTimeout(r, 2000));
-        return person;
+        })
+        var today = new Date();
+        var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        var dateTime = date + ' ' + time;
+        console.log(dateTime);
+        await new Promise(r => setTimeout(r, 2000));        
+        today = new Date();
+        date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+         time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+         dateTime = date + ' ' + time;
+         console.log(dateTime);
+         return person;
     }
 
 }

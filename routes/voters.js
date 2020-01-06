@@ -27,7 +27,7 @@ router.post('/', function (req, res, next) {
   console.log(aa);
 
   let sql = "INSERT INTO vote SET ?";
-  connection.query(sql, aa, (err, results) => {
+  connection.query(sql, data, (err, results) => {
     if (err) throw err;
     res.send(JSON.stringify({
       "status": 200,

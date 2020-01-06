@@ -15,6 +15,18 @@ router.get('/', function (req, res, next) {
   });
 });
 
+router.post('/get_deleted', function (req, res, next) {
+  let sql = 'SELECT * FROM `vote` WHERE jmbg = ? && delete_request = 1';
+  connection.query(sql, function (error, results, fields) {
+    if (error) throw error;
+    res.send(JSON.stringify({
+      "status": 200,
+      "error": null,
+      "response": results
+    }));
+  });
+});
+
 router.post('/', function (req, res, next) {
 
 

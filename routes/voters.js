@@ -58,12 +58,12 @@ router.get('/search', function (req, res, next) {
 });
 
 
-router.post('/delete', function (req, res, next) {
+router.post('/delete_request', function (req, res, next) {
   let data = {
     jmbg: req.body.jmbg
   };
 
-console.log(data);
+  console.log(data);
 
   let sql = 'UPDATE `vote` SET `delete_request` = 1 WHERE jmbg = ?';
   connection.query(sql, data.jmbg, (err, results) => {
@@ -76,7 +76,41 @@ console.log(data);
   });
 });
 
+router.post('/delete', function (req, res, next) {
+  let data = {
+    jmbg: req.body.jmbg
+  };
 
+  console.log(data);
+
+  let sql = 'DELETE FROM `vote` WHERE jmbg = ?';
+  connection.query(sql, data.jmbg, (err, results) => {
+    if (err) throw err;
+    res.send(JSON.stringify({
+      "stauts": 200,
+      "error": null,
+      "response": results,
+    }));
+  });
+});
+
+router.post('/delete_decline', function (req, res, next) {
+  let data = {
+    jmbg: req.body.jmbg
+  };
+
+  console.log(data);
+
+  let sql = 'UPDATE `vote` SET `delete_request` = 1 WHERE jmbg = ?';
+  connection.query(sql, data.jmbg, (err, results) => {
+    if (err) throw err;
+    res.send(JSON.stringify({
+      "stauts": 200,
+      "error": null,
+      "response": results,
+    }));
+  });
+});
 
 
 

@@ -29,14 +29,14 @@ let zombie = {
                 // Access response data
                 let result = {};
                 for (let i = 0; i < label1.length; ++i)
-                    result[label1[i].innerHTML] = label2[i].innerHTML;
+                    result[label1[i].innerHTML.replace(":", "").trim()] = label2[i].innerHTML;
 
                 if (label1.length == label2.length) {
                     // Access response data
-                    data.voting_location = result['Biračko mjesto : '];
-                    data.voting_location_address = result['Adresa biračkog mjesta : '];
-                    data.voting_location_name = result['Naziv biračkog mjesta :'];
-                    data.voting_location_municipality = result['Opština za koju glasa :'];
+                    data.voting_location = result['Biračko mjesto'];
+                    data.voting_location_address = result['Adresa biračkog mjesta'];
+                    data.voting_location_name = result['Naziv biračkog mjesta'];
+                    data.voting_location_municipality = result['Opština za koju glasa'];
                 }
 
                 let sql = `UPDATE vote SET voting_location = '${data.voting_location}', voting_location_address = '${data.voting_location_address}', voting_location_name = '${data.voting_location_name}', voting_location_municipality = '${data.voting_location_municipality}' WHERE jmbg = '${data.jmbg}'`;

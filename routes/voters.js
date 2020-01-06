@@ -63,7 +63,7 @@ router.post('/delete', function (req, res, next) {
     jmbg: req.body.jmbg
   };
 
-
+console.log(data);
 
   let sql = `UPDATE vote SET delete_request = 1 WHERE jmbg = ?`;
   connection.query(sql, data, (err, results) => {

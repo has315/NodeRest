@@ -30,7 +30,6 @@ router.get('/get_edit', function (req, res, next) {
 router.post('/edit_request', function (req, res, next) {
 
   let data = {
-    vote_id: req.body.vote_id,
     first_name: req.body.first_name,
     last_name: req.body.last_name,
     jmbg: req.body.jmbg,

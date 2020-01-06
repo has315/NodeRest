@@ -4,7 +4,7 @@ var connection = require('../db');
 var zombie = require('../test/zombie');
 
 router.get('/', function (req, res, next) {
-  let sql = 'SELECT * from vote';
+  let sql = 'SELECT * FROM `vote` WHERE `delete_request` = 0';
   connection.query(sql, function (error, results, fields) {
     if (error) throw error;
     res.send(JSON.stringify({

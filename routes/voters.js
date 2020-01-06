@@ -15,7 +15,7 @@ router.get('/', function (req, res, next) {
   });
 });
 
-router.post('/get_deleted', function (req, res, next) {
+router.get('/get_deleted', function (req, res, next) {
   let sql = 'SELECT * FROM `vote` WHERE `delete_request` = 1';
   connection.query(sql, function (error, results, fields) {
     if (error) throw error;

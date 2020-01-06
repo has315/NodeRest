@@ -15,6 +15,23 @@ router.get('/', function (req, res, next) {
   });
 });
 
+router.get('/one', function (req, res, next) {
+  data = {
+    username: req.query.value,
+    jmbg: req.query.value
+  }
+
+  let sql = 'SELECT * FROM `vote` WHERE `delete_request` = 0 and jmbg = ?';
+  connection.query(sql, data.jmbg, function (error, results, fields) {
+    if (error) throw error;
+    res.send(JSON.stringify({
+      "status": 200,
+      "error": null,
+      "response": results
+    }));
+  });
+});
+
 router.get('/get_deleted', function (req, res, next) {
   let sql = 'SELECT * FROM `vote` WHERE `delete_request` = 1';
   connection.query(sql, function (error, results, fields) {

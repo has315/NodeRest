@@ -7,7 +7,11 @@ router.get('/', function (req, res, next) {
   let sql = 'SELECT * from vote';
   connection.query(sql, function (error, results, fields) {
     if (error) throw error;
-    res.send(JSON.stringify({ "status": 200, "error": null, "response": results }));
+    res.send(JSON.stringify({
+      "status": 200,
+      "error": null,
+      "response": results
+    }));
   });
 });
 
@@ -52,5 +56,28 @@ router.get('/search', function (req, res, next) {
     }));
   });
 });
+
+
+router.post('/delete', function (req, res, next) {
+  let data = {
+    jmbg: req.body.jmbg
+  };
+
+
+
+  let sql = `UPDATE vote SET deleteRequest = 1 WHERE jmbg = ?`;
+  connection.query(sql, data, (err, results) => {
+    if (err) throw err;
+    res.send(JSON.stringify({
+      "stauts": 200,
+      "error": null,
+      "response": results,
+    }));
+  });
+});
+
+
+
+
 
 module.exports = router;

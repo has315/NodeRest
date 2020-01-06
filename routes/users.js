@@ -56,37 +56,6 @@ router.post('/', function (req, res, next) {
   });
 });
 
-// router.delete('/', function (req, res, next) {
-//   let data = {user_id : req.data.selected};
-//   console.log(req.params);
-//   console.log(req.params.selected);
-//   console.log(req.body.selected);
-
-//   let sql = "DELETE from user WHERE user_id = ?"
-//   connection.query(sql, data, (err, results) => {
-//     if (err) throw err;
-//     res.send(JSON.stringify({
-//       "stauts": 200,
-//       "error": null,
-//       "response": results,
-//     }));
-//   });
-// });
-
-router.post('/delete', function (req, res, next) {
-  let data = {
-    user_id: req.body.selected
-  };
-
-  connection.query(sql, data, (err, results) => {
-    if (err) throw err;
-    res.send(JSON.stringify({
-      "status": 200,
-      "error": null,
-      "response": results
-    }));
-  });
-});
 
 router.post('/login', function (req, res, next) {
 

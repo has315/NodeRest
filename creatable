@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS vote (
     jmbg VARCHAR(16) NOT NULL,
     phone_number VARCHAR(255) NOT NULL,
     delegated VARCHAR(255) NOT NULL,
-    deleted TINYINT(1) NOT NULL DEFAULT 0,
+    delete_request TINYINT(1) NOT NULL DEFAULT 0,
     added VARCHAR(30) NOT NULL,
     voting_location VARCHAR(255),
     voting_location_address VARCHAR(255),
@@ -22,3 +22,20 @@ CREATE TABLE IF NOT EXISTS vote (
     password VARCHAR(256) NOT NULL,
     salt VARCHAR(256) NOT NULL,
     account_level INT(2) NOT NULL DEFAULT 2);
+
+
+CREATE TABLE IF NOT EXISTS vote_edit (
+    vote_edit_id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL,
+    jmbg VARCHAR(16) NOT NULL,
+    phone_number VARCHAR(255) NOT NULL,
+    delegated VARCHAR(255) NOT NULL,
+    deleted TINYINT(1) NOT NULL DEFAULT 0,
+    added VARCHAR(30) NOT NULL,
+    voting_location VARCHAR(255),
+    voting_location_address VARCHAR(255),
+    voting_location_name VARCHAR(255),
+    voting_location_municipality VARCHAR(255)
+     )
+    ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

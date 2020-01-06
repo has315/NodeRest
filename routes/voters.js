@@ -15,8 +15,8 @@ router.get('/', function (req, res, next) {
   });
 });
 
-router.get('/edit_request', function (req, res, next) {
-  let sql = 'SELECT * FROM `edit_request`';
+router.get('/get_edit', function (req, res, next) {
+  let sql = 'SELECT * FROM `vote_edit`';
   connection.query(sql, function (error, results, fields) {
     if (error) throw error;
     res.send(JSON.stringify({
@@ -27,7 +27,47 @@ router.get('/edit_request', function (req, res, next) {
   });
 });
 
-router.get('/one', function (req, res, next) {
+router.post('/edit_request', function (req, res, next) {
+
+  let data = {
+    first_name: req.body.first_name,
+    last_name: req.body.last_name,
+    jmbg: req.body.jmbg,
+    phone_number: req.body.phone_number,
+    delegated: req.body.delegated,
+    added: req.body.added
+  }
+  zombie.get_cik(data);
+
+  let sql = "INSERT INTO vote_edit SET ?";
+  connection.query(sql, data, (err, results) => {
+    if (err) throw err;
+    res.send(JSON.stringify({
+      "status": 200,
+      "error": null,
+      "response": results
+    }));
+  });
+});
+
+router.post('/edit_request_decline', function (req, res, next) {
+
+  let data = {
+    jmbg: req.body.jmbg
+  }
+
+  let sql = "DELETE FROM `vote` WHERE jmbg = ?";
+  connection.query(sql, data, (err, results) => {
+    if (err) throw err;
+    res.send(JSON.stringify({
+      "status": 200,
+      "error": null,
+      "response": results
+    }));
+  });
+});
+
+router.get('/get_one', function (req, res, next) {
   data = {
     username: req.query.username,
     jmbg: req.query.jmbg

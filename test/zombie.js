@@ -29,7 +29,7 @@ let zombie = {
                 // Access response data
                 let result = {};
                 for (let i = 0; i < label1.length; ++i)
-                    result[label1[i].innerHTML.replace(":", "").trim()] = label2[i].innerHTML;
+                    result[label1[i].innerHTML.replace(":", "").trim()] = label2[i].innerHTML.trim();
 
                 if (label1.length == label2.length) {
                     // Access response data

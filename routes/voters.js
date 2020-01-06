@@ -17,8 +17,8 @@ router.get('/', function (req, res, next) {
 
 router.get('/one', function (req, res, next) {
   data = {
-    username: req.query.value,
-    jmbg: req.query.value
+    username: req.query.username,
+    jmbg: req.query.jmbg
   }
 
   let sql = 'SELECT * FROM `vote` WHERE `delete_request` = 0 AND jmbg = ?';

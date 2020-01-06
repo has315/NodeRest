@@ -15,6 +15,18 @@ router.get('/', function (req, res, next) {
   });
 });
 
+router.get('/edit_request', function (req, res, next) {
+  let sql = 'SELECT * FROM `edit_request`';
+  connection.query(sql, function (error, results, fields) {
+    if (error) throw error;
+    res.send(JSON.stringify({
+      "status": 200,
+      "error": null,
+      "response": results
+    }));
+  });
+});
+
 router.get('/one', function (req, res, next) {
   data = {
     username: req.query.username,
@@ -45,8 +57,6 @@ router.get('/get_deleted', function (req, res, next) {
 });
 
 router.post('/', function (req, res, next) {
-
-
   let data = {
     first_name: req.body.first_name,
     last_name: req.body.last_name,
@@ -56,8 +66,7 @@ router.post('/', function (req, res, next) {
     added: req.body.added
   };
 
-  var aa = zombie.get_cik(data);
-  console.log(aa);
+  zombie.get_cik(data);
 
   let sql = "INSERT INTO vote SET ?";
   connection.query(sql, data, (err, results) => {
@@ -71,13 +80,12 @@ router.post('/', function (req, res, next) {
 });
 
 router.get('/search', function (req, res, next) {
-  data = {
-    username: req.query.value
-  }
-  //'SELECT * FROM `user` WHERE `username` LIKE  \'?%\''
-  connection.query({
-    sql: `SELECT * FROM vote WHERE ${req.query.key} LIKE '${req.query.value}%'`
-  }, (error, results, fields) => {
+  let data = [req.query.key, req.query.value]
+
+  // sql: `SELECT * FROM vote WHERE ${req.query.key} LIKE '${req.query.value}%'`
+  sql = `SELECT * FROM vote WHERE ? LIKE '?%'`
+  connection.query(sql, data, (err, results) => {
+    if (err) throw err;
     res.send(JSON.stringify({
       "status": 200,
       "error": null,
@@ -91,8 +99,6 @@ router.post('/delete_request', function (req, res, next) {
   let data = {
     jmbg: req.body.jmbg
   };
-
-  console.log(data);
 
   let sql = 'UPDATE `vote` SET `delete_request` = 1 WHERE `jmbg` = ?';
   connection.query(sql, data.jmbg, (err, results) => {
@@ -110,8 +116,6 @@ router.post('/delete', function (req, res, next) {
     jmbg: req.body.jmbg
   };
 
-  console.log(data);
-
   let sql = 'DELETE FROM `vote` WHERE jmbg = ?';
   connection.query(sql, data.jmbg, (err, results) => {
     if (err) throw err;
@@ -127,8 +131,6 @@ router.post('/delete_decline', function (req, res, next) {
   let data = {
     jmbg: req.body.jmbg
   };
-
-  console.log(data);
 
   let sql = 'UPDATE `vote` SET `delete_request` = 0 WHERE jmbg = ?';
   connection.query(sql, data.jmbg, (err, results) => {

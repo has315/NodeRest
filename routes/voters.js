@@ -98,6 +98,7 @@ router.get('/get_deleted', function (req, res, next) {
 
 router.post('/', function (req, res, next) {
   let data = {
+    vote_id: req.body.user_id,
     first_name: req.body.first_name,
     last_name: req.body.last_name,
     jmbg: req.body.jmbg,

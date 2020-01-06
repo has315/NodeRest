@@ -16,7 +16,7 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/get_deleted', function (req, res, next) {
-  let sql = 'SELECT * FROM `vote` WHERE jmbg = ? AND delete_request = 1';
+  let sql = 'SELECT * FROM `vote` WHERE `jmbg` = ? AND `delete_request` = 1';
   connection.query(sql, function (error, results, fields) {
     if (error) throw error;
     res.send(JSON.stringify({
@@ -77,7 +77,7 @@ router.post('/delete_request', function (req, res, next) {
 
   console.log(data);
 
-  let sql = 'UPDATE `vote` SET `delete_request` = 1 WHERE jmbg = ?';
+  let sql = 'UPDATE `vote` SET `delete_request` = 1 WHERE `jmbg` = ?';
   connection.query(sql, data.jmbg, (err, results) => {
     if (err) throw err;
     res.send(JSON.stringify({

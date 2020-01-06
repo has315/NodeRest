@@ -21,7 +21,7 @@ router.get('/one', function (req, res, next) {
     jmbg: req.query.value
   }
 
-  let sql = 'SELECT * FROM `vote` WHERE `delete_request` = 0 and jmbg = `?`';
+  let sql = 'SELECT * FROM `vote` WHERE `delete_request` = 0 AND jmbg = ?';
   connection.query(sql, data.jmbg, function (error, results, fields) {
     if (error) throw error;
     res.send(JSON.stringify({

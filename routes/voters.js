@@ -65,7 +65,7 @@ router.post('/delete', function (req, res, next) {
 
 
 
-  let sql = `UPDATE vote SET deleteRequest = 1 WHERE jmbg = ?`;
+  let sql = `UPDATE vote SET delete_request = 1 WHERE jmbg = ?`;
   connection.query(sql, data, (err, results) => {
     if (err) throw err;
     res.send(JSON.stringify({

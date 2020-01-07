@@ -21,10 +21,10 @@ router.get('/', function (req, res, next) {
 
 router.get('/get_one', function (req, res, next) {
   let data = {
-    jmbg: res.query.jmbg
+    username: res.query.username
   }
-  let sql = `SELECT user_id,username,account_level from user WHERE 'jmbg' = ?`;
-  connection.query(sql, data.jmbg, function (error, results, fields) {
+  let sql = `SELECT user_id,username,account_level from user WHERE username = ?`;
+  connection.query(sql, data.username, function (error, results, fields) {
     if (error) throw error;
     res.send(JSON.stringify({
       "status": 200,

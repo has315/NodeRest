@@ -131,10 +131,13 @@ router.post('/', function (req, res, next) {
 
 // SEARCH FUNCTIONALITY
 router.get('/search', function (req, res, next) {
-  let data = [req.query.key, req.query.value + "%"];
+  let data = {
+   key:  req.query.key, 
+   value: req.query.value + "%"
+  };
   console.log(data);
   // sql: `SELECT * FROM vote WHERE ${req.query.key} LIKE '${req.query.value}%'`
-  sql = 'SELECT * FROM `vote` WHERE ? LIKE ?';
+  sql = 'SELECT * FROM `vote` WHERE ? LIKE `?`';
   connection.query(sql, data.key, data.value, (err, results) => {
     if (err) throw err;
     res.send(JSON.stringify({

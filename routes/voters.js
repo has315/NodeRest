@@ -132,7 +132,7 @@ router.post('/', function (req, res, next) {
 // SEARCH FUNCTIONALITY
 router.get('/search', function (req, res, next) {
   let data = {
-    key: connection.escape(req.query.key).replace("'", ""),
+    key: connection.escape(req.query.key).replace(/'/g, ""),
     value: connection.escape(req.query.value).replace("'", "")
   };
   console.log(data);

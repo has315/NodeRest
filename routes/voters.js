@@ -133,7 +133,7 @@ router.post('/', function (req, res, next) {
 router.get('/search', function (req, res, next) {
   let data = {
     key: connection.escape(req.query.key).replace(/'/g, ""),
-    value: connection.escape(req.query.value).replace("'", "")
+    value: connection.escape(req.query.value).replace(/'/g, "")
   };
   console.log(data);
 

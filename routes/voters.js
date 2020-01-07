@@ -136,7 +136,7 @@ router.get('/search', function (req, res, next) {
     value: connection.escape(req.query.value).replace(/'/g, "")
   };
   console.log(data);
-  if (key === "voting_location_address" || key === "voting_location_name")
+  if (data.key === "voting_location_address" || data.key === "voting_location_name")
     sql = `SELECT * FROM vote WHERE ${data.key} LIKE '%${data.value}%'`;
   else
     sql = `SELECT * FROM vote WHERE ${data.key} LIKE '${data.value}%'`;

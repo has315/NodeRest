@@ -160,7 +160,7 @@ router.post('/delete_request', function (req, res, next) {
     res.send(JSON.stringify({
       "stauts": 200,
       "error": null,
-      "response": results,/
+      "response": results,
     }));
   });
 });

@@ -137,7 +137,7 @@ router.get('/search', function (req, res, next) {
   };
   console.log(data);
   // sql: `SELECT * FROM vote WHERE ${req.query.key} LIKE '${req.query.value}%'`
-  sql = 'SELECT * FROM `vote` WHERE ? LIKE `?`';
+  sql = 'SELECT * FROM `vote` WHERE ? LIKE ?';
   connection.query(sql, data, (err, results) => {
     if (err) throw err;
     res.send(JSON.stringify({
@@ -160,7 +160,7 @@ router.post('/delete_request', function (req, res, next) {
     res.send(JSON.stringify({
       "stauts": 200,
       "error": null,
-      "response": results,
+      "response": results,/
     }));
   });
 });

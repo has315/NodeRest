@@ -21,7 +21,7 @@ router.get('/', function (req, res, next) {
 
 router.get('/get_one', function (req, res, next) {
   let data = {
-    username: res.query.username
+    username: req.query.username
   }
   let sql = 'SELECT `user_id`, `username`, `account_level` FROM `user` WHERE `username` = ?';
   connection.query(sql, data.username, function (error, results, fields) {

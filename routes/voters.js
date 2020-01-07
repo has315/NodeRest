@@ -28,7 +28,6 @@ router.get('/get_edit', function (req, res, next) {
 });
 
 router.post('/edit_request', function (req, res, next) {
-
   let data = {
     first_name: req.body.first_name,
     last_name: req.body.last_name,
@@ -51,13 +50,12 @@ router.post('/edit_request', function (req, res, next) {
 });
 
 router.post('/edit_request_decline', function (req, res, next) {
-
   let data = {
     jmbg: req.body.jmbg
   }
 
-  let sql = "DELETE FROM `vote` WHERE jmbg = ?";
-  connection.query(sql, data, (err, results) => {
+  let sql = "DELETE FROM `vote_edit` WHERE jmbg = ?";
+  connection.query(sql, data.jmbg, (err, results) => {
     if (err) throw err;
     res.send(JSON.stringify({
       "status": 200,
@@ -68,7 +66,7 @@ router.post('/edit_request_decline', function (req, res, next) {
 });
 
 router.get('/get_one', function (req, res, next) {
-  data = {
+  let data = {
     username: req.query.username,
     jmbg: req.query.jmbg
   }

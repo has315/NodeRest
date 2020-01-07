@@ -133,7 +133,7 @@ router.post('/', function (req, res, next) {
 router.get('/search', function (req, res, next) {
   let data = {
    key:  req.query.key, 
-   value: req.query.value + "%"
+   value: req.query.value
   };
   console.log(data);
   // sql: `SELECT * FROM vote WHERE ${req.query.key} LIKE '${req.query.value}%'`

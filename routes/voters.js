@@ -139,6 +139,7 @@ router.get('/search', function (req, res, next) {
   // sql: `SELECT * FROM vote WHERE ${req.query.key} LIKE '${req.query.value}%'`
   sql = "SELECT * FROM `vote` WHERE ? LIKE CONCAT(?, '%')";
   connection.query(sql, [data.key, data.value], (err, results) => {
+    console.log(sql);
     if (err) throw err;
     res.send(JSON.stringify({
       "status": 200,

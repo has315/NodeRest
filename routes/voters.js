@@ -137,7 +137,7 @@ router.get('/search', function (req, res, next) {
   };
   console.log(data);
   // sql: `SELECT * FROM vote WHERE ${req.query.key} LIKE '${req.query.value}%'`
-  sql = `SELECT * FROM vote WHERE ${connection.escape(data.key)} LIKE ${connection.escape(data.value)}`;
+  sql = `SELECT * FROM vote WHERE ${connection.escape(data.key)} LIKE '${connection.escape(data.value)}'`;
   connection.query(sql, [data.key, data.value], (err, results) => {
     console.log(sql);
     if (err) throw err;

@@ -1,8 +1,11 @@
 var express = require('express');
 var router = express.Router();
 var connection = require('../db');
+var redisClient = require("../db/redis").client;
 const bcrypt = require('bcrypt');
+const AppConfig = require('../config').AppConfig;
 const saltRounds = 10;
+const HSET = "activeUsers";
 
 
 
@@ -89,10 +92,18 @@ router.post('/login', function (req, res, next) {
 
     bcrypt.compare(req.body.password, results[0].password, function (err, response) {
       if (response) {
+        // Generate JWT
+        const token = jwt.sign({ id: results[0].id }, AppConfig.SECRET, { expiresIn: AppConfig.TOKEN_LIFESPAN });
+        const refreshToken = jwt.sign({ id: results[0].id }, AppConfig.REFRESH_TOKEN_SECRET, { expiresIn: AppConfig.REFRESH_TOKEN_LIFESPAN });
+        // Store refreshToken in Redis
+        client.hset(results[0].id, HSET, refreshToken)
+
         res.send(JSON.stringify({
           "status": 200,
           "error": null,
-          "response": results[0].account_level
+          "response": results[0].account_level,
+          "token": token,
+          "refreshToken": refreshToken,
         }));
       } else {
         res.send(JSON.stringify({

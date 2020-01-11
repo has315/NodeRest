@@ -1,4 +1,6 @@
 const redis = require("redis");
 const client = redis.RedisClient()
 
-module.exports = client;
+module.exports = {
+    client: client
+};

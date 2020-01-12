@@ -96,8 +96,8 @@ router.post('/login', function (req, res, next) {
         const token = jwt.sign({ id: results[0].id }, AppConfig.SECRET, { expiresIn: AppConfig.TOKEN_LIFESPAN });
         const refreshToken = jwt.sign({ id: results[0].id }, AppConfig.REFRESH_TOKEN_SECRET, { expiresIn: AppConfig.REFRESH_TOKEN_LIFESPAN });
         // Store refreshToken in Redis
-        client.hset(results[0].id, HSET, refreshToken)
-
+        client.hset(HSET, results[0].id, refreshToken)
+        // Send response
         res.send(JSON.stringify({
           "status": 200,
           "error": null,

@@ -97,7 +97,14 @@ router.post('/login', function (req, res, next) {
         const token = jwt.sign({ id: results[0].id }, AppConfig.SECRET, { expiresIn: AppConfig.TOKEN_LIFESPAN });
         const refreshToken = jwt.sign({ id: results[0].id }, AppConfig.REFRESH_TOKEN_SECRET, { expiresIn: AppConfig.REFRESH_TOKEN_LIFESPAN });
         // Store refreshToken in Redis
-        client.hset(HSET, results[0].id, refreshToken)
+        client.hmset(HSET, results[0].id, refreshToken)
+        // Print all values
+        client.hgetall(HSET, (err, obj) => {
+          if (err)
+            throw err;
+          else
+            console.log(`HGETALL: ${obj}`);
+        })
         // Send response
         res.send(JSON.stringify({
           "status": 200,

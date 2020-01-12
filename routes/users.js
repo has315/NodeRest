@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const AppConfig = require('../config').AppConfig;
 const saltRounds = 10;
-const HSET = "activeUsers";
+const HSET = 'activeUsers';
 
 
 
@@ -93,18 +93,20 @@ router.post('/login', function (req, res, next) {
 
     bcrypt.compare(req.body.password, results[0].password, function (err, response) {
       if (response) {
+
         // Generate JWT
         const token = jwt.sign({ id: results[0].id }, AppConfig.SECRET, { expiresIn: AppConfig.TOKEN_LIFESPAN });
         const refreshToken = jwt.sign({ id: results[0].id }, AppConfig.REFRESH_TOKEN_SECRET, { expiresIn: AppConfig.REFRESH_TOKEN_LIFESPAN });
+
         // Store refreshToken in Redis
-        client.hmset(HSET, results[0].id, refreshToken)
-        // Print all values
-        client.hgetall(HSET, (err, obj) => {
+        client.hs
+        client.hmset(HSET, results[0].id, refreshToken, function (err, reply) {
           if (err)
             throw err;
-          else
-            console.log(`HGETALL: ${obj}`);
-        })
+          if (reply)
+            console.log(reply);
+        });
+
         // Send response
         res.send(JSON.stringify({
           "status": 200,

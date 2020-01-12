@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const connection = require('../db/mysql');
-const client = require("../db/redis").client;
+const redisClient = require("../db/redis").client;
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const AppConfig = require('../config').AppConfig;
@@ -104,8 +104,8 @@ router.post('/login', function (req, res, next) {
             console.log(reply);
         };
         // Store refreshToken in Redis
-        client.set("key", "value", fun);
-        client.hmset(HSET, results[0].id, refreshToken, fun);
+        redisClient.set("key", "value", fun);
+        redisClient.hmset(HSET, results[0].id, refreshToken, fun);
 
         // Send response
         res.send(JSON.stringify({

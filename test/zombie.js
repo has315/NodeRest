@@ -1,5 +1,5 @@
 const Browser = require('zombie');
-var connection = require('../db/db');
+var connection = require('../db/mysql');
 
 browser = new Browser()
 

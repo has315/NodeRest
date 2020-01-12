@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var connection = require('../db/db');
+var connection = require('../db/mysql');
 var zombie = require('../test/zombie');
 
 

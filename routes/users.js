@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const connection = require('../db/db');
+const connection = require('../db/mysql');
 const client = require("../db/redis").client;
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');

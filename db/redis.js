@@ -1,5 +1,3 @@
-console.log("In redis");
-
 const redis = require("redis");
 const client = redis.createClient();
 
@@ -10,6 +8,8 @@ client.on('connect', function () {
 client.on('error', function () {
     console.log('REDIS CLIENT ERROR');
 });
+
+client.set("bla", "bla", redis.print);
 
 
 console.log("Out redis");

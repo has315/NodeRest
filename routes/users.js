@@ -97,14 +97,15 @@ router.post('/login', function (req, res, next) {
         // Generate JWT
         const token = jwt.sign({ id: results[0].id }, AppConfig.SECRET, { expiresIn: AppConfig.TOKEN_LIFESPAN });
         const refreshToken = jwt.sign({ id: results[0].id }, AppConfig.REFRESH_TOKEN_SECRET, { expiresIn: AppConfig.REFRESH_TOKEN_LIFESPAN });
-
-        // Store refreshToken in Redis
-        client.hmset(HSET, results[0].id, refreshToken, function (err, reply) {
+        const fun = function (err, reply) {
           if (err)
             throw err;
           if (reply)
             console.log(reply);
-        });
+        };
+        // Store refreshToken in Redis
+        client.set("key", "value", fun);
+        client.hmset(HSET, results[0].id, refreshToken, fun);
 
         // Send response
         res.send(JSON.stringify({

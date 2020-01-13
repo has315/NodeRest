@@ -1,5 +1,5 @@
 const redis = require("redis");
-const AppConfig = require("../config").AppConfig;
+const AppConfig = require("./config").AppConfig;
 
 const client = redis.createClient(AppConfig.REDIS_PORT, AppConfig.REDIS_HOST);
 

@@ -4,7 +4,7 @@ const connection = require('../db/mysql');
 const redisClient = require("../db/redis").client;
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const AppConfig = require('../config').AppConfig;
+const AppConfig = require('../db/config').AppConfig;
 const saltRounds = 10;
 const HSET = 'activeUsers';
 

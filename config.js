@@ -9,7 +9,9 @@ const AppConfig = {
     // 2 hours
     TOKEN_LIFESPAN: 7200,
     // 8 hours
-    REFRESH_TOKEN_LIFESPAN: 28800
+    REFRESH_TOKEN_LIFESPAN: 28800,
+    REDIS_HOST: "165.22.66.219",
+    REDIS_PORT: 6379
 };
 
 module.exports.AppConfig = AppConfig;

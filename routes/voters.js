@@ -7,11 +7,11 @@ var zombie = require('../test/zombie');
 // GET ALL NON DELETED VOTES
 router.get('/all', function (req, res, next) {
   let id = req.query.id;
-
+  var sql = "";
   if (id = 1) {
-    let sql = 'SELECT * FROM `voters_full` WHERE `delete_request` = 0';
+    var sql = 'SELECT * FROM `voters_full` WHERE `delete_request` = 0';
   } else {
-    let sql = 'SELECT * FROM `voters_by_user` WHERE `delete_request` = 0';
+    var sql = 'SELECT * FROM `voters_by_user` WHERE `delete_request` = 0';
   }
 
   if (id != null) {

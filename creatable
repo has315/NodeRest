@@ -50,3 +50,11 @@ CREATE TABLE IF NOT EXISTS vote_edit (
     voting_location_municipality VARCHAR(255)
      )
     ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE VIEW voters_full AS
+SELECT vote.first_name, vote.last_name, vote.jmbg, 
+vote.phone_number, vote.delegated, user.username, 
+vote.delete_request, vote.voting_location, 
+vote.voting_location_address, vote.voting_location_name, 
+vote.voting_location_municipality FROM vote
+INNER JOIN user ON user.user_id = vote.added;

@@ -18,7 +18,7 @@ router.get('/all', function (req, res, next) {
 });
 
 router.get('/by_user', function (req, res, next) {
-  let sql = 'SELECT * FROM `voters_full` WHERE `delete_request` = 0';
+  let sql = 'SELECT * FROM `voters_by_user` WHERE `delete_request` = 0';
   connection.query(sql, function (error, results, fields) {
     if (error) throw error;
     res.send(JSON.stringify({

@@ -6,7 +6,7 @@ var zombie = require('../test/zombie');
 
 // GET ALL NON DELETED VOTES
 router.get('/', function (req, res, next) {
-  let sql = 'SELECT * FROM `vote` WHERE `delete_request` = 0';
+  let sql = 'SELECT * FROM `voters_full` WHERE `delete_request` = 0';
   connection.query(sql, function (error, results, fields) {
     if (error) throw error;
     res.send(JSON.stringify({

@@ -9,7 +9,7 @@ router.get('/all', function (req, res, next) {
   let id = req.query.id;
 
   if (id = 1) {
-    let sql = 'SELECT * FROM `vote` WHERE `delete_request` = 0';
+    let sql = 'SELECT * FROM `voters_full` WHERE `delete_request` = 0';
   } else {
     let sql = 'SELECT * FROM `voters_by_user` WHERE `delete_request` = 0';
   }

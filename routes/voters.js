@@ -6,27 +6,24 @@ var zombie = require('../test/zombie');
 
 // GET ALL NON DELETED VOTES
 router.get('/all', function (req, res, next) {
-  let sql = 'SELECT * FROM `vote` WHERE `delete_request` = 0';
-  connection.query(sql, function (error, results, fields) {
-    if (error) throw error;
-    res.send(JSON.stringify({
-      "status": 200,
-      "error": null,
-      "response": results
-    }));
-  });
-});
+  let id = req.query.id;
 
-router.get('/by_user', function (req, res, next) {
-  let sql = 'SELECT * FROM `voters_by_user` WHERE `delete_request` = 0';
-  connection.query(sql, function (error, results, fields) {
-    if (error) throw error;
-    res.send(JSON.stringify({
-      "status": 200,
-      "error": null,
-      "response": results
-    }));
-  });
+  if (id = 1) {
+    let sql = 'SELECT * FROM `vote` WHERE `delete_request` = 0';
+  } else {
+    let sql = 'SELECT * FROM `voters_by_user` WHERE `delete_request` = 0';
+  }
+
+  if (id != null) {
+    connection.query(sql, function (error, results, fields) {
+      if (error) throw error;
+      res.send(JSON.stringify({
+        "status": 200,
+        "error": null,
+        "response": results
+      }));
+    });
+  }
 });
 
 // GET ALL EDITED VOTES

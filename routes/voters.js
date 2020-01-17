@@ -8,8 +8,10 @@ var zombie = require('../test/zombie');
 router.get('/all', function (req, res, next) {
   let id = req.query.id;
   var sql = "";
+  console.log('ID' + id);
   if (id = 1) {
     var sql = 'SELECT * FROM `voters_full` WHERE `delete_request` = 0';
+    console.log('from if');
     connection.query(sql, (err, results) => {
       if (err) throw err;
       res.send(JSON.stringify({
@@ -20,6 +22,7 @@ router.get('/all', function (req, res, next) {
     });
   } else {
     var sql = 'SELECT * FROM `voters_full` WHERE `delete_request` = 0 AND `added` = ?';
+    console.log('from else');
     connection.query(sql, id, (err, results) => {
       if (err) throw err;
       res.send(JSON.stringify({

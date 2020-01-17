@@ -58,3 +58,5 @@ vote.delete_request, vote.voting_location,
 vote.voting_location_address, vote.voting_location_name, 
 vote.voting_location_municipality FROM vote
 INNER JOIN user ON user.user_id = vote.added;
+
+SELECT * FROM voters_full WHERE added = ? ;

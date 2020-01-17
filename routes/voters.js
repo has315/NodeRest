@@ -21,7 +21,7 @@ router.get('/all', function (req, res, next) {
       }));
     });
   } else {
-    var sql = 'SELECT * FROM `voters_full` WHERE `delete_request` = 0 AND `added` = ?';
+    var sql = "SELECT * FROM `voters_full` WHERE `delete_request` = 0 AND `added` = ?";
     console.log(sql);
     console.log('from else');
     connection.query(sql, id, (err, results) => {

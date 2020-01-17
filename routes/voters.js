@@ -7,11 +7,10 @@ var zombie = require('../test/zombie');
 // GET ALL NON DELETED VOTES
 router.get('/all', function (req, res, next) {
   let id = req.query.id;
-  let added = req.query.added;
   var sql = "";
   if (id = 1) {
     var sql = 'SELECT * FROM `voters_full` WHERE `delete_request` = 0';
-    connection.query(sql, added, (err, results) => {
+    connection.query(sql, (err, results) => {
       if (err) throw err;
       res.send(JSON.stringify({
         "status": 200,
@@ -20,8 +19,8 @@ router.get('/all', function (req, res, next) {
       }));
     });
   } else {
-    var sql = 'SELECT * FROM `voters_by_user` WHERE `delete_request` = 0 AND `added` = ?';
-    connection.query(sql, added, (err, results) => {
+    var sql = 'SELECT * FROM `voters_full` WHERE `delete_request` = 0 AND `added` = ?';
+    connection.query(sql, id, (err, results) => {
       if (err) throw err;
       res.send(JSON.stringify({
         "status": 200,

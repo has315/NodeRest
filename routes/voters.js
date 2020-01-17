@@ -15,7 +15,7 @@ router.get('/all', function (req, res, next) {
     var sql = 'SELECT * FROM `voters_by_user` WHERE `delete_request` = 0 AND `added` = ?';
   }
 
-  connection.query(sql, data, (err, results) => {
+  connection.query(sql, added, (err, results) => {
     if (err) throw err;
     res.send(JSON.stringify({
       "status": 200,

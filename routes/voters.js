@@ -10,9 +10,9 @@ router.get('/all', function (req, res, next) {
   let added = req.query.added;
   var sql = "";
   if (id = 1) {
-    var sql = 'SELECT * FROM `voters_full` WHERE `delete_request` = 0 AND added = ? ';
+    var sql = 'SELECT * FROM `voters_full` WHERE `delete_request` = 0';
   } else {
-    var sql = 'SELECT * FROM `voters_by_user` WHERE `delete_request` = 0';
+    var sql = 'SELECT * FROM `voters_by_user` WHERE `delete_request` = 0 AND `added` = ?';
   }
 
   if (id != null) {

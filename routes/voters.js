@@ -7,10 +7,10 @@ const HttpStatus = require('http-status-codes');
 
 // GET ALL NON DELETED VOTES
 router.get('/all', function (req, res, next) {
-  console.log(req.params);
-  console.log(req.params.id);
+  console.log(req.query);
+  console.log(req.query.id);
 
-  if (!req.params || !req.params.id) {
+  if (req.query.length == 0 || !req.query.id) {
     return res.status(HttpStatus.BAD_REQUEST).json({
       status: 'Error',
       message: 'ID not found'
@@ -18,7 +18,7 @@ router.get('/all', function (req, res, next) {
   }
 
   var sql = 'SELECT * FROM voters_full WHERE delete_request = 0';
-  let id = req.params.id;
+  let id = req.query.id;
   let callback = (err, results) => {
     if (err) throw err;
     res.status(HttpStatus.OK).send(JSON.stringify({

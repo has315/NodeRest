@@ -7,6 +7,8 @@ const HttpStatus = require('http-status-codes');
 
 // GET ALL NON DELETED VOTES
 router.get('/all', function (req, res, next) {
+  console.log(req.params);
+  console.log(req.params.id);
 
   if (!req.params || !req.params.id) {
     return res.status(HttpStatus.BAD_REQUEST).json({

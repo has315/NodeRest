@@ -1,33 +1,28 @@
-var express = require('express');
-var router = express.Router();
-var connection = require('../db/mysql');
-var zombie = require('../test/zombie');
+const express = require('express');
+const router = express.Router();
+const connection = require('../db/mysql');
+const zombie = require('../test/zombie');
 
 
 // GET ALL NON DELETED VOTES
 router.get('/all', function (req, res, next) {
-  let id = req.query.id;
   var sql = "";
+  let id = req.query.id;
+  var callback = (err, results) => {
+    if (err) throw err;
+    res.send(JSON.stringify({
+      "status": 200,
+      "error": null,
+      "response": results
+    }));
+  };
+
   if (id == 1) {
-    var sql = 'SELECT * FROM `voters_full` WHERE `delete_request` = 0';
-    connection.query(sql, (err, results) => {
-      if (err) throw err;
-      res.send(JSON.stringify({
-        "status": 200,
-        "error": null,
-        "response": results
-      }));
-    });
+    sql = 'SELECT * FROM voters_full WHERE delete_request = 0';
+    connection.query(sql, callback);
   } else {
-    var sql = "SELECT * FROM `voters_full` WHERE `delete_request` = 0 AND `added` = ?";
-    connection.query(sql, id, (err, results) => {
-      if (err) throw err;
-      res.send(JSON.stringify({
-        "status": 200,
-        "error": null,
-        "response": results
-      }));
-    });
+    sql = "SELECT * FROM voters_full WHERE delete_request = 0 AND added = ?";
+    connection.query(sql, id, callback);
   }
 });
 

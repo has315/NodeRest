@@ -6,7 +6,7 @@ const zombie = require('../test/zombie');
 
 // GET ALL NON DELETED VOTES
 router.get('/all', function (req, res, next) {
-  var sql = "";
+  var sql = 'SELECT * FROM voters_full WHERE delete_request = 0';
   let id = req.query.id;
   var callback = (err, results) => {
     if (err) throw err;
@@ -18,10 +18,9 @@ router.get('/all', function (req, res, next) {
   };
 
   if (id == 1) {
-    sql = 'SELECT * FROM voters_full WHERE delete_request = 0';
     connection.query(sql, callback);
   } else {
-    sql = "SELECT * FROM voters_full WHERE delete_request = 0 AND added = ?";
+    sql += ' AND added = ?';
     connection.query(sql, id, callback);
   }
 });

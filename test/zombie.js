@@ -10,7 +10,6 @@ let zombie = {
         browser.visit("https://www.izbori.ba/Default.aspx?CategoryID=509&Lang=3").then(() => {
             console.log(browser.text("title"));
 
-
             let first_name = data.first_name;
             let last_name = data.last_name;
             let jmbg = data.jmbg;

@@ -2,16 +2,24 @@ const express = require('express');
 const router = express.Router();
 const connection = require('../db/mysql');
 const zombie = require('../test/zombie');
+const HttpStatus = require('http-status-codes');
 
 
 // GET ALL NON DELETED VOTES
 router.get('/all', function (req, res, next) {
+
+  if (!req.query || !req.query.id) {
+    return res.status(HttpStatus.BAD_REQUEST).json({
+      status: 'Error',
+      message: 'ID not found'
+    });
+  }
+
   var sql = 'SELECT * FROM voters_full WHERE delete_request = 0';
   let id = req.query.id;
-  var callback = (err, results) => {
+  let callback = (err, results) => {
     if (err) throw err;
-    res.send(JSON.stringify({
-      "status": 200,
+    res.status(HttpStatus.OK).send(JSON.stringify({
       "error": null,
       "response": results
     }));
@@ -30,8 +38,7 @@ router.get('/get_edit', function (req, res, next) {
   let sql = 'SELECT * FROM `vote_edit`';
   connection.query(sql, function (error, results, fields) {
     if (error) throw error;
-    res.send(JSON.stringify({
-      "status": 200,
+    res.status(HttpStatus.OK).send(JSON.stringify({
       "error": null,
       "response": results
     }));
@@ -43,8 +50,7 @@ router.get('/get_deleted', function (req, res, next) {
   let sql = 'SELECT * FROM `vote` WHERE `delete_request` = 1';
   connection.query(sql, function (error, results, fields) {
     if (error) throw error;
-    res.send(JSON.stringify({
-      "status": 200,
+    res.status(HttpStatus.OK).send(JSON.stringify({
       "error": null,
       "response": results
     }));
@@ -61,8 +67,7 @@ router.get('/get_one', function (req, res, next) {
   let sql = 'SELECT * FROM `vote` WHERE `delete_request` = 0 AND jmbg = ?';
   connection.query(sql, data.jmbg, function (error, results, fields) {
     if (error) throw error;
-    res.send(JSON.stringify({
-      "status": 200,
+    res.status(HttpStatus.OK).send(JSON.stringify({
       "error": null,
       "response": results
     }));
@@ -84,8 +89,7 @@ router.post('/edit_request', function (req, res, next) {
   let sql = "INSERT INTO vote_edit SET ?";
   connection.query(sql, data, (err, results) => {
     if (err) throw err;
-    res.send(JSON.stringify({
-      "status": 200,
+    res.status(HttpStatus.OK).send(JSON.stringify({
       "error": null,
       "response": results
     }));
@@ -102,8 +106,7 @@ router.post('/edit_request_decline', function (req, res, next) {
   let sql = "DELETE FROM `vote_edit` WHERE jmbg = ?";
   connection.query(sql, data.jmbg, (err, results) => {
     if (err) throw err;
-    res.send(JSON.stringify({
-      "status": 200,
+    res.status(HttpStatus.OK).send(JSON.stringify({
       "error": null,
       "response": results
     }));
@@ -131,8 +134,7 @@ router.post('/', function (req, res, next) {
   let sql = "IF NOT EXISTS (SELECT * FROM vote WHERE jmbg = ?) INSERT INTO vote SET ?";
   connection.query(sql, data, (err, results) => {
     if (err) throw err;
-    res.send(JSON.stringify({
-      "status": 200,
+    res.status(HttpStatus.OK).send(JSON.stringify({
       "error": null,
       "response": results
     }));
@@ -154,8 +156,7 @@ router.get('/search', function (req, res, next) {
   connection.query(sql, [data.key, data.value], (err, results) => {
     console.log(sql);
     if (err) throw err;
-    res.send(JSON.stringify({
-      "status": 200,
+    res.status(HttpStatus.OK).send(JSON.stringify({
       "error": null,
       "response": results
     }));
@@ -171,8 +172,7 @@ router.post('/delete_request', function (req, res, next) {
   let sql = 'UPDATE `vote` SET `delete_request` = 1 WHERE `jmbg` = ?';
   connection.query(sql, data.jmbg, (err, results) => {
     if (err) throw err;
-    res.send(JSON.stringify({
-      "stauts": 200,
+    res.status(HttpStatus.OK).send(JSON.stringify({
       "error": null,
       "response": results,
     }));
@@ -188,8 +188,7 @@ router.post('/delete', function (req, res, next) {
   let sql = 'DELETE FROM `vote` WHERE jmbg = ?';
   connection.query(sql, data.jmbg, (err, results) => {
     if (err) throw err;
-    res.send(JSON.stringify({
-      "stauts": 200,
+    res.status(HttpStatus.OK).send(JSON.stringify({
       "error": null,
       "response": results,
     }));
@@ -205,8 +204,7 @@ router.post('/delete_decline', function (req, res, next) {
   let sql = 'UPDATE `vote` SET `delete_request` = 0 WHERE jmbg = ?';
   connection.query(sql, data.jmbg, (err, results) => {
     if (err) throw err;
-    res.send(JSON.stringify({
-      "stauts": 200,
+    res.status(HttpStatus.OK).send(JSON.stringify({
       "error": null,
       "response": results,
     }));

@@ -126,8 +126,9 @@ router.post('/', function (req, res, next) {
     added: req.body.added
   };
 
-  let sql = "IF NOT EXISTS (SELECT * FROM vote WHERE jmbg = ?) INSERT INTO vote SET ?";
-  connection.query(sql, [data.jmbg, data], (err, results) => {
+  // let sql = "IF NOT EXISTS (SELECT * FROM vote WHERE jmbg = ?) INSERT INTO vote SET ?";
+  let sql = " INSERT INTO VOTE SET ? WHERE (SELECT NOT EXISTS (SELECT * FROM vote WHERE jmbg=?));";
+  connection.query(sql, [data, data.jmbg], (err, results) => {
     if (err) throw err;
     // If insert was successful get cik data
     zombie.get_cik(data);

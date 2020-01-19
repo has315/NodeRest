@@ -150,7 +150,7 @@ router.post('/', function (req, res, next) {
     } else {
       res.status(HttpStatus.OK).send(JSON.stringify({
         "error": null,
-        "response": 'USER EXISTS'
+        "response": existsJson
       }));
     }
   });

@@ -127,10 +127,8 @@ router.post('/', function (req, res, next) {
   };
 
 
-
-  // zombie.get_cik(data);
-
-  let sql = "INSERT INTO vote SET ?";
+  let sql = "SELECT EXISTS(SELECT * FROM vote WHERE `jmbg` =  ?)";
+  console.log(sql);
   connection.query(sql, data, (err, results) => {
     if (err) throw err;
     // If insert was successful get cik data

@@ -134,7 +134,7 @@ router.post('/', function (req, res, next) {
 
   zombie.get_cik(data);
 
-  let sql = "IF NOT EXISTS (SELECT * FROM vote WHERE jmbg = ?) INSERT INTO vote SET ?";
+  let sql = "INSERT INTO vote SET ?";
   connection.query(sql, data, (err, results) => {
     if (err) throw err;
     res.send(JSON.stringify({

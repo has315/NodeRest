@@ -135,8 +135,8 @@ router.post('/', function (req, res, next) {
     const existsJson = [{
       exists: Object.values(resultsJson[0])[0]
     }];
-    if (existsJson.exists[0] == 0) {
-      let sql_update
+    if (existsJson == 0) {
+      let sql_update = "INSERT INTO vote SET ?"
       connection.query(sql_update, data, (err, results) => {
         console.log('from second con query');
         if (err) throw err;
@@ -144,13 +144,13 @@ router.post('/', function (req, res, next) {
         // zombie.get_cik(data);
         res.status(HttpStatus.OK).send(JSON.stringify({
           "error": null,
-          "response": existsJson.exists[0]
+          "response": existsJson
         }));
       });
     } else {
       res.status(HttpStatus.OK).send(JSON.stringify({
         "error": null,
-        "response": existsJson.exists[0]
+        "response": existsJson
       }));
     }
   });

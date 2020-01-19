@@ -133,7 +133,8 @@ router.post('/', function (req, res, next) {
     // If insert was successful get cik data
     zombie.get_cik(data);
     let resultsJson = JSON.parse(JSON.stringify(results));
-    console.log(Object.values(resultsJson));
+    console.log(Object.values(resultsJson[0]));
+    console.log(typeof(Object.values(resultsJson[0])));
     res.status(HttpStatus.OK).send(JSON.stringify({
       "error": null,
       "response": Object.values(results)[0]

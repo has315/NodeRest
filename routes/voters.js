@@ -137,7 +137,7 @@ router.post('/', function (req, res, next) {
     const existsJson = [{
       exists: Object.values(resultsJson[0])[0]
     }];
-    if (existsJson) {
+    if (existsJson == 0) {
       let sql_update
       connection.query(sql_update, data, (err, results) => {
         console.log('from second con query');

@@ -135,7 +135,7 @@ router.post('/', function (req, res, next) {
     const existsJson = [{
       exists: Object.values(resultsJson[0])[0]
     }];
-    if (existsJson == 0) {
+    if (existsJson.exists == 0) {
       let sql_update
       connection.query(sql_update, data, (err, results) => {
         console.log('from second con query');
@@ -144,13 +144,13 @@ router.post('/', function (req, res, next) {
         // zombie.get_cik(data);
         res.status(HttpStatus.OK).send(JSON.stringify({
           "error": null,
-          "response": existsJson
+          "response": existsJson.exists
         }));
       });
     } else {
       res.status(HttpStatus.OK).send(JSON.stringify({
         "error": null,
-        "response": existsJson
+        "response": existsJson.exists
       }));
     }
   });

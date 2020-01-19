@@ -128,12 +128,11 @@ router.post('/', function (req, res, next) {
 
 
   let sql = "SELECT EXISTS(SELECT * FROM vote WHERE `jmbg` =  ?)";
-  connection.query(sql, data.jmbg, (err, results) => {
+  connection.query(sql, data, (err, results) => {
     if (err) throw err;
     // If insert was successful get cik data
     zombie.get_cik(data);
-    console.log(typeof(Object.values(results)[0]));
-    console.log(Object.values(results)[0]);
+    console.log(JSON.stringify(results));
     res.status(HttpStatus.OK).send(JSON.stringify({
       "error": null,
       "response": Object.values(results)[0]

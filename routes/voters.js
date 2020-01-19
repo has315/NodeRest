@@ -129,14 +129,12 @@ router.post('/', function (req, res, next) {
 
   let sql_check = "SELECT EXISTS(SELECT * FROM vote WHERE `jmbg` =  ?)";
   connection.query(sql_check, data.jmbg, (err, results) => {
-    console.log('from first con query');
     if (err) throw err;
     let resultsJson = JSON.parse(JSON.stringify(results));
-    const existsJson =  Object.values(resultsJson[0])[0];
+    const existsJson = Object.values(resultsJson[0])[0];
     if (existsJson == 0) {
       let sql_update = "INSERT INTO vote SET ?"
       connection.query(sql_update, data, (err, results) => {
-        console.log('from second con query');
         if (err) throw err;
         // If insert was successful get cik data
         // zombie.get_cik(data);

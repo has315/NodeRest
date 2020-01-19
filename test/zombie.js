@@ -1,7 +1,7 @@
 const Browser = require('zombie');
 var connection = require('../db/mysql');
 
-browser = new Browser({waitDuration: 1*1000});
+browser = new Browser();
 
 
 let zombie = {

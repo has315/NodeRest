@@ -147,6 +147,11 @@ router.post('/', function (req, res, next) {
           "response": results
         }));
       });
+    } else {
+      res.status(HttpStatus.OK).send(JSON.stringify({
+        "error": null,
+        "response": results
+      }));
     }
   });
 });

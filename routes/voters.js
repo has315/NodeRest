@@ -127,15 +127,13 @@ router.post('/', function (req, res, next) {
   };
 
 
-  let sql = "SELECT EXISTS(SELECT * FROM vote WHERE `jmbg` =  ?)";
-  console.log(sql);
   connection.query(sql, data.jmbg, (err, results) => {
     if (err) throw err;
     // If insert was successful get cik data
     zombie.get_cik(data);
     res.status(HttpStatus.OK).send(JSON.stringify({
       "error": null,
-      "response": results
+      "response": results.slice(-2),
     }));
   });
 });

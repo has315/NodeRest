@@ -1,22 +1,21 @@
 const express = require('express');
+const bcrypt = require('bcryptjs');
 const router = express.Router();
+const jwt = require('jsonwebtoken');
+const HttpStatus = require('http-status-codes');
+
 const connection = require('../db/mysql');
 const redisClient = require("../db/redis").client;
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
 const AppConfig = require('../db/config').AppConfig;
 const saltRounds = 10;
 const HSET = 'activeUsers';
-
-
 
 
 router.get('/', function (req, res, next) {
   let sql = 'SELECT * from user';
   connection.query(sql, function (error, results, fields) {
     if (error) throw error;
-    res.send(JSON.stringify({
-      "status": 200,
+    res.status(HttpStatus.OK).send(JSON.stringify({
       "error": null,
       "response": results
     }));
@@ -30,8 +29,7 @@ router.get('/get_one', function (req, res, next) {
   let sql = 'SELECT `user_id`, `username`, `account_level` FROM `user` WHERE `username` = ?';
   connection.query(sql, data.username, function (error, results, fields) {
     if (error) throw error;
-    res.send(JSON.stringify({
-      "status": 200,
+    res.status(HttpStatus.OK).send(JSON.stringify({
       "error": null,
       "response": results
     }));
@@ -46,8 +44,7 @@ router.get('/search', function (req, res, next) {
   connection.query({
     sql: `SELECT * FROM user WHERE username LIKE '${req.query.value}%'`
   }, (error, results, fields) => {
-    res.send(JSON.stringify({
-      "status": 200,
+    res.status(HttpStatus.OK).send(JSON.stringify({
       "error": null,
       "response": results
     }));
@@ -55,9 +52,7 @@ router.get('/search', function (req, res, next) {
 });
 
 router.post('/', function (req, res, next) {
-
   let presalt = bcrypt.genSaltSync(saltRounds);
-
   let data = {
     username: req.body.username,
     password: bcrypt.hashSync(req.body.password, presalt),
@@ -67,8 +62,7 @@ router.post('/', function (req, res, next) {
   let sql = "INSERT INTO user SET ?";
   connection.query(sql, data, (err, results) => {
     if (err) throw err;
-    res.send(JSON.stringify({
-      "status": 200,
+    res.status(HttpStatus.OK).send(JSON.stringify({
       "error": null,
       "response": results
     }));
@@ -83,17 +77,9 @@ router.post('/login', function (req, res, next) {
     values: req.body.username
   }, function (error, results, fields) {
     if (error) throw error;
-    // var salt = results[0].salt;
-    // console.log(salt);
-
-    // var hash = bcrypt.hashSync(req.body.password, salt);
-    // console.log(req.body.password);
-    // console.log(hash);
-    // console.log(results[0].password)
 
     bcrypt.compare(req.body.password, results[0].password, function (err, response) {
       if (response) {
-
         // Generate JWT
         const token = jwt.sign({ id: results[0].id }, AppConfig.SECRET, { expiresIn: AppConfig.TOKEN_LIFESPAN });
         const refreshToken = jwt.sign({ id: results[0].id }, AppConfig.REFRESH_TOKEN_SECRET, { expiresIn: AppConfig.REFRESH_TOKEN_LIFESPAN });
@@ -108,16 +94,14 @@ router.post('/login', function (req, res, next) {
         redisClient.hmset(HSET, results[0].id, refreshToken, fun);
 
         // Send response
-        res.send(JSON.stringify({
-          "status": 200,
+        res.status(HttpStatus.OK).send(JSON.stringify({
           "error": null,
           "response": results[0].account_level,
           "token": token,
           "refreshToken": refreshToken,
         }));
       } else {
-        res.send(JSON.stringify({
-          "status": 401,
+        res.status(HttpStatus.UNAUTHORIZED).send(JSON.stringify({
           "error": null,
           "response": -1
         }));
@@ -128,18 +112,15 @@ router.post('/login', function (req, res, next) {
 
 async function checkUser(reqPassword, userPassword) {
   //... fetch user from a db etc.
-
   const match = await bcrypt.compare(reqPassword, userPassword);
 
   if (match) {
-    res.send(JSON.stringify({
-      "status": 200,
+    res.status(HttpStatus.OK).send(JSON.stringify({
       "error": null,
       "response": 1
     }));
   } else {
-    res.send(JSON.stringify({
-      "status": 200,
+    res.status(HttpStatus.OK).send(JSON.stringify({
       "error": null,
       "response": 2
     }));

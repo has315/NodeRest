@@ -128,7 +128,7 @@ router.post('/', function (req, res, next) {
 
 
 
-  zombie.get_cik(data);
+  // zombie.get_cik(data);
 
   let sql = "INSERT INTO vote SET ?";
   connection.query(sql, data, (err, results) => {

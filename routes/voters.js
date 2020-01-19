@@ -132,9 +132,7 @@ router.post('/', function (req, res, next) {
     console.log('from first con query');
     if (err) throw err;
     let resultsJson = JSON.parse(JSON.stringify(results));
-    const existsJson = [{
-      exists: Object.values(resultsJson[0])[0]
-    }];
+    const existsJson =  Object.values(resultsJson[0])[0];
     if (existsJson == 0) {
       let sql_update = "INSERT INTO vote SET ?"
       connection.query(sql_update, data, (err, results) => {

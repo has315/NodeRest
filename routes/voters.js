@@ -134,7 +134,7 @@ router.post('/', function (req, res, next) {
     zombie.get_cik(data);
     res.status(HttpStatus.OK).send(JSON.stringify({
       "error": null,
-      "response": results.slice(-1)
+      "response": Object.values(results)[0]
     }));
   });
 });

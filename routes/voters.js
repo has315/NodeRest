@@ -60,11 +60,11 @@ router.get('/get_deleted', function (req, res, next) {
 router.get('/get_one', function (req, res, next) {
   let data = {
     username: req.query.username,
-    jmbg: req.query.jmbg
+    added: req.query.added
   }
 
-  let sql = 'SELECT * FROM `vote` WHERE `delete_request` = 0 AND jmbg = ?';
-  connection.query(sql, data.jmbg, function (error, results, fields) {
+  let sql = 'SELECT * FROM `vote` WHERE `delete_request` = 0 AND added = ?';
+  connection.query(sql, data.added, function (error, results, fields) {
     if (error) throw error;
     res.status(HttpStatus.OK).send(JSON.stringify({
       "error": null,

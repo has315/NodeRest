@@ -63,7 +63,7 @@ router.get('/get_one', function (req, res, next) {
     vote_id: req.query.vote_id
   }
 
-  let sql = 'SELECT * FROM `vote` WHERE `delete_request` = 0 AND vote_id = ?';
+  let sql = "SELECT * FROM `vote` WHERE `delete_request` = 0 AND vote_id = ?";
   connection.query(sql, data.added, function (error, results, fields) {
     if (error) throw error;
     res.status(HttpStatus.OK).send(JSON.stringify({

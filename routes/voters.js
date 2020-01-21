@@ -98,7 +98,7 @@ router.post('/edit_request', function (req, res, next) {
 
 
 // DECLINE AND DELETE VOTE EDIT ENTRY
-router.post('/edit_request_decline', function (req, res, next) {
+router.post('/edit_request_delete', function (req, res, next) {
   let data = {
     jmbg: req.body.jmbg
   }

@@ -60,10 +60,10 @@ router.get('/get_deleted', function (req, res, next) {
 router.get('/get_one', function (req, res, next) {
   let data = {
     username: req.query.username,
-    added: req.query.added
+    vote_id: req.query.vote_id
   }
 
-  let sql = 'SELECT * FROM `vote` WHERE `delete_request` = 0 AND added = ?';
+  let sql = 'SELECT * FROM `vote` WHERE `delete_request` = 0 AND vote_id = ?';
   connection.query(sql, data.added, function (error, results, fields) {
     if (error) throw error;
     res.status(HttpStatus.OK).send(JSON.stringify({
@@ -76,13 +76,14 @@ router.get('/get_one', function (req, res, next) {
 // INSERT EDITED VOTE
 router.post('/edit_request', function (req, res, next) {
   let data = {
+    vote_id: req.body.vote_id,
     first_name: req.body.first_name,
     last_name: req.body.last_name,
     jmbg: req.body.jmbg,
     phone_number: req.body.phone_number,
     delegated: req.body.delegated,
     added: req.body.added
-  }
+  };
   zombie.get_cik(data);
 
   let sql = "INSERT INTO vote_edit SET ?";

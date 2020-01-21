@@ -51,8 +51,8 @@ CREATE TABLE IF NOT EXISTS vote_edit (
      )
     ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE VIEW voters_full_view AS
-SELECT vote.first_name, vote.last_name, vote.jmbg, 
+CREATE VIEW vote_full_view AS
+SELECT vote.vote_id, vote.first_name, vote.last_name, vote.jmbg, 
 vote.phone_number, vote.delegated, vote.added, user.username, 
 vote.delete_request, vote.voting_location, 
 vote.voting_location_address, vote.voting_location_name, 
@@ -62,7 +62,7 @@ INNER JOIN user ON user.user_id = vote.added;
 SELECT * FROM voters_full WHERE added = ? ;
 
 CREATE VIEW vote_edit_full_view AS
-SELECT vote_edit.first_name, vote_edit.last_name, vote_edit.jmbg, 
+SELECT vote_edit.vote_id, vote_edit.first_name, vote_edit.last_name, vote_edit.jmbg, 
 vote_edit.phone_number, vote_edit.delegated, vote_edit.added, 
 user.username, vote_edit.voting_location, 
 vote_edit.voting_location_address, vote_edit.voting_location_name, 

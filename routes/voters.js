@@ -14,7 +14,7 @@ router.get('/all', function (req, res, next) {
     });
   }
 
-  var sql = 'SELECT * FROM voters_full_view WHERE delete_request = 0';
+  var sql = 'SELECT * FROM vote_full_view WHERE delete_request = 0';
   let id = req.query.id;
   let callback = (err, results) => {
     if (err) throw err;

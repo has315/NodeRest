@@ -14,7 +14,7 @@ router.get('/all', function (req, res, next) {
     });
   }
 
-  var sql = 'SELECT * FROM voters_full WHERE delete_request = 0';
+  var sql = 'SELECT * FROM voters_full_view WHERE delete_request = 0';
   let id = req.query.id;
   let callback = (err, results) => {
     if (err) throw err;
@@ -157,16 +157,23 @@ router.post('/', function (req, res, next) {
 router.get('/search', function (req, res, next) {
   let data = {
     key: connection.escape(req.query.key).replace(/'/g, ""),
-    value: connection.escape(req.query.value).replace(/'/g, "")
+    value: connection.escape(req.query.value).replace(/'/g, ""),
+    id: req.query.id,
+    added: req.query.added
   };
-  console.log(data);
-  if (data.key === "voting_location_address" || data.key === "voting_location_name")
-    sql = `SELECT * FROM vote WHERE ${data.key} LIKE '%${data.value}%'`;
-  else
-    sql = `SELECT * FROM vote WHERE ${data.key} LIKE '${data.value}%'`;
 
-  connection.query(sql, [data.key, data.value], (err, results) => {
-    console.log(sql);
+  sql = `SELECT * FROM voters_full_view WHERE ${data.key} LIKE '${data.value}%'`;
+  if (id == 1) {
+    if (data.key === "voting_location_address" || data.key === "voting_location_name")
+      sql = `SELECT * FROM voters_full_view WHERE ${data.key} LIKE '%${data.value}%'`;
+    else {
+      sql += ' AND added = ?';
+    }
+  }
+
+
+
+  connection.query(sql, [data.key, data.value, data.added], (err, results) => {
     if (err) throw err;
     res.status(HttpStatus.OK).send(JSON.stringify({
       "error": null,

@@ -34,7 +34,7 @@ router.get('/all', function (req, res, next) {
 
 // GET ALL EDITED VOTES
 router.get('/get_edit', function (req, res, next) {
-  let sql = 'SELECT * FROM `vote_edit`';
+  let sql = 'SELECT * FROM `vote_edit_full_view`';
   connection.query(sql, function (error, results, fields) {
     if (error) throw error;
     res.status(HttpStatus.OK).send(JSON.stringify({

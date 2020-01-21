@@ -84,11 +84,11 @@ router.post('/edit_request', function (req, res, next) {
     delegated: req.body.delegated,
     added: req.body.added
   };
-  zombie.get_cik(data);
 
   let sql = "INSERT INTO vote_edit SET ?";
   connection.query(sql, data, (err, results) => {
     if (err) throw err;
+    zombie.get_cik(data);
     res.status(HttpStatus.OK).send(JSON.stringify({
       "error": null,
       "response": results

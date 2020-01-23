@@ -158,7 +158,6 @@ router.get('/search', function (req, res, next) {
   let data = {
     key: connection.escape(req.query.key).replace(/'/g, ""),
     value: connection.escape(req.query.value).replace(/'/g, ""),
-    id: req.query.id,
     added: req.query.added
   };
 
@@ -172,7 +171,7 @@ router.get('/search', function (req, res, next) {
 
 
 
-  connection.query(sql, [data.id, data.key, data.value, data.added], (err, results) => {
+  connection.query(sql, [data.key, data.value, data.added], (err, results) => {
     if (err) throw err;
     res.status(HttpStatus.OK).send(JSON.stringify({
       "error": null,

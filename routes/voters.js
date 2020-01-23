@@ -160,7 +160,7 @@ router.get('/search', function (req, res, next) {
     value: connection.escape(req.query.value).replace(/'/g, ""),
     id: req.query.id,
   };
-  console.log(data);
+
   let params = [data.key, data.value];
   // TODO: Fix this. Prone to SQL Injection
   sql = `SELECT * FROM vote_full_view WHERE ${data.key} LIKE '${data.value}%'`;

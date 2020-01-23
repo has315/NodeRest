@@ -167,10 +167,10 @@ router.get('/search', function (req, res, next) {
   if (id == 1) {
     if (data.key === "voting_location_address" || data.key === "voting_location_name")
       sql = `SELECT * FROM vote_full_view WHERE ${data.key} LIKE '%${data.value}%'`;
-    else {
-      sql += ' AND added = ?';
-      params.push(data.id);
-    }
+  }
+  else {
+    sql += ' AND added = ?';
+    params.push(data.id);
   }
 
   connection.query(sql, params, (err, results) => {

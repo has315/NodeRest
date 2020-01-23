@@ -172,7 +172,7 @@ router.get('/search', function (req, res, next) {
 
 
 
-  connection.query(sql, [data.key, data.value, data.added], (err, results) => {
+  connection.query(sql, [data.id, data.key, data.value, data.added], (err, results) => {
     if (err) throw err;
     res.status(HttpStatus.OK).send(JSON.stringify({
       "error": null,

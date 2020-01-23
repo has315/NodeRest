@@ -169,10 +169,10 @@ router.get('/search', function (req, res, next) {
       sql = `SELECT * FROM vote_full_view WHERE ${data.key} LIKE '%${data.value}%'`;
   }
   else {
-    sql += ' AND added = ?';
+    sql += ` AND added = ${data.id}`;
     params.push(data.id);
   }
-
+  console.log(sql);
   connection.query(sql, params, (err, results) => {
     if (err) throw err;
     res.status(HttpStatus.OK).send(JSON.stringify({

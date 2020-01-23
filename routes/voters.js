@@ -161,6 +161,7 @@ router.get('/search', function (req, res, next) {
     id: req.query.id,
   };
 
+  let params = [data.key, data.value];
   // TODO: Fix this. Prone to SQL Injection
   sql = `SELECT * FROM vote_full_view WHERE ${data.key} LIKE '${data.value}%'`;
   if (id == 1) {
@@ -168,12 +169,11 @@ router.get('/search', function (req, res, next) {
       sql = `SELECT * FROM vote_full_view WHERE ${data.key} LIKE '%${data.value}%'`;
     else {
       sql += ' AND added = ?';
+      params.push(data.id);
     }
   }
 
-
-
-  connection.query(sql, [data.key, data.value, data.id], (err, results) => {
+  connection.query(sql, params, (err, results) => {
     if (err) throw err;
     res.status(HttpStatus.OK).send(JSON.stringify({
       "error": null,

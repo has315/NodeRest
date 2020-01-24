@@ -18,10 +18,17 @@ router.get('/all', function (req, res, next) {
   let id = req.query.id;
   let callback = (err, results) => {
     if (err) throw err;
-    res.status(HttpStatus.OK).send(JSON.stringify({
-      "error": null,
-      "response": results
-    }));
+    if (response)
+      res.status(HttpStatus.OK).send(JSON.stringify({
+        "error": null,
+        "response": results
+      }));
+    else {
+      return res.status(HttpStatus.NOT_FOUND).json({
+        status: "error",
+        message: "Vote not found"
+      });
+    }
   };
 
   if (id == 1) {
@@ -181,11 +188,13 @@ router.get('/search', function (req, res, next) {
   let data = {
     key: connection.escape(req.query.key).replace(/'/g, ""),
     value: connection.escape(req.query.value).replace(/'/g, ""),
-    added: req.query.added
+    id: req.query.id
+
   };
+  console.log(data);
 
   sql = `SELECT * FROM voters_full_view WHERE ${data.key} LIKE '${data.value}%'`;
-  if (id == 1) {
+  if (data.id == 1) {
     if (data.key === "voting_location_address" || data.key === "voting_location_name")
       sql = `SELECT * FROM voters_full_view WHERE ${data.key} LIKE '%${data.value}%'`;
   } else {
@@ -194,7 +203,7 @@ router.get('/search', function (req, res, next) {
 
 
 
-  connection.query(sql, [data.key, data.value, data.added], (err, results) => {
+  connection.query(sql, [data.key, data.value, data.id], (err, results) => {
     if (err) throw err;
     res.status(HttpStatus.OK).send(JSON.stringify({
       "error": null,

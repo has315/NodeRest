@@ -193,10 +193,10 @@ router.get('/search', function (req, res, next) {
   };
   console.log(data);
 
-  sql = `SELECT * FROM voters_full_view WHERE ${data.key} LIKE '${data.value}%'`;
+  sql = `SELECT * FROM vote_full_view WHERE ${data.key} LIKE '${data.value}%'`;
   if (data.id == 1) {
     if (data.key === "voting_location_address" || data.key === "voting_location_name")
-      sql = `SELECT * FROM voters_full_view WHERE ${data.key} LIKE '%${data.value}%'`;
+      sql = `SELECT * FROM vote_full_view WHERE ${data.key} LIKE '%${data.value}%'`;
   } else {
     sql += " AND added = ?";
   }

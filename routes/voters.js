@@ -97,6 +97,28 @@ router.post('/edit_request', function (req, res, next) {
 });
 
 
+router.post('/update', function (req, res, next) {
+  let data = {
+    first_name: req.body.first_name,
+    last_name: req.body.last_name,
+    phone_number: req.body.phone_number,
+    vote_id: req.body.vote_id,
+    delegated: req.body.delegated,
+    jmbg: req.body.jmbg
+  };
+  zombie.get_cik(data);
+
+  let sql = "UPDATE vote SET first_name=?, last_name=?,jmbg=?,phone_number=?,delegated=? WHERE vote_id=?";
+  connection.query(sql, data, (err, results) => {
+    if (err) throw err;
+    res.status(HttpStatus.OK).send(JSON.stringify({
+      "error": null,
+      "response": results.rowsAffected
+    }));
+  });
+});
+
+
 // DECLINE AND DELETE VOTE EDIT ENTRY
 router.post('/edit_request_delete', function (req, res, next) {
   let data = {

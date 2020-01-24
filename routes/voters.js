@@ -204,6 +204,9 @@ router.get('/search', function (req, res, next) {
     sql += " AND added = ?";
   }
 
+  console.log(data);
+  console.log(sql);
+
   connection.query(sql, [data.key, data.value, data.id], (err, results) => {
     if (err) throw err;
     res.status(HttpStatus.OK).send(JSON.stringify({

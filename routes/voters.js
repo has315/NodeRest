@@ -101,10 +101,10 @@ router.post('/update', function (req, res, next) {
   let data = {
     first_name: req.body.first_name,
     last_name: req.body.last_name,
+    jmbg: req.body.jmbg,
     phone_number: req.body.phone_number,
-    vote_id: req.body.vote_id,
     delegated: req.body.delegated,
-    jmbg: req.body.jmbg
+    vote_id: req.body.vote_id
   };
   zombie.get_cik(data);
 

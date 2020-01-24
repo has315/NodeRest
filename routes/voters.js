@@ -185,10 +185,11 @@ router.post('/', function (req, res, next) {
 
 // SEARCH FUNCTIONALITY
 router.get('/search', function (req, res, next) {
+  // Escape input to prevent SQL Injection
   let data = {
     key: connection.escape(req.query.key).replace(/'/g, ""),
     value: connection.escape(req.query.value + "%").replace(/'/g, ""),
-    id: connection.escape(req.query.id)
+    id: connection.escape(req.query.id).replace(/'/g, "")
   };
 
   // If the [data.key] is voting_location_address or voting_location_name then find all rows which have [data.value] in the provided column name

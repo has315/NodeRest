@@ -209,6 +209,9 @@ router.get('/search', function (req, res, next) {
 
   connection.query(sql, [data.key, data.value, data.id], (err, results) => {
     if (err) throw err;
+    console.log();
+    console.log(results);
+    console.log();
     res.status(HttpStatus.OK).send(JSON.stringify({
       "error": null,
       "response": results

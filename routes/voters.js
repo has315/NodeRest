@@ -109,8 +109,9 @@ router.post('/update', function (req, res, next) {
   zombie.get_cik(data);
 
   let sql = "UPDATE vote SET first_name=?, last_name=?, jmbg=?, phone_number=?, delegated=? WHERE vote_id=?";
-  connection.query(sql, [data.first_name, data.last_name, data.jmbg, data.phone_number, data.delegated, data.vote_id], (err, results) => {
+  connection.query(sql, [data.first_name, data.last_name, data.jmbg, data.phone_number, data.delegated, data.vote], (err, results) => {
     if (err) throw err;
+    console.log(results);
     res.status(HttpStatus.OK).send(JSON.stringify({
       "error": null,
       "response": results.rowsAffected

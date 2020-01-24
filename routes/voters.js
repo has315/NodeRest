@@ -192,26 +192,18 @@ router.get('/search', function (req, res, next) {
   };
 
   // By default search should find all rows which [data.key] column starts with [data.value]
-  data.value += "%";
-  sql = `SELECT * FROM vote_full_view WHERE ? LIKE ?`;
+  sql = `SELECT * FROM vote_full_view WHERE ? LIKE CONCAT(?,'%')`;
   if (data.id == 1) {
     if (data.key === "voting_location_address" || data.key === "voting_location_name") {
       // If the [data.key] is voting_location_address or voting_location_name then find all rows which have [data.value] in the provided column name
-      sql = `SELECT * FROM vote_full_view WHERE ? LIKE ?`;
-      data.value = "%" + data.value
+      sql = `SELECT * FROM vote_full_view WHERE ? LIKE CONCAT('%',?,'%')`;
     }
   } else {
     sql += " AND added = ?";
   }
 
-  console.log(data);
-  console.log(sql);
-
   connection.query(sql, [data.key, data.value, data.id], (err, results) => {
     if (err) throw err;
-    console.log();
-    console.log(results);
-    console.log();
     res.status(HttpStatus.OK).send(JSON.stringify({
       "error": null,
       "response": results

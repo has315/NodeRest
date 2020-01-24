@@ -189,13 +189,17 @@ router.get('/search', function (req, res, next) {
     key: connection.escape(req.query.key).replace(/'/g, ""),
     value: connection.escape(req.query.value).replace(/'/g, ""),
     id: req.query.id
-
   };
 
-  sql = `SELECT * FROM vote_full_view WHERE ${data.key} LIKE '${data.value}%'`;
+  // By default search should find all rows which [data.key] column starts with [data.value]
+  data.value += "%";
+  sql = `SELECT * FROM vote_full_view WHERE ? LIKE ?`;
   if (data.id == 1) {
-    if (data.key === "voting_location_address" || data.key === "voting_location_name")
-      sql = `SELECT * FROM vote_full_view WHERE ${data.key} LIKE '%${data.value}%'`;
+    if (data.key === "voting_location_address" || data.key === "voting_location_name") {
+      // If the [data.key] is voting_location_address or voting_location_name then find all rows which have [data.value] in the provided column name
+      sql = `SELECT * FROM vote_full_view WHERE ? LIKE ?`;
+      data.value = "%" + data.value
+    }
   } else {
     sql += " AND added = ?";
   }

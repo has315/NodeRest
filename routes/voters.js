@@ -18,7 +18,7 @@ router.get('/all', function (req, res, next) {
   let id = req.query.id;
   let callback = (err, results) => {
     if (err) throw err;
-    if (response)
+    if (results)
       res.status(HttpStatus.OK).send(JSON.stringify({
         "error": null,
         "response": results
@@ -191,7 +191,6 @@ router.get('/search', function (req, res, next) {
     id: req.query.id
 
   };
-  console.log(data);
 
   sql = `SELECT * FROM vote_full_view WHERE ${data.key} LIKE '${data.value}%'`;
   if (data.id == 1) {
@@ -200,8 +199,6 @@ router.get('/search', function (req, res, next) {
   } else {
     sql += " AND added = ?";
   }
-
-
 
   connection.query(sql, [data.key, data.value, data.id], (err, results) => {
     if (err) throw err;

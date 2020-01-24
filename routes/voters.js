@@ -193,12 +193,15 @@ router.get('/search', function (req, res, next) {
 
   // By default search should find all rows which [data.key] column starts with [data.value]
   sql = `SELECT * FROM vote_full_view WHERE ? LIKE ?`;
-  if (data.id == 1) {
-    if (data.key === "voting_location_address" || data.key === "voting_location_name") {
-      // If the [data.key] is voting_location_address or voting_location_name then find all rows which have [data.value] in the provided column name
-      data.value = "%" + data.value;
-    }
-  } else {
+
+  // If the [data.key] is voting_location_address or voting_location_name then find all rows which have [data.value] in the provided column name
+  if (data.key === "voting_location_address" || data.key === "voting_location_name") {
+    data.value = "%" + data.value;
+  }
+
+  // Only admin can search all votes
+  // Clients can search only the votes which they have added
+  if (data.id != 1) {
     sql += " AND added = ?";
   }
 

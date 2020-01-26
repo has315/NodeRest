@@ -12,7 +12,6 @@ var debug = require('debug')('newproject:server');
 
 var port = 3005;
 
-
 var app = express();
 
 app.use(logger('dev'));

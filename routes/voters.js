@@ -204,9 +204,6 @@ router.get('/search', function (req, res, next) {
   if (data.id != 1) {
     sql += ` AND added = ${data.id}`;
   }
-  // DELETE
-  console.log(data);
-  console.log(sql);
 
   connection.query(sql, [], (err, results) => {
     if (err) throw err;
@@ -249,7 +246,7 @@ router.post('/delete', function (req, res, next) {
   });
 });
 
-// DECLINE DELETION AND  SETS DELETION FLAG TO 0
+// DECLINE DELETE AND  SETS DELETION FLAG TO 0
 router.post('/delete_decline', function (req, res, next) {
   let data = {
     jmbg: req.body.jmbg

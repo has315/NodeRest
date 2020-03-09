@@ -250,7 +250,7 @@ router.post('/delete', function (req, res, next) {
 // DECLINE DELETE AND  SETS DELETION FLAG TO 0
 router.post('/delete_decline', function (req, res, next) {
   let data = {
-    jmbg: req.body.jmbg
+    vote_id: req.body.vote_id
   };
 
   let sql = 'UPDATE `vote` SET `delete_request` = 0 WHERE jmbg = ?';

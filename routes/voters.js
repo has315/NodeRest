@@ -233,12 +233,12 @@ router.post('/delete_request', function (req, res, next) {
 // DELETE FROM VOTE
 router.post('/delete', function (req, res, next) {
   let data = {
-    vote_id: req.body.vote_id
+    jmbg: req.body.jmbg
   };
 
-  let sql = 'DELETE FROM `vote` WHERE vote_id = ?';
+  let sql = 'DELETE FROM `vote` WHERE jmbg = ?';
 
-  connection.query(sql, data.vote_id, (err, results) => {
+  connection.query(sql, data.jmbg, (err, results) => {
     if (err) throw err;
     res.status(HttpStatus.OK).send(JSON.stringify({
       "error": null,

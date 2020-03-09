@@ -12,7 +12,7 @@ const HSET = 'activeUsers';
 
 
 router.get('/', function (req, res, next) {
-  let sql = 'SELECT * from user';
+  let sql = 'SELECT * from viewUsers';
   connection.query(sql, function (error, results, fields) {
     if (error) throw error;
     res.status(HttpStatus.OK).send(JSON.stringify({

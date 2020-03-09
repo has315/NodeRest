@@ -236,7 +236,7 @@ router.post('/delete', function (req, res, next) {
     vote_id: req.body.vote_id
   };
 
-  let sql = 'DELETE FROM `vote` WHERE vote_id = ?; DELETE FROM `vote_edit_full_view` WHERE vote_id = ?';
+  let sql = 'DELETE FROM `vote` WHERE vote_id = ?';
 
   connection.query(sql, data.vote_id, (err, results) => {
     if (err) throw err;

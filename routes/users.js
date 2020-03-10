@@ -85,7 +85,7 @@ router.post('/login', function (req, res, next) {
     let resultsJson = JSON.parse(JSON.stringify(results));
     const existsJson = Object.values(resultsJson[0])[0];
     if (existsJson == 0) {
-      bcrypt.compare(req.body.password, results[0].password, function (err, response) {
+     let check = bcrypt.compare(req.body.password, results[0].password, function (err, response) {
         if (response) {
           // Generate JWT
           const token = jwt.sign({ id: results[0].id }, AppConfig.SECRET, { expiresIn: AppConfig.TOKEN_LIFESPAN });
@@ -99,7 +99,15 @@ router.post('/login', function (req, res, next) {
           // Store refreshToken in Redis
           redisClient.set("key", "value", fun);
           redisClient.hmset(HSET, results[0].id, refreshToken, fun);
-  
+        } else { 
+        res.status(HttpStatus.UNAUTHORIZED).send(JSON.stringify({
+          "error": null,
+          "response": -1
+          }));
+        }
+      });
+    } 
+    if(check) {
           // Send response
           res.status(HttpStatus.OK).send(JSON.stringify({
             "error": null,
@@ -107,17 +115,12 @@ router.post('/login', function (req, res, next) {
             "token": token,
             "refreshToken": refreshToken,
           }));
-        } 
-       return res.status(HttpStatus.UNAUTHORIZED).send(JSON.stringify({
-          "error": null,
-          "response": -1
+    } else {
+      res.status(HttpStatus.UNAUTHORIZED).send(JSON.stringify({
+        "error": null,
+        "response": -1
         }));
-      });
-    } 
-     return res.status(HttpStatus.UNAUTHORIZED).send(JSON.stringify({
-      "error": null,
-      "response": -1
-    }));
+    }
   });
 });
 

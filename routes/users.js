@@ -78,6 +78,7 @@ router.post('/login', function (req, res, next) {
   }, function (error, results, fields) {
     console.log(password)
     if (error) throw error;
+    console.log(results);
     if(results[0].password !== 'undefined'){
       bcrypt.compare(req.body.password, results[0].password, function (err, response) {
         if (response) {

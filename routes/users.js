@@ -80,7 +80,7 @@ router.post('/login', function (req, res, next) {
       console.log('step 1')
       bcrypt.compare(req.body.password, results[0].password, function (err, response) {
         console.log('step 2')
-        if (response == true) {
+        if (response) {
           console.log('step 3')
           // Generate JWT
           const token = jwt.sign({ id: results[0].id }, AppConfig.SECRET, { expiresIn: AppConfig.TOKEN_LIFESPAN });
@@ -106,8 +106,11 @@ router.post('/login', function (req, res, next) {
       });
       console.log('step 6')
     } 
-    console.log('step 7')
-  });
+      res.status(HttpStatus.UNAUTHORIZED).send(JSON.stringify({
+        "error": null,
+        "response": -1
+        }));
+      });
   console.log('step 8')
 });
 

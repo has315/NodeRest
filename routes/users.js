@@ -114,13 +114,12 @@ router.post('/login', function (req, res, next) {
           }));
         }
       });
-    } else {
-    res.status(HttpStatus.UNAUTHORIZED).send(JSON.stringify({
-      "error": null,
-      "response": -1
-    }));
-    }
+    } 
   });
+  res.status(HttpStatus.UNAUTHORIZED).send(JSON.stringify({
+    "error": null,
+    "response": -1
+  }));
 });
 
 async function checkUser(reqPassword, userPassword) {

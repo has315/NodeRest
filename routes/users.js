@@ -107,7 +107,7 @@ router.post('/login', function (req, res, next) {
             "token": token,
             "refreshToken": refreshToken,
           }));
-        } else {
+        } if(err) {
         res.status(HttpStatus.UNAUTHORIZED).send(JSON.stringify({
           "error": null,
           "response": -1

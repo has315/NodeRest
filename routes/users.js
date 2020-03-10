@@ -81,7 +81,6 @@ router.post('/login', function (req, res, next) {
   //   if (error) throw error;
   let sql_check = "SELECT EXISTS(SELECT * FROM `user` WHERE `username` =  ?)";
   connection.query(sql_check, req.body.username, (err, results) => {
-    console.log(results);
     if (err) throw err;
     let resultsJson = JSON.parse(JSON.stringify(results));
     const existsJson = Object.values(resultsJson[0])[0];
@@ -115,11 +114,12 @@ router.post('/login', function (req, res, next) {
           }));
         }
       });
-    }
+    } else {
     res.status(HttpStatus.UNAUTHORIZED).send(JSON.stringify({
       "error": null,
       "response": -1
     }));
+    }
   });
 });
 

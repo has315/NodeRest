@@ -72,14 +72,19 @@ router.post('/', function (req, res, next) {
 
 router.post('/login', function (req, res, next) {
 
-  connection.query({
-    sql: 'SELECT * FROM `user` WHERE `username` = ?',
-    values: req.body.username
-  }, function (error, results, fields) {
-    console.log(password)
-    if (error) throw error;
-    console.log(results);
-    if(results[0].password !== 'undefined'){
+  // connection.query({
+  //   sql: 'SELECT * FROM `user` WHERE `username` = ?',
+  //   values: req.body.username
+  // }, function (error, results, fields) {
+  //   console.log(password)
+  //   console.log(results);
+  //   if (error) throw error;
+  let sql_check = "SELECT EXISTS(SELECT * FROM `user` WHERE `username` =  ?)";
+  connection.query(sql_check, req.body.username, (err, results) => {
+    if (err) throw err;
+    let resultsJson = JSON.parse(JSON.stringify(results));
+    const existsJson = Object.values(resultsJson[0])[0];
+    if (existsJson == 0) {
       bcrypt.compare(req.body.password, results[0].password, function (err, response) {
         if (response) {
           // Generate JWT

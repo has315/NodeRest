@@ -114,6 +114,10 @@ router.post('/login', function (req, res, next) {
           }));
         }
       });
+      res.status(HttpStatus.UNAUTHORIZED).send(JSON.stringify({
+        "error": null,
+        "response": -1
+      }));
     } 
     res.status(HttpStatus.UNAUTHORIZED).send(JSON.stringify({
       "error": null,

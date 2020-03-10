@@ -166,8 +166,8 @@ router.post('/', function (req, res, next) {
     if (existsJson == 0) {
       let sql_update = "INSERT INTO vote SET ?"
       connection.query(sql_update, data, (err, results) => {
-        if (err) throw err;
         console.log(data);
+        if (err) throw err;
         // If insert was successful get cik data
         if(data.jmbg.length <= 11){
           zombie.get_cik(data);

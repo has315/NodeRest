@@ -80,7 +80,7 @@ router.post('/login', function (req, res, next) {
     if (error) throw error;
 
     bcrypt.compare(req.body.password, results[0].password, function (err, response) {
-      if (Object.keys(results).length === 0) {
+      if (results[0].password  !== 'undefined') {
         res.status(HttpStatus.UNAUTHORIZED).send(JSON.stringify({
           "error": null,
           "response": -1

@@ -78,36 +78,37 @@ router.post('/login', function (req, res, next) {
   }, function (error, results, fields) {
     console.log(password)
     if (error) throw error;
-
-    bcrypt.compare(req.body.password, results[0].password, function (err, response) {
-      if (response) {
-        // Generate JWT
-        const token = jwt.sign({ id: results[0].id }, AppConfig.SECRET, { expiresIn: AppConfig.TOKEN_LIFESPAN });
-        const refreshToken = jwt.sign({ id: results[0].id }, AppConfig.REFRESH_TOKEN_SECRET, { expiresIn: AppConfig.REFRESH_TOKEN_LIFESPAN });
-        const fun = function (err, reply) {
-          if (err)
-            throw err;
-          if (reply)
-            console.log(reply);
-        };
-        // Store refreshToken in Redis
-        redisClient.set("key", "value", fun);
-        redisClient.hmset(HSET, results[0].id, refreshToken, fun);
-
-        // Send response
-        res.status(HttpStatus.OK).send(JSON.stringify({
-          "error": null,
-          "response": results[0].account_level,
-          "token": token,
-          "refreshToken": refreshToken,
-        }));
-      } else {
-        res.status(HttpStatus.UNAUTHORIZED).send(JSON.stringify({
-          "error": null,
-          "response": -1
-        }));
-      }
-    });
+    if(results[0].password !== 'undefined'){
+      bcrypt.compare(req.body.password, results[0].password, function (err, response) {
+        if (response) {
+          // Generate JWT
+          const token = jwt.sign({ id: results[0].id }, AppConfig.SECRET, { expiresIn: AppConfig.TOKEN_LIFESPAN });
+          const refreshToken = jwt.sign({ id: results[0].id }, AppConfig.REFRESH_TOKEN_SECRET, { expiresIn: AppConfig.REFRESH_TOKEN_LIFESPAN });
+          const fun = function (err, reply) {
+            if (err)
+              throw err;
+            if (reply)
+              console.log(reply);
+          };
+          // Store refreshToken in Redis
+          redisClient.set("key", "value", fun);
+          redisClient.hmset(HSET, results[0].id, refreshToken, fun);
+  
+          // Send response
+          res.status(HttpStatus.OK).send(JSON.stringify({
+            "error": null,
+            "response": results[0].account_level,
+            "token": token,
+            "refreshToken": refreshToken,
+          }));
+        } else {
+          res.status(HttpStatus.UNAUTHORIZED).send(JSON.stringify({
+            "error": null,
+            "response": -1
+          }));
+        }
+      });
+    }
   });
 });
 

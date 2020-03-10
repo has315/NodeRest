@@ -9,6 +9,7 @@ var votersRouter = require('./routes/voters');
 var cors = require('cors');
 var http = require('http');
 var debug = require('debug')('newproject:server');
+var bodyParser = require('body-parser');
 
 var port = 3000;
 
@@ -21,6 +22,8 @@ app.use(express.urlencoded({
 }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.json()) // handle json data
+app.use(bodyParser.urlencoded({ extended: true })) // handle URL-encoded data
 
 app.use(function (req, res, next) {
   console.log('In');

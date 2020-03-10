@@ -76,6 +76,7 @@ router.post('/login', function (req, res, next) {
     sql: 'SELECT * FROM `user` WHERE `username` = ?',
     values: req.body.username
   }, function (error, results, fields) {
+    console.log(req.body.password);
     if (error) throw error;
 
     bcrypt.compare(req.body.password, results[0].password, function (err, response) {

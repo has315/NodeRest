@@ -115,12 +115,11 @@ router.post('/login', function (req, res, next) {
           }));
         }
       });
-    } else {
-      res.status(HttpStatus.UNAUTHORIZED).send(JSON.stringify({
-        "error": null,
-        "response": -10
-      }));
     }
+    res.status(HttpStatus.UNAUTHORIZED).send(JSON.stringify({
+      "error": null,
+      "response": -1
+    }));
   });
 });
 

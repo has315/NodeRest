@@ -80,8 +80,14 @@ router.post('/login', function (req, res, next) {
     if (error) throw error;
 
     bcrypt.compare(req.body.password, results[0].password, function (err, response) {
-      if (response) {
-        // Generate JWT
+      if (Object.keys(results).length === 0) {
+        res.status(HttpStatus.UNAUTHORIZED).send(JSON.stringify({
+          "error": null,
+          "response": -1
+        }));
+        
+      } else {
+        //  // Generate JWT
         const token = jwt.sign({ id: results[0].id }, AppConfig.SECRET, { expiresIn: AppConfig.TOKEN_LIFESPAN });
         const refreshToken = jwt.sign({ id: results[0].id }, AppConfig.REFRESH_TOKEN_SECRET, { expiresIn: AppConfig.REFRESH_TOKEN_LIFESPAN });
         const fun = function (err, reply) {
@@ -100,11 +106,6 @@ router.post('/login', function (req, res, next) {
           "response": results[0].account_level,
           "token": token,
           "refreshToken": refreshToken,
-        }));
-      } else {
-        res.status(HttpStatus.UNAUTHORIZED).send(JSON.stringify({
-          "error": null,
-          "response": -1
         }));
       }
     });

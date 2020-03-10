@@ -77,12 +77,16 @@ router.post('/login', function (req, res, next) {
     let resultsJson = JSON.parse(JSON.stringify(results));
     const existsJson = Object.values(resultsJson[0])[0];
     if (existsJson == 0) {
+      console.log('step 1')
       bcrypt.compare(req.body.password, results[0].password, function (err, response) {
+        console.log('step 2')
         if (response == true) {
+          console.log('step 3')
           // Generate JWT
           const token = jwt.sign({ id: results[0].id }, AppConfig.SECRET, { expiresIn: AppConfig.TOKEN_LIFESPAN });
           const refreshToken = jwt.sign({ id: results[0].id }, AppConfig.REFRESH_TOKEN_SECRET, { expiresIn: AppConfig.REFRESH_TOKEN_LIFESPAN });
           const fun = function (err, reply) {
+            console.log('step 4')
             if (err)
               throw err;
             if (reply)
@@ -93,14 +97,18 @@ router.post('/login', function (req, res, next) {
           redisClient.hmset(HSET, results[0].id, refreshToken, fun);
         } 
         else { 
+          console.log('step 5')
         res.status(HttpStatus.UNAUTHORIZED).send(JSON.stringify({
           "error": null,
           "response": -1
           }));
         }
       });
+      console.log('step 6')
     } 
+    console.log('step 7')
   });
+  console.log('step 8')
 });
 
 module.exports = router;

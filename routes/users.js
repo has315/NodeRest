@@ -86,7 +86,7 @@ router.post('/login', function (req, res, next) {
     const existsJson = Object.values(resultsJson[0])[0];
     if (existsJson == 0) {
       bcrypt.compare(req.body.password, results[0].password, function (err, response) {
-        if (response) {
+        if (response == true) {
           // Generate JWT
           const token = jwt.sign({ id: results[0].id }, AppConfig.SECRET, { expiresIn: AppConfig.TOKEN_LIFESPAN });
           const refreshToken = jwt.sign({ id: results[0].id }, AppConfig.REFRESH_TOKEN_SECRET, { expiresIn: AppConfig.REFRESH_TOKEN_LIFESPAN });

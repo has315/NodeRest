@@ -85,7 +85,7 @@ router.post('/login', function (req, res, next) {
     let resultsJson = JSON.parse(JSON.stringify(results));
     const existsJson = Object.values(resultsJson[0])[0];
     if (existsJson == 0) {
-     let check = bcrypt.compare(req.body.password, results[0].password, function (err, response) {
+      bcrypt.compare(req.body.password, results[0].password, function (err, response) {
         if (response) {
           // Generate JWT
           const token = jwt.sign({ id: results[0].id }, AppConfig.SECRET, { expiresIn: AppConfig.TOKEN_LIFESPAN });
@@ -107,20 +107,6 @@ router.post('/login', function (req, res, next) {
         }
       });
     } 
-    if(check) {
-          // Send response
-          res.status(HttpStatus.OK).send(JSON.stringify({
-            "error": null,
-            "response": results[0].account_level,
-            "token": token,
-            "refreshToken": refreshToken,
-          }));
-    } else {
-      res.status(HttpStatus.UNAUTHORIZED).send(JSON.stringify({
-        "error": null,
-        "response": -1
-        }));
-    }
   });
 });
 

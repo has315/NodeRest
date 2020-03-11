@@ -55,8 +55,8 @@ router.post('/', function (req, res, next) {
   let presalt = bcrypt.genSaltSync(saltRounds);
   let data = {
     username: req.body.username,
-    salt: presalt,
     password: bcrypt.hashSync(req.body.password, presalt),
+    salt: presalt
   };
 
   let sql = "INSERT INTO user SET ?";

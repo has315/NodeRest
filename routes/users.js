@@ -98,12 +98,8 @@ router.post('/login', function (req, res, next) {
           "token": token,
           "refreshToken": refreshToken,
         }));
-      } else {
-        res.status(HttpStatus.UNAUTHORIZED).send(JSON.stringify({
-          "error": null,
-          "response": -1
-        }));
       }
+      
     });
   });
 });

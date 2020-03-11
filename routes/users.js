@@ -70,13 +70,7 @@ router.post('/', function (req, res, next) {
 });
 
 router.post('/login', function (req, res, next) {
-  // connection.query({
-  //   sql: 'SELECT * FROM `user` WHERE `username` = ?',
-  //   values: req.body.username
-  // }, function (error, results, fields) {
-  //   console.log(password)
-  //   console.log(results);
-  //   if (error) throw error;
+
   let sql_check = "SELECT EXISTS(SELECT * FROM `user` WHERE `username` =  ?)";
   connection.query(sql_check, req.body.username, (err, results) => {
     if (err) throw err;
@@ -106,18 +100,8 @@ router.post('/login', function (req, res, next) {
             "token": token,
             "refreshToken": refreshToken,
           }));
-        } else {
-          res.status(HttpStatus.UNAUTHORIZED).send(JSON.stringify({
-            "error": null,
-            "response": -1
-          }));
-        }
+        } 
       });
-    } else {
-      res.status(HttpStatus.UNAUTHORIZED).send(JSON.stringify({
-        "error": null,
-        "response": -10
-      }));
     }
   });
 });

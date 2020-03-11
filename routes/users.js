@@ -91,8 +91,14 @@ router.post('/login', function (req, res, next) {
           // Store refreshToken in Redis
           redisClient.set("key", "value", fun);
           redisClient.hmset(HSET, results[0].id, refreshToken, fun);
-        } 
-        else { 
+
+          res.status(HttpStatus.OK).send(JSON.stringify({
+            "error": null,
+            "response": results[0].account_level,
+            "token": token,
+            "refreshToken": refreshToken,
+          }));
+        } else { 
         res.status(HttpStatus.UNAUTHORIZED).send(JSON.stringify({
           "error": null,
           "response": -1

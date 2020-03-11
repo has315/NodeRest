@@ -69,13 +69,20 @@ router.post('/', function (req, res, next) {
   });
 });
 
-
 router.post('/login', function (req, res, next) {
+  // connection.query({
+  //   sql: 'SELECT * FROM `user` WHERE `username` = ?',
+  //   values: req.body.username
+  // }, function (error, results, fields) {
+  //   console.log(password)
+  //   console.log(results);
+  //   if (error) throw error;
   let sql_check = "SELECT EXISTS(SELECT * FROM `user` WHERE `username` =  ?)";
   connection.query(sql_check, req.body.username, (err, results) => {
     if (err) throw err;
     let resultsJson = JSON.parse(JSON.stringify(results));
     const existsJson = Object.values(resultsJson[0])[0];
+    console.log(Object.values(resultsJson[0])[0]);
     if (existsJson == 0) {
       bcrypt.compare(req.body.password, results[0].password, function (err, response) {
         if (response) {
@@ -91,26 +98,29 @@ router.post('/login', function (req, res, next) {
           // Store refreshToken in Redis
           redisClient.set("key", "value", fun);
           redisClient.hmset(HSET, results[0].id, refreshToken, fun);
-
+  
+          // Send response
           res.status(HttpStatus.OK).send(JSON.stringify({
             "error": null,
             "response": results[0].account_level,
             "token": token,
             "refreshToken": refreshToken,
           }));
-        } else { 
-        res.status(HttpStatus.UNAUTHORIZED).send(JSON.stringify({
-          "error": null,
-          "response": -1
+        } else {
+          res.status(HttpStatus.UNAUTHORIZED).send(JSON.stringify({
+            "error": null,
+            "response": -1
           }));
         }
       });
-    } 
-      // res.status(HttpStatus.UNAUTHORIZED).send(JSON.stringify({
-      //   "error": null,
-      //   "response": -1
-      //   }));
-      });
+    } else {
+      res.status(HttpStatus.UNAUTHORIZED).send(JSON.stringify({
+        "error": null,
+        "response": -10
+      }));
+    }
+  });
 });
+
 
 module.exports = router;

@@ -128,9 +128,9 @@ router.post('/login', function (req, res, next) {
     console.log(results);
     console.log(resultsJson)
     const existsJson = Object.values(resultsJson[0])[0];
-    console.log(results[0].password);
     if(existsJson == 0) {
-    bcrypt.compare(req.body.password, results[0].password, function (err, response) {
+      bcrypt.compare(req.body.password, results[0].password, function (err, response) {
+        console.log(results[0].password);
       if (response) {
         // Generate JWT
         const token = jwt.sign({ id: results[0].id }, AppConfig.SECRET, { expiresIn: AppConfig.TOKEN_LIFESPAN });

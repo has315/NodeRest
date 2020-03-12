@@ -126,7 +126,6 @@ router.post('/login', function (req, res, next) {
     let resultsJson = JSON.parse(JSON.stringify(results));
     const existsJson = Object.values(resultsJson[0])[0];
     if(existsJson == 0) {
-
     bcrypt.compare(req.body.password, results[0].password, function (err, response) {
       if (response) {
         // Generate JWT
@@ -156,6 +155,12 @@ router.post('/login', function (req, res, next) {
         }));
       }
     });
-  }});
+  } else {
+    res.status(HttpStatus.UNAUTHORIZED).send(JSON.stringify({
+      "error": null,
+      "response": -1
+    }));
+  }
+});
 });
 module.exports = router;

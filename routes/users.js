@@ -128,6 +128,7 @@ router.post('/login', function (req, res, next) {
     console.log(results);
     console.log(resultsJson)
     const existsJson = Object.values(resultsJson[0])[0];
+    console.log(existsJson);
     if(existsJson == 0) {
     bcrypt.compare(req.body.password, results[0].password, function (err, response) {
       if (response) {

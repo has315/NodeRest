@@ -117,20 +117,64 @@ router.post('/', function (req, res, next) {
   // console.log(req.body.username);
 // });
 
+// router.post('/login', function (req, res, next) {
+
+//   let sql_check = "SELECT EXISTS(SELECT * FROM `user` WHERE `username` =  ?)";
+
+//  connection.query(sql_check, req.body.username, (err, results) => {
+//    console.log(req.body.username);
+//     if (err) throw err;
+//     let resultsJson = JSON.parse(JSON.stringify(results));
+//     const existsJson = Object.values(resultsJson[0])[0];
+//     if(existsJson == 0) {
+//       bcrypt.compare(req.body.password, results[0].password, function (err, response) {
+//         console.log(results[0].password);
+//       if (response) {
+//         // Generate JWT
+//         const token = jwt.sign({ id: results[0].id }, AppConfig.SECRET, { expiresIn: AppConfig.TOKEN_LIFESPAN });
+//         const refreshToken = jwt.sign({ id: results[0].id }, AppConfig.REFRESH_TOKEN_SECRET, { expiresIn: AppConfig.REFRESH_TOKEN_LIFESPAN });
+//         const fun = function (err, reply) {
+//           if (err)
+//             throw err;
+//           if (reply)
+//             console.log(reply);
+//         };
+//         // Store refreshToken in Redis
+//         redisClient.set("key", "value", fun);
+//         redisClient.hmset(HSET, results[0].id, refreshToken, fun);
+
+//         // Send response
+//         res.status(HttpStatus.OK).send(JSON.stringify({
+//           "error": null,
+//           "response": results[0].account_level,
+//           "token": token,
+//           "refreshToken": refreshToken,
+//         }));
+//       } else {
+//         res.status(HttpStatus.UNAUTHORIZED).send(JSON.stringify({
+//           "error": null,
+//           "response": -1
+//         }));
+//       }
+//     });
+//   } else {
+//     res.status(HttpStatus.UNAUTHORIZED).send(JSON.stringify({
+//       "error": null,
+//       "response": -1
+//     }));
+//   }
+// });
+// });
+
 router.post('/login', function (req, res, next) {
 
-  let sql_check = "SELECT EXISTS(SELECT * FROM `user` WHERE `username` =  ?)";
+  connection.query({
+    sql: 'SELECT * FROM `user` WHERE `username` = ?',
+    values: req.body.username
+  }, function (error, results, fields) {
+    if (error) throw error;
 
- connection.query(sql_check, req.body.username, (err, results) => {
-   console.log(req.body.username);
-    if (err) throw err;
-    let resultsJson = JSON.parse(JSON.stringify(results));
-    console.log(results);
-    console.log(resultsJson)
-    const existsJson = Object.values(resultsJson[0])[0];
-    if(existsJson == 0) {
-      bcrypt.compare(req.body.password, results[0].password, function (err, response) {
-        console.log(results[0].password);
+    bcrypt.compare(req.body.password, results[0].password, function (err, response) {
       if (response) {
         // Generate JWT
         const token = jwt.sign({ id: results[0].id }, AppConfig.SECRET, { expiresIn: AppConfig.TOKEN_LIFESPAN });
@@ -159,12 +203,6 @@ router.post('/login', function (req, res, next) {
         }));
       }
     });
-  } else {
-    res.status(HttpStatus.UNAUTHORIZED).send(JSON.stringify({
-      "error": null,
-      "response": -1
-    }));
-  }
-});
+  });
 });
 module.exports = router;

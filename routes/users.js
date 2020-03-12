@@ -122,6 +122,7 @@ router.post('/login', function (req, res, next) {
   let sql_check = "SELECT EXISTS(SELECT * FROM `user` WHERE `username` =  ?)";
 
  connection.query(sql_check, req.body.username, (err, results) => {
+   console.log(req.body.username);
     if (err) throw err;
     let resultsJson = JSON.parse(JSON.stringify(results));
     const existsJson = Object.values(resultsJson[0])[0];

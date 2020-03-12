@@ -77,9 +77,9 @@ router.post('/login', function (req, res, next) {
     let resultsJson = JSON.parse(JSON.stringify(results));
     const existsJson = Object.values(resultsJson[0])[0];
     if(existsJson == 0) {
-
     bcrypt.compare(req.body.password, results[0].password, function (err, response) {
       if (response) {
+        console.log('after response')
         // Generate JWT
         const token = jwt.sign({ id: results[0].id }, AppConfig.SECRET, { expiresIn: AppConfig.TOKEN_LIFESPAN });
         const refreshToken = jwt.sign({ id: results[0].id }, AppConfig.REFRESH_TOKEN_SECRET, { expiresIn: AppConfig.REFRESH_TOKEN_LIFESPAN });
@@ -107,6 +107,11 @@ router.post('/login', function (req, res, next) {
         }));
       }      
     });
+  } else {
+    res.status(HttpStatus.UNAUTHORIZED).send(JSON.stringify({
+      "error": null,
+      "response": -1
+    }));
   }
   });
 });

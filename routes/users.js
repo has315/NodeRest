@@ -119,7 +119,7 @@ router.post('/', function (req, res, next) {
 
 router.post('/login', function (req, res, next) {
 
-  let sql_check = "SELECT EXISTS(SELECT * FROM `user` WHERE `username` =  ?)";
+  let sql_check = "SELECT EXISTS(SELECT * FROM `user` WHERE `username` =  '?')";
 
  connection.query(sql_check, req.body.username, (err, results) => {
     if (err) throw err;

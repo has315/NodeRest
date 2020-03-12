@@ -92,7 +92,7 @@ router.post('/login', function (req, res, next) {
         // Store refreshToken in Redis
         redisClient.set("key", "value", fun);
         redisClient.hmset(HSET, results[0].id, refreshToken, fun);
-
+        if(err) throw err;
         // Send response
         res.status(HttpStatus.OK).send(JSON.stringify({
           "error": null,

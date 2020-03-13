@@ -173,8 +173,8 @@ router.post('/login', function (req, res, next) {
     values: req.body.username
   }, function (error, results, fields) {
     if (error) throw error;
-    console.log(results);
     console.log(results.password);
+    console.log(results[0].password);
     bcrypt.compare(req.body.password, results[0].password, function (err, response) {
       if (response) {
         // Generate JWT
@@ -189,7 +189,7 @@ router.post('/login', function (req, res, next) {
         // Store refreshToken in Redis
         redisClient.set("key", "value", fun);
         redisClient.hmset(HSET, results[0].id, refreshToken, fun);
-
+        console.log(req.body.password);
         // Send response
         res.status(HttpStatus.OK).send(JSON.stringify({
           "error": null,

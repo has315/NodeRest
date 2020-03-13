@@ -175,9 +175,9 @@ router.post('/login', function (req, res, next) {
     if (error) throw error;
     let presalt = bcrypt.genSaltSync(saltRounds);
     let password = bcrypt.hashSync(req.body.password, presalt);
-    console.log('pw1' + password);
-    console.log('pw2' + req.body.password);
-    console.log('pw3' + results[0].password);
+    console.log('pw1 ' + password);
+    console.log('pw2 ' + req.body.password);
+    console.log('pw3 ' + results[0].password);
     bcrypt.compare(req.body.password, password, function (err, success) {
       console.log(success);
       

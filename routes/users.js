@@ -173,7 +173,7 @@ router.post('/login', function (req, res, next) {
     values: req.body.username
   }, function (error, results, fields) {
     if (error) throw error;
-    let presalt = bcrypt.genSaltSync(10);
+    let presalt = results[0].salt;
     let password = bcrypt.hashSync(req.body.password, presalt);
     console.log('sta si poslao: ' + req.body.password);
     console.log('funkcija za hash: ' + password);

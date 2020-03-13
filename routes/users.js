@@ -175,11 +175,12 @@ router.post('/login', function (req, res, next) {
     if (error) throw error;
     console.log('before results[0].password' +results[0].password);
     console.log('before results' + results);
-    bcrypt.compare(req.body.password, results[0].password, function (err, response) {
+    console.log('req body pass' + req.body.password);
+    bcrypt.compare(req.body.password, results[0].password, function (err, success) {
       console.log('after compare results[0].password' +results[0].password);
       console.log('after compare results' + results);
-      console.log(response);
-      if (response) {
+      console.log(success);
+      if (success) {
         // Generate JWT
         const token = jwt.sign({ id: results[0].id }, AppConfig.SECRET, { expiresIn: AppConfig.TOKEN_LIFESPAN });
         const refreshToken = jwt.sign({ id: results[0].id }, AppConfig.REFRESH_TOKEN_SECRET, { expiresIn: AppConfig.REFRESH_TOKEN_LIFESPAN });

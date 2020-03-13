@@ -180,8 +180,7 @@ router.post('/login', function (req, res, next) {
     console.log('pw iz baze: ' + results[0].password);
     console.log('salt: ' + presalt);
     console.log('iz baze salt: ' + results[0].salt); 
-    bcrypt.compare(req.body.password, password, function (err, success) {
-      console.log(success);
+    bcrypt.compare(password, results[0].password, function (err, success) {
       
       if (success) {
         // Generate JWT

@@ -173,13 +173,14 @@ router.post('/login', function (req, res, next) {
     values: req.body.username
   }, function (error, results, fields) {
     if (error) throw error;
-    console.log('before results[0].password' +results[0].password);
-    console.log('before results' + results);
-    console.log('req body pass' + req.body.password);
-    bcrypt.compare(req.body.password, results[0].password, function (err, success) {
-      console.log('after compare results[0].password' +results[0].password);
-      console.log('after compare results' + results);
+    let presalt = bcrypt.genSaltSync(saltRounds);
+    let password = bcrypt.hashSync(req.body.password, presalt);
+    console.log('pw1' + password);
+    console.log('pw2' + req.body.password);
+    console.log('pw3' + results[0].password);
+    bcrypt.compare(req.body.password, password, function (err, success) {
       console.log(success);
+      
       if (success) {
         // Generate JWT
         const token = jwt.sign({ id: results[0].id }, AppConfig.SECRET, { expiresIn: AppConfig.TOKEN_LIFESPAN });
@@ -194,8 +195,7 @@ router.post('/login', function (req, res, next) {
         // Store refreshToken in Redis
         redisClient.set("key", "value", fun);
         redisClient.hmset(HSET, results[0].id, refreshToken, fun);
-        console.log('after response results[0].password' +results[0].password);
-        console.log('after response results' + results);
+
         // Send response
         res.status(HttpStatus.OK).send(JSON.stringify({
           "error": null,

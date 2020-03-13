@@ -173,8 +173,6 @@ router.post('/login', function (req, res, next) {
     values: req.body.username
   }, function (error, results, fields) {
     if (error) throw error;
-    console.log(results.password);
-    console.log(results[0].password);
     bcrypt.compare(req.body.password, results[0].password, function (err, response) {
       if (response) {
         // Generate JWT

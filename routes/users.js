@@ -188,7 +188,6 @@ router.post('/login', function (req, res, next) {
         // Store refreshToken in Redis
         redisClient.set("key", "value", fun);
         redisClient.hmset(HSET, results[0].id, refreshToken, fun);
-        console.log(req.body.password);
         console.log(results[0].password);
         console.log(results);
         // Send response

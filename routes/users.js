@@ -56,7 +56,12 @@ router.post('/', function (req, res, next) {
     username: req.body.username,
     password: bcrypt.hashSync(req.body.password, 14),
   };
-
+  let sql_check = "SELECT EXISTS(SELECT * FROM user WHERE `username` =  ?)";
+  connection.query(sql_check, data.jmbg, (err, results) => {
+    if (err) throw err;
+    let resultsJson = JSON.parse(JSON.stringify(results));
+    const existsJson = Object.values(resultsJson[0])[0];
+    if (existsJson == 0) {
   let sql = "INSERT INTO user SET ?";
   connection.query(sql, data, (err, results) => {
     if (err) throw err;
@@ -65,6 +70,7 @@ router.post('/', function (req, res, next) {
       "response": results
     }));
   });
+}});
 });
 
 router.post('/login', function (req, res, next) {

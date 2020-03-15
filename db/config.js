@@ -12,7 +12,7 @@ const AppConfig = {
     REFRESH_TOKEN_LIFESPAN: 28800,
     REDIS_PASSWORD: "fnligvu5",
     // REDIS_HOST: "165.22.66.219",
-    REDIS_HOST: "127.0.0.1",
+    REDIS_HOST: "localhost",
     REDIS_PORT: 6379
 };
 

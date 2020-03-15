@@ -5,7 +5,8 @@ const HttpStatus = require('http-status-codes');
 
 const connection = require('../db/mysql');
 const redisClient = require("../db/redis").client;
-const JWTR = require('jwt-redis').default;
+const jwt_redis = require('jwt-redis');
+const JWTR = jwt_redis.default;
 const jwt = new JWTR(redisClient);
 const AppConfig = require('../db/config').AppConfig;
 const saltRounds = 10;
@@ -88,6 +89,7 @@ router.post('/login', function (req, res, next) {
         // Generate JWT
         const token = jwt.sign({ id: results[0].id }, AppConfig.SECRET, { expiresIn: AppConfig.TOKEN_LIFESPAN });
         const refreshToken = jwt.sign({ id: results[0].id }, AppConfig.REFRESH_TOKEN_SECRET, { expiresIn: AppConfig.REFRESH_TOKEN_LIFESPAN });
+        console.log(jwt_redis.generateId());
         const fun = function (err, reply) {
           if (err)
             throw err;

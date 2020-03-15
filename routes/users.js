@@ -89,6 +89,7 @@ router.post('/login', function (req, res, next) {
         // Generate JWT
         const token = jwt.sign({ id: results[0].id }, AppConfig.SECRET, { expiresIn: AppConfig.TOKEN_LIFESPAN });
         const refreshToken = jwt.sign({ id: results[0].id }, AppConfig.REFRESH_TOKEN_SECRET, { expiresIn: AppConfig.REFRESH_TOKEN_LIFESPAN });
+        console.log("jwt_redis.generateId()");
         console.log(jwt_redis.generateId());
         const fun = function (err, reply) {
           if (err)

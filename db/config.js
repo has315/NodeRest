@@ -10,6 +10,7 @@ const AppConfig = {
     TOKEN_LIFESPAN: 7200,
     // 8 hours
     REFRESH_TOKEN_LIFESPAN: 28800,
+    REDIS_PASSWORD: "fnligvu5",
     REDIS_HOST: "165.22.66.219",
     REDIS_PORT: 6379
 };

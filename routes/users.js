@@ -52,11 +52,9 @@ router.get('/search', function (req, res, next) {
 });
 
 router.post('/', function (req, res, next) {
-  let presalt = bcrypt.genSaltSync(saltRounds);
   let data = {
     username: req.body.username,
-    password: bcrypt.hashSync(req.body.password, presalt),
-    salt: presalt
+    password: bcrypt.hashSync(req.body.password, 14),
   };
 
   let sql = "INSERT INTO user SET ?";

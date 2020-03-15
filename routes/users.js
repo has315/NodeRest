@@ -57,7 +57,7 @@ router.post('/', function (req, res, next) {
     password: bcrypt.hashSync(req.body.password, 14),
   };
   let sql_check = "SELECT EXISTS(SELECT * FROM user WHERE `username` =  ?)";
-  connection.query(sql_check, data.jmbg, (err, results) => {
+  connection.query(sql_check, data.username, (err, results) => {
     if (err) throw err;
     let resultsJson = JSON.parse(JSON.stringify(results));
     const existsJson = Object.values(resultsJson[0])[0];

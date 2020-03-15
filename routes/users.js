@@ -1,11 +1,12 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const router = express.Router();
-const jwt = require('jsonwebtoken');
 const HttpStatus = require('http-status-codes');
 
 const connection = require('../db/mysql');
 const redisClient = require("../db/redis").client;
+const JWTR = require('jwt-redis').default;
+const jwt = new JWTR(redisClient);
 const AppConfig = require('../db/config').AppConfig;
 const saltRounds = 10;
 const HSET = 'activeUsers';
@@ -62,16 +63,16 @@ router.post('/', function (req, res, next) {
     let resultsJson = JSON.parse(JSON.stringify(results));
     const existsJson = Object.values(resultsJson[0])[0];
     if (existsJson == 0) {
-  let sql = "INSERT INTO user SET ?";
-  connection.query(sql, data, (err, results) => {
-    if (err) throw err;
-    res.status(HttpStatus.OK).send(JSON.stringify({
-      "error": null,
-      "response": results
-    }));
+      let sql = "INSERT INTO user SET ?";
+      connection.query(sql, data, (err, results) => {
+        if (err) throw err;
+        res.status(HttpStatus.OK).send(JSON.stringify({
+          "error": null,
+          "response": results
+        }));
+      });
+    }});
   });
-}});
-});
 
 router.post('/login', function (req, res, next) {
 

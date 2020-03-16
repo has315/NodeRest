@@ -93,13 +93,14 @@ router.post('/login', function (req, res, next) {
         // Generate JWT
         const token = jwt.sign(results[0], AppConfig.SECRET).then(token => {
             console.log(token);
+             // Send response
+            res.status(HttpStatus.OK).send(JSON.stringify({
+              "error": null,
+              "response": results[0].user_id,
+              "token": token,
+            }));
         })
-        // Send response
-        res.status(HttpStatus.OK).send(JSON.stringify({
-          "error": null,
-          "response": results[0].user_id,
-          "token": token,
-        }));
+       
       } else {
         res.status(HttpStatus.UNAUTHORIZED).send(JSON.stringify({
           "error": null,

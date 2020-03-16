@@ -2,6 +2,8 @@ const redis = require("redis");
 const AppConfig = require("./config").AppConfig;
 
 const client = redis.createClient(AppConfig.REDIS_PORT, AppConfig.REDIS_HOST);
+console.log("client")
+console.log(client)
 client.auth(AppConfig.REDIS_PASSWORD);
 // client.on('connect', function () {
 //     console.log('REDIS CLIENT CONNECTED');

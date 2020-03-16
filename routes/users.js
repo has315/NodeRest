@@ -72,8 +72,9 @@ router.post('/', function (req, res, next) {
           "response": results
         }));
       });
-    }});
+    }
   });
+});
 
 router.post('/login', function (req, res, next) {
 
@@ -84,12 +85,11 @@ router.post('/login', function (req, res, next) {
     if (error) throw error;
 
     bcrypt.compare(req.body.password, results[0].password, function (err, success) {
-      
+
       if (success) {
         // Generate JWT
         const token = jwt.sign({ id: results[0].id }, AppConfig.SECRET);
        
-
         // Send response
         res.status(HttpStatus.OK).send(JSON.stringify({
           "error": null,

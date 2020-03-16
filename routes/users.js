@@ -91,7 +91,7 @@ router.post('/login', function (req, res, next) {
       console.log(results);
       if (success) {
         // Generate JWT
-        const token = jwt.sign(results[0], AppConfig.SECRET).then(token => {
+          jwt.sign(results[0], AppConfig.SECRET).then(token => {
              // Send response
             res.status(HttpStatus.OK).send(JSON.stringify({
               "error": null,
@@ -99,7 +99,7 @@ router.post('/login', function (req, res, next) {
               "account_level":results[0].account_level,
               "token": token,
             }));
-        })
+          })
        
       } else {
         res.status(HttpStatus.UNAUTHORIZED).send(JSON.stringify({

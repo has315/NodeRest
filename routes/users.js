@@ -88,9 +88,9 @@ router.post('/login', function (req, res, next) {
       if (err)
         throw err;
 
-      console.log(results);
       if (success) {
         // Generate JWT
+<<<<<<< Updated upstream
           jwt.sign(results[0], AppConfig.SECRET).then(token => {
              // Send response
             res.status(HttpStatus.OK).send(JSON.stringify({
@@ -101,6 +101,21 @@ router.post('/login', function (req, res, next) {
             }));
           })
        
+=======
+        const user = {
+          user_id = results[0].user_id,
+          username = results[0].username,
+          account_level = results[0].account_level,
+        }
+        const token = jwt.sign(JSON.stringify(user), AppConfig.SECRET);
+
+        // Send response
+        res.status(HttpStatus.OK).send(JSON.stringify({
+          "error": null,
+          "response": results[0].user_id,
+          "token": token,
+        }));
+>>>>>>> Stashed changes
       } else {
         res.status(HttpStatus.UNAUTHORIZED).send(JSON.stringify({
           "error": null,

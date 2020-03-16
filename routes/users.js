@@ -85,6 +85,10 @@ router.post('/login', function (req, res, next) {
     if (error) throw error;
 
     bcrypt.compare(req.body.password, results[0].password, function (err, success) {
+      if (err)
+        throw err;
+
+      console.log(results);
       if (success) {
         // Generate JWT
         const token = jwt.sign(results[0], AppConfig.SECRET);
@@ -92,7 +96,7 @@ router.post('/login', function (req, res, next) {
         // Send response
         res.status(HttpStatus.OK).send(JSON.stringify({
           "error": null,
-          "response": results[0].account_level,
+          "response": results[0].id,
           "token": token,
         }));
       } else {

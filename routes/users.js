@@ -24,7 +24,7 @@ router.get('/', auth.authAdmin, function (req, res, next) {
   });
 });
 
-router.get('/get_one', auth.authAdmin, function (req, res, next) {
+router.get('/get_one',  function (req, res, next) {
   let data = {
     username: req.query.username
   }

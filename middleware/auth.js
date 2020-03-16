@@ -1,9 +1,24 @@
-const jwt = require("jsonwebtoken");
+const redisClient = require("../db/redis").client;
 const AppConfig = require("../config").AppConfig;
+
+const jwt_redis = require('jwt-redis');
+const JWTR = jwt_redis.default;
+const jwt = new JWTR(redisClient);
 const HttpStatus = require('http-status-codes');
 
-module.exports = (req, res, next) => {
-    const token = req.headers["x-access-token"] || req.headers['authorization'];
+const isUserAdmin = (userId) => { return userId == 1; }
+
+const authUser = (req, res, next) => {
+    return authHelper(req, res, next);
+};
+
+const authAdmin = (req, res, next) => {
+    return authHelper(req, res, next, isUserAdmin);
+};
+
+const authHelper = (req, res, next, checkAuthorizationCallback) => {
+
+    const token = req.headers['x-access-token'] || req.headers['authorization'];
 
     // Decode token
     if (token) {
@@ -13,14 +28,43 @@ module.exports = (req, res, next) => {
         }
         // Verify token
         jwt.verify(token, AppConfig.SECRET, function (err, decoded) {
-            if (err) {
-                return res.status(HttpStatus.UNAUTHORIZED).json({ success: false, message: 'Unauthorized access.' });
+            if (!err) {
+                // If checkAccessType is true => (super)admin-specific route
+                if (checkAuthorizationCallback && checkAuthorizationCallback(decoded.accessType)) {
+                    req.decoded = decoded;
+                    next();
+                }
+                // If checkAccessType is false => available for all logged users
+                else if (!checkAuthorizationCallback) {
+                    req.decoded = decoded;
+                    next();
+                } else {
+                    // Logged user can't access (super)admin-specific routes
+                    return res.status(HttpStatus.UNAUTHORIZED).json({
+                        success: false,
+                        message: 'Unauthorized access.'
+                    });
+                }
             } else {
-                req.decoded = decoded;
-                next();
+                res.status(HttpStatus.UNAUTHORIZED).json({
+                    error: true,
+                    success: false,
+                    message: 'Unauthorized access.'
+                });
             }
         });
     } else {
-        return res.status(HttpStatus.FORBIDDEN).send({ success: false, message: 'No token provided.' });
+        res.status(HttpStatus.FORBIDDEN).json({
+            error: true,
+            success: false,
+            message: 'No token provided.'
+        });
     }
+
 }
+
+
+module.exports = {
+    authUser,
+    authAdmin
+};

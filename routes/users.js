@@ -2,6 +2,7 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const router = express.Router();
 const HttpStatus = require('http-status-codes');
+const auth = require('../middleware/auth');
 
 const connection = require('../db/mysql');
 const redisClient = require("../db/redis").client;
@@ -10,10 +11,9 @@ const JWTR = jwt_redis.default;
 const jwt = new JWTR(redisClient);
 const AppConfig = require('../db/config').AppConfig;
 const saltRounds = 10;
-const HSET = 'activeUsers';
 
 
-router.get('/', function (req, res, next) {
+router.get('/', auth.authAdmin, function (req, res, next) {
   let sql = 'SELECT * from viewUsers';
   connection.query(sql, function (error, results, fields) {
     if (error) throw error;
@@ -24,7 +24,7 @@ router.get('/', function (req, res, next) {
   });
 });
 
-router.get('/get_one', function (req, res, next) {
+router.get('/get_one', auth.authAdmin, function (req, res, next) {
   let data = {
     username: req.query.username
   }
@@ -38,7 +38,7 @@ router.get('/get_one', function (req, res, next) {
   });
 });
 
-router.get('/search', function (req, res, next) {
+router.get('/search', auth.authAdmin, function (req, res, next) {
   data = {
     username: req.query.value
   }
@@ -53,7 +53,7 @@ router.get('/search', function (req, res, next) {
   });
 });
 
-router.post('/', function (req, res, next) {
+router.post('/', auth.authAdmin, function (req, res, next) {
   let data = {
     username: req.body.username,
     password: bcrypt.hashSync(req.body.password, 14),
@@ -85,11 +85,10 @@ router.post('/login', function (req, res, next) {
     if (error) throw error;
 
     bcrypt.compare(req.body.password, results[0].password, function (err, success) {
-
       if (success) {
         // Generate JWT
-        const token = jwt.sign({ id: results[0].id }, AppConfig.SECRET);
-       
+        const token = jwt.sign(results[0], AppConfig.SECRET);
+
         // Send response
         res.status(HttpStatus.OK).send(JSON.stringify({
           "error": null,

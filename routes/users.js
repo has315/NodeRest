@@ -87,25 +87,14 @@ router.post('/login', function (req, res, next) {
       
       if (success) {
         // Generate JWT
-        const token = jwt.sign({ id: results[0].id }, AppConfig.SECRET, { expiresIn: AppConfig.TOKEN_LIFESPAN });
-        const refreshToken = jwt.sign({ id: results[0].id }, AppConfig.REFRESH_TOKEN_SECRET, { expiresIn: AppConfig.REFRESH_TOKEN_LIFESPAN });
-        const fun = function (err, reply) {
-          if (err)
-            throw err;
-          if (reply){
-            //
-          }
-        };
-        // Store refreshToken in Redis
-        redisClient.set("key", "value", fun);
-        redisClient.hmset(HSET, results[0].id, refreshToken, fun);
+        const token = jwt.sign({ id: results[0].id }, AppConfig.SECRET);
+       
 
         // Send response
         res.status(HttpStatus.OK).send(JSON.stringify({
           "error": null,
           "response": results[0].account_level,
           "token": token,
-          "refreshToken": refreshToken,
         }));
       } else {
         res.status(HttpStatus.UNAUTHORIZED).send(JSON.stringify({

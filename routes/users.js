@@ -96,7 +96,7 @@ router.post('/login', function (req, res, next) {
         // Send response
         res.status(HttpStatus.OK).send(JSON.stringify({
           "error": null,
-          "response": results[0].id,
+          "response": results[0].user_id,
           "token": token,
         }));
       } else {

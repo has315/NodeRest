@@ -92,7 +92,7 @@ router.post('/login', function (req, res, next) {
       if (success) {
         // Generate JWT
         const token = jwt.sign(results[0], AppConfig.SECRET);
-
+          console.log(token);
         // Send response
         res.status(HttpStatus.OK).send(JSON.stringify({
           "error": null,

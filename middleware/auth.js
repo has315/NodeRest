@@ -27,8 +27,9 @@ const authHelper = (req, res, next, checkAuthorizationCallback) => {
         if (token.startsWith('Bearer ')) {
             token = token.slice(7, token.length);
         }
+
         // Verify token
-        jwt.verify(token, AppConfig.SECRET, function (err, decoded) {
+        jwt.verify(token, AppConfig.SECRET).then(decoded => {
             console.log(`decoded: ${decoded}`);
             if (!err) {
                 // If checkAuthorizationCallback is true => (super)admin-specific route
@@ -54,7 +55,7 @@ const authHelper = (req, res, next, checkAuthorizationCallback) => {
                     message: 'Unauthorized access.'
                 });
             }
-        });
+        }).catch(err => { throw err; });
     } else {
         res.status(HttpStatus.FORBIDDEN).json({
             error: true,

@@ -31,31 +31,29 @@ const authHelper = (req, res, next, checkAuthorizationCallback) => {
         // Verify token
         jwt.verify(token, AppConfig.SECRET).then(decoded => {
             console.log(`decoded: ${decoded}`);
-            if (!err) {
-                // If checkAuthorizationCallback is true => (super)admin-specific route
-                if (checkAuthorizationCallback && checkAuthorizationCallback(decoded.account_level)) {
-                    req.decoded = decoded;
-                    next();
-                }
-                // If checkAuthorizationCallback is false => available for all logged users
-                else if (!checkAuthorizationCallback) {
-                    req.decoded = decoded;
-                    next();
-                } else {
-                    // Logged user can't access (super)admin-specific routes
-                    return res.status(HttpStatus.UNAUTHORIZED).json({
-                        success: false,
-                        message: 'Unauthorized access.'
-                    });
-                }
+            // If checkAuthorizationCallback is true => (super)admin-specific route
+            if (checkAuthorizationCallback && checkAuthorizationCallback(decoded.account_level)) {
+                req.decoded = decoded;
+                next();
+            }
+            // If checkAuthorizationCallback is false => available for all logged users
+            else if (!checkAuthorizationCallback) {
+                req.decoded = decoded;
+                next();
             } else {
-                res.status(HttpStatus.UNAUTHORIZED).json({
-                    error: true,
+                // Logged user can't access (super)admin-specific routes
+                return res.status(HttpStatus.UNAUTHORIZED).json({
                     success: false,
                     message: 'Unauthorized access.'
                 });
             }
-        }).catch(err => { throw err; });
+        }).catch(err => {
+            res.status(HttpStatus.UNAUTHORIZED).json({
+                error: true,
+                success: false,
+                message: 'Unauthorized access.'
+            });
+        });
     } else {
         res.status(HttpStatus.FORBIDDEN).json({
             error: true,

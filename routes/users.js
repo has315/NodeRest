@@ -104,7 +104,12 @@ router.post('/login', function (req, res, next) {
             "account_level": results[0].account_level,
             "token": token,
           }));
-        }).catch(err => { throw err; });
+        }).catch(err => {
+          res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(JSON.stringify({
+            "error": err,
+            "response": -1
+          }));
+        });
 
       } else {
         res.status(HttpStatus.UNAUTHORIZED).send(JSON.stringify({

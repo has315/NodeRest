@@ -28,6 +28,7 @@ const authHelper = (req, res, next, checkAuthorizationCallback) => {
         }
         // Verify token
         jwt.verify(token, AppConfig.SECRET, function (err, decoded) {
+            console.log(`decoded: ${decoded}`)
             if (!err) {
                 // If checkAccessType is true => (super)admin-specific route
                 if (checkAuthorizationCallback && checkAuthorizationCallback(decoded.accessType)) {

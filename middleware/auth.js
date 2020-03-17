@@ -19,6 +19,7 @@ const authAdmin = (req, res, next) => {
 const authHelper = (req, res, next, checkAuthorizationCallback) => {
 
     const token = req.headers['x-access-token'] || req.headers['authorization'];
+    console.log(`token: ${token}`);
 
     // Decode token
     if (token) {
@@ -28,7 +29,7 @@ const authHelper = (req, res, next, checkAuthorizationCallback) => {
         }
         // Verify token
         jwt.verify(token, AppConfig.SECRET, function (err, decoded) {
-            console.log(`decoded: ${decoded}`)
+            console.log(`decoded: ${decoded}`);
             if (!err) {
                 // If checkAuthorizationCallback is true => (super)admin-specific route
                 if (checkAuthorizationCallback && checkAuthorizationCallback(decoded.account_level)) {

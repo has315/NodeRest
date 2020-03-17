@@ -92,9 +92,9 @@ router.post('/login', function (req, res, next) {
       if (success) {
         // Generate JWT
         const user = {
-          user_id = results[0].user_id,
-          username = results[0].username,
-          account_level = results[0].account_level,
+          user_id: results[0].user_id,
+          username: results[0].username,
+          account_level: results[0].account_level,
         }
         jwt.sign(user, AppConfig.SECRET).then(token => {
           // Send response

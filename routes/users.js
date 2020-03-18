@@ -93,7 +93,7 @@ router.post('/login', function (req, res, next) {
         password : req.body.password
       }
       connection.query(sql, data.username, (err, results) => {
-        bcrypt.compare(password, results[0].password, function (err, success) {
+        bcrypt.compare(data.password, results[0].password, function (err, success) {
           if (err)
             throw err;
     

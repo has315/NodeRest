@@ -79,11 +79,14 @@ router.post('/', auth.authAdmin, function (req, res, next) {
 router.post('/login', function (req, res, next) {
 
   connection.query({
-    sql: 'SELECT * FROM `user` WHERE `username` = ?',
+    // sql: 'SELECT * FROM `user` WHERE `username` = ?',
+    sql : "SELECT EXISTS(SELECT * FROM user WHERE `username` =  ?)",
     values: req.body.username
   }, function (error, results, fields) {
     if (error) throw error;
-
+    let resultsJson = JSON.parse(JSON.stringify(results));
+    const existsJson = Object.values(resultsJson[0])[0];
+    if (existsJson == 0) {
     bcrypt.compare(req.body.password, results[0].password, function (err, success) {
       if (err)
         throw err;
@@ -118,6 +121,12 @@ router.post('/login', function (req, res, next) {
         }));
       }
     });
+  } else {
+    res.status(HttpStatus.UNAUTHORIZED).send(JSON.stringify({
+      "error": null,
+      "response": -1
+    }));
+  }
   });
 });
 module.exports = router;

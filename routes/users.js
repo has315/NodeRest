@@ -79,7 +79,6 @@ router.post('/', auth.authAdmin, function (req, res, next) {
 router.post('/login', function (req, res, next) {
 
   connection.query({
-    // sql: 'SELECT * FROM `user` WHERE `username` = ?',
     sql : "SELECT EXISTS(SELECT * FROM user WHERE `username` =  ?)",
     values: req.body.username
   }, function (error, results, fields) {
@@ -88,40 +87,47 @@ router.post('/login', function (req, res, next) {
     const existsJson = Object.values(resultsJson[0])[0];
     console.log(existsJson);
     if (existsJson == 1) {
-    bcrypt.compare(req.body.password, results[0].password, function (err, success) {
-      if (err)
-        throw err;
-
-      console.log(results);
-      if (success) {
-        // Generate JWT
-        const user = {
-          user_id: results[0].user_id,
-          username: results[0].username,
-          account_level: results[0].account_level,
-        }
-        jwt.sign(user, AppConfig.SECRET).then(token => {
-          // Send response
-          res.status(HttpStatus.OK).send(JSON.stringify({
-            "error": null,
-            "response": results[0].user_id,
-            "account_level": results[0].account_level,
-            "token": token,
-          }));
-        }).catch(err => {
-          res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(JSON.stringify({
-            "error": err,
-            "response": -1
-          }));
-        });
-
-      } else {
-        res.status(HttpStatus.UNAUTHORIZED).send(JSON.stringify({
-          "error": null,
-          "response": -1
-        }));
+    sql =  'SELECT * FROM `user` WHERE `username` = ?';
+      var data = {
+        username : req.body.username,
+        password : req.body.password
       }
-    });
+      connection.query(sql, data.username, (err, results) => {
+        bcrypt.compare(password, results[0].password, function (err, success) {
+          if (err)
+            throw err;
+    
+          console.log(results);
+          if (success) {
+            // Generate JWT
+            const user = {
+              user_id: results[0].user_id,
+              username: results[0].username,
+              account_level: results[0].account_level,
+            }
+            jwt.sign(user, AppConfig.SECRET).then(token => {
+              // Send response
+              res.status(HttpStatus.OK).send(JSON.stringify({
+                "error": null,
+                "response": results[0].user_id,
+                "account_level": results[0].account_level,
+                "token": token,
+              }));
+            }).catch(err => {
+              res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(JSON.stringify({
+                "error": err,
+                "response": -1
+              }));
+            });
+    
+          } else {
+            res.status(HttpStatus.UNAUTHORIZED).send(JSON.stringify({
+              "error": null,
+              "response": -1
+            }));
+          }
+        });
+      })
   } else {
     res.status(HttpStatus.UNAUTHORIZED).send(JSON.stringify({
       "error": null,

@@ -115,7 +115,7 @@ router.post('/login', function (req, res, next) {
             }).catch(err => {
               res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(JSON.stringify({
                 "error": err,
-                "response": -1
+                "response": -1 + 'from catch of users login jwt sign'
               }));
             });
     

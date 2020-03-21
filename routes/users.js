@@ -97,7 +97,7 @@ router.post('/login', function (req, res, next) {
             throw err;
               if (success) {
             // Generate JWT
-            const user = {
+            let user = {
               user_id: results[0].user_id,
               username: results[0].username,
               account_level: results[0].account_level,

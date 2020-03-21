@@ -13,7 +13,7 @@ client.on('connect', function () {
 });
 
 client.on("error", function (err) {
-    console.log("Error " + err);
+    console.log("Error from client on" + err);
 });
 
 module.exports = {

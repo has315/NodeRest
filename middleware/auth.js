@@ -19,8 +19,28 @@ const authAdmin = (req, res, next) => {
 const authHelper = (req, res, next, checkAuthorizationCallback) => {
 
     const token = req.headers['x-access-token'] || req.headers['authorization'];
-    next();
+    console.log(`token: ${token}`);
+
+    // Decode token
+    if (token) {
+        // Remove unwanted prefix if exists
+        if (token.startsWith('Bearer ')) {
+            token = token.slice(7, token.length);
+        }
+        // Verify token
+       let a =   jwt.verify(token, AppConfig.SECRET)
+        console.log(a);
+    } else {
+        res.status(HttpStatus.FORBIDDEN).json({
+            error: true,
+            success: false,
+            message: 'No token provided.'
+        });
+    }
+
 }
+
+
 module.exports = {
     authUser,
     authAdmin

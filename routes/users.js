@@ -105,7 +105,6 @@ router.post('/login', function (req, res, next) {
             console.log(user);
             jwt.sign(user, AppConfig.SECRET).then(token => {
               // Send response
-              console.log('TOKEN: ' + token);
               res.status(HttpStatus.OK).send(JSON.stringify({
                 "error": null,
                 "response": results[0].user_id,
@@ -115,7 +114,7 @@ router.post('/login', function (req, res, next) {
             }).catch(err => {
               res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(JSON.stringify({
                 "error": err,
-                "response": -1 + 'from catch of users login jwt sign'
+                "response": -1 
               }));
             });
     

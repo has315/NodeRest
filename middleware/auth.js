@@ -19,8 +19,7 @@ const authAdmin = (req, res, next) => {
 const authHelper = (req, res, next, checkAuthorizationCallback) => {
 
     const token = req.headers['x-access-token'] || req.headers['authorization'];
-    console.log(`token: ${token}`);
-
+    console.log('pre if token');
     // Decode token
     if (token) {
         // Remove unwanted prefix if exists

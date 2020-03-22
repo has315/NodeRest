@@ -22,7 +22,6 @@ const authHelper = (req, res, next, checkAuthorizationCallback) => {
     console.log(`token: ${token}`);
 
     // Decode token
-    if (token) {
         // Remove unwanted prefix if exists
         if (token.startsWith('Bearer ')) {
             token = token.slice(7, token.length);
@@ -34,13 +33,6 @@ const authHelper = (req, res, next, checkAuthorizationCallback) => {
         } else {
             console.log('bad verify')
         }
-    } else {
-        res.status(HttpStatus.FORBIDDEN).json({
-            error: true,
-            success: false,
-            message: 'No token provided.'
-        });
-    }
 
 }
 

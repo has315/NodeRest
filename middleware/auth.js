@@ -26,6 +26,7 @@ const authHelper = (req, res, next, checkAuthorizationCallback) => {
             token = token.slice(7, token.length);
         }
         console.log('PRE VERIFY')
+        next();
         // Verify token
        }
 

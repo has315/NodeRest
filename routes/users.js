@@ -102,7 +102,6 @@ router.post('/login', function (req, res, next) {
               username: results[0].username,
               account_level: results[0].account_level,
             }
-            console.log(user);
             jwt.sign(user, AppConfig.SECRET).then(token => {
               // Send response
               res.status(HttpStatus.OK).send(JSON.stringify({

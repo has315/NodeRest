@@ -18,8 +18,8 @@ const authAdmin = (req, res, next) => {
 
 const authHelper = (req, res, next, checkAuthorizationCallback) => {
 
+    const token = req.headers['x-access-token'] || req.headers['authorization'];
 }
-
 module.exports = {
     authUser,
     authAdmin

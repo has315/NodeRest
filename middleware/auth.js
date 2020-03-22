@@ -28,8 +28,7 @@ const authHelper = (req, res, next, checkAuthorizationCallback) => {
             token = token.slice(7, token.length);
         }
         // Verify token
-       let a =   jwt.verify(token, AppConfig.SECRET)
-        console.log(a);
+        jwt.verify(token, AppConfig.SECRET)
     } else {
         res.status(HttpStatus.FORBIDDEN).json({
             error: true,

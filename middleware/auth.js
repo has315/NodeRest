@@ -29,10 +29,15 @@ const authHelper = (req, res, next, checkAuthorizationCallback) => {
         // Verify token
         if(        jwt.verify(token, AppConfig.SECRET)
         ){
-            console.log('succesfull verify')
+            return res.status(HttpStatus.OK).json({
+                success: true,
+                message: 'Verified'
+            });
         } else {
-            console.log('bad verify')
-        }
+            return res.status(HttpStatus.UNAUTHORIZED).json({
+                success: false,
+                message: 'Unauthorized access.'
+            });        }
 
 }
 

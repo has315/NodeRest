@@ -27,20 +27,24 @@ const authHelper = (req, res, next, checkAuthorizationCallback) => {
         if (token.startsWith('Bearer ')) {
             token = token.slice(7, token.length);
         }
-
+        console.log('PRE VERIFY')
         // Verify token
         jwt.verify(token, AppConfig.SECRET).then(decoded => {
             console.log(`decoded: ${decoded}`);
             // If checkAuthorizationCallback is true => (super)admin-specific route
             if (checkAuthorizationCallback && checkAuthorizationCallback(decoded.account_level)) {
                 req.decoded = decoded;
+                console.log('FIRST IF')
                 next();
+
             }
             // If checkAuthorizationCallback is false => available for all logged users
             else if (!checkAuthorizationCallback) {
                 req.decoded = decoded;
+                console.log(' SECOND IF')
                 next();
             } else {
+                console.log('NO AUTHORIZATION')
                 // Logged user can't access (super)admin-specific routes
                 return res.status(HttpStatus.UNAUTHORIZED).json({
                     success: false,
@@ -48,10 +52,11 @@ const authHelper = (req, res, next, checkAuthorizationCallback) => {
                 });
             }
         }).catch(err => {
+            console.log('CATCH')
             res.status(HttpStatus.UNAUTHORIZED).json({
                 error: true,
                 success: false,
-                message: 'Unauthorized access.'
+                message: err
             });
         });
     } else {

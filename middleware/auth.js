@@ -21,7 +21,6 @@ const authHelper = (req, res, next, checkAuthorizationCallback) => {
     const token = req.headers['x-access-token'] || req.headers['authorization'];
     console.log('pre if token');
     // Decode token
-    if (token) {
         // Remove unwanted prefix if exists
         if (token.startsWith('Bearer ')) {
             token = token.slice(7, token.length);
@@ -58,14 +57,6 @@ const authHelper = (req, res, next, checkAuthorizationCallback) => {
                 message: err
             });
         });
-    } else {
-        res.status(HttpStatus.FORBIDDEN).json({
-            error: true,
-            success: false,
-            message: 'No token provided.'
-        });
-    }
-
 }
 
 

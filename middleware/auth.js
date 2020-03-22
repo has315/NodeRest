@@ -18,18 +18,7 @@ const authAdmin = (req, res, next) => {
 
 const authHelper = (req, res, next, checkAuthorizationCallback) => {
 
-    const token = req.headers['x-access-token'] || req.headers['authorization'];
-    console.log('pre if token');
-    // Decode token
-        // Remove unwanted prefix if exists
-        if (token.startsWith('Bearer ')) {
-            token = token.slice(7, token.length);
-        }
-        console.log('PRE VERIFY')
-        next();
-        // Verify token
-       }
-
+}
 
 module.exports = {
     authUser,

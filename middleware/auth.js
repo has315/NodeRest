@@ -3,7 +3,7 @@ const AppConfig = require("../db/config").AppConfig;
 
 const jwt_redis = require('jwt-redis');
 const JWTR = jwt_redis.default;
-const jwt = new JWTR(redisClient);
+let jwt = new JWTR(redisClient);
 const HttpStatus = require('http-status-codes');
 
 const isUserAdmin = (userId) => { return userId == 1; }

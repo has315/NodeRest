@@ -7,7 +7,7 @@ const auth = require('../middleware/auth');
 
 
 // GET ALL NON DELETED VOTES
-router.get('/all',  function (req, res, next) {
+router.get('/all', auth.authUser, function (req, res, next) {
   if (!req.query.hasOwnProperty('id') || !req.query.id) {
     return res.status(HttpStatus.BAD_REQUEST).json({
       status: 'Error',

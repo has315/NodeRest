@@ -18,7 +18,7 @@ const authAdmin = (req, res, next) => {
 
 const authHelper = (req, res, next, checkAuthorizationCallback) => {
 
-    const token = req.headers['x-access-token'] || req.headers['authorization'];
+    let token = req.headers['x-access-token'] || req.headers['authorization'];
     console.log(`token: ${token}`);
 
     // Decode token

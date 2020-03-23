@@ -33,12 +33,10 @@ const authHelper = (req, res, next, checkAuthorizationCallback) => {
             console.log(`decoded: ${decoded}`);
             // If checkAuthorizationCallback is true => (super)admin-specific route
             if (checkAuthorizationCallback && checkAuthorizationCallback(decoded.account_level)) {
-                req.decoded = decoded;
                 next();
             }
             // If checkAuthorizationCallback is false => available for all logged users
             else if (!checkAuthorizationCallback) {
-                req.decoded = decoded;
                 next();
             } else {
                 // Logged user can't access (super)admin-specific routes
@@ -51,7 +49,7 @@ const authHelper = (req, res, next, checkAuthorizationCallback) => {
             res.status(HttpStatus.UNAUTHORIZED).json({
                 error: true,
                 success: false,
-                message: 'Unauthorized access.'
+                message: err
             });
         });
     } else {

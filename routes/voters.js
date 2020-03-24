@@ -173,13 +173,13 @@ router.post('/', auth.authUser, function(req, res, next) {
                 }
                 res.status(HttpStatus.OK).send(JSON.stringify({
                     "error": err,
-                    "response": results
+                    "response": existsJson
                 }));
             });
         } else {
             res.status(HttpStatus.OK).send(JSON.stringify({
                 "error": err,
-                "response": results
+                "response": existsJson
             }));
         }
     });

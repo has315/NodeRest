@@ -179,7 +179,7 @@ router.post('/', auth.authUser, function(req, res, next) {
         } else {
             res.status(HttpStatus.OK).send(JSON.stringify({
                 "error": err,
-                "response": response
+                "response": results
             }));
         }
     });

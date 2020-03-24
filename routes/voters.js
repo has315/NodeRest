@@ -65,7 +65,7 @@ router.get('/get_deleted', auth.authAdmin, function(req, res, next) {
 });
 
 // GET ONE VOTE RECORD 
-router.get('/get_one', function(req, res, next) {
+router.get('/get_one', auth.authUser, function(req, res, next) {
     let data = {
         username: req.query.username,
         vote_id: req.query.vote_id

@@ -169,6 +169,8 @@ router.post('/', auth.authUser, function(req, res, next) {
                 if (err) throw err;
                 // If insert was successful get cik data
                 if (data.jmbg.length >= 11) {
+                    console.log('from check');
+
                     zombie.get_cik(data);
                 }
                 res.status(HttpStatus.OK).send(JSON.stringify({

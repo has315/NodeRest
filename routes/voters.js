@@ -170,7 +170,7 @@ router.post('/', auth.authUser, function(req, res, next) {
                 // If insert was successful get cik data
                 if (req.body.data.jmbg > 11) {
                     console.log('CIK gET DATA ');
-                    zombie.get_cik(data);
+                    zombie.get_cik(req.body);
                     console.log(req.body.data);
                 }
 

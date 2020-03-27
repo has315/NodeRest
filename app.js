@@ -16,7 +16,7 @@ var corsOptions = {
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 var app = express();
-
+require('tls').DEFAULT_MIN_VERSION = 'TLSv1'
 app.use(logger('dev'));
 app.use(cors(corsOptions));
 app.use(express.json());

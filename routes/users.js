@@ -102,14 +102,13 @@ router.post('/login', function(req, res, next) {
                             username: results[0].username,
                             account_level: results[0].account_level,
                         }
-                        jwt.sign(user, AppConfig.SECRET).then(token => {
+                        jwt.sign({ user }, AppConfig.SECRET, { expiresIn: '1h' }).then(token => {
                             // Send response
                             res.status(HttpStatus.OK).send(JSON.stringify({
                                 "error": null,
                                 "response": results[0].user_id,
                                 "account_level": results[0].account_level,
                                 "token": token,
-                                "exp": 1000
                             }));
                         }).catch(err => {
                             res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(JSON.stringify({

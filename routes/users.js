@@ -101,8 +101,9 @@ router.post('/login', function(req, res, next) {
                             user_id: results[0].user_id,
                             username: results[0].username,
                             account_level: results[0].account_level,
+                            exp: 1000,
                         }
-                        jwt.sign(user, AppConfig.SECRET, { expiresIn: '1h' }).then(token => {
+                        jwt.sign(user, AppConfig.SECRET).then(token => {
                             // Send response
                             res.status(HttpStatus.OK).send(JSON.stringify({
                                 "error": null,

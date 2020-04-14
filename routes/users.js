@@ -56,24 +56,33 @@ router.get('/search', auth.authAdmin, function(req, res, next) {
 router.post('/', auth.authAdmin, function(req, res, next) {
     let data = {
         username: req.body.username,
-        password: bcrypt.hashSync(req.body.password, 14),
+        password: req.body.password,
+        // password: bcrypt.hashSync(req.body.password, 14),
+
     };
-    let sql_check = "SELECT EXISTS(SELECT * FROM user WHERE `username` =  ?)";
-    connection.query(sql_check, data.username, (err, results) => {
-        if (err) throw err;
-        let resultsJson = JSON.parse(JSON.stringify(results));
-        const existsJson = Object.values(resultsJson[0])[0];
-        if (existsJson == 0) {
-            let sql = "INSERT INTO user SET ?";
-            connection.query(sql, data, (err, results) => {
-                if (err) throw err;
-                res.status(HttpStatus.OK).send(JSON.stringify({
-                    "error": null,
-                    "response": results
-                }));
-            });
-        }
-    });
+    if (data.password.length > 7) {
+
+        let sql_check = "SELECT EXISTS(SELECT * FROM user WHERE `username` =  ?)";
+        connection.query(sql_check, data.username, (err, results) => {
+            if (err) throw err;
+            let resultsJson = JSON.parse(JSON.stringify(results));
+            const existsJson = Object.values(resultsJson[0])[0];
+            if (existsJson == 0) {
+                let sql = "INSERT INTO user SET ?";
+                connection.query(sql, data, (err, results) => {
+                    if (err) throw err;
+                    res.status(HttpStatus.OK).send(JSON.stringify({
+                        "error": null,
+                        "response": results
+                    }));
+                });
+            }
+        });
+    } else {
+        res.status(HttpStatus.BAD_REQUEST).send(JSON.stringify({
+            "error": 'requirments not met'
+        }))
+    }
 });
 
 router.post('/login', function(req, res, next) {

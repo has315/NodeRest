@@ -150,7 +150,7 @@ router.post('/delete', auth.authAdmin, function(req, res, next) {
 
     let sql = "DELETE FROM `user` WHERE user_id = ?";
 
-    connection.query(sql, data.vote_id, (err, results) => {
+    connection.query(sql, data.user_id, (err, results) => {
         if (err) throw err;
         res.status(HttpStatus.OK).send(JSON.stringify({
             "error": null,

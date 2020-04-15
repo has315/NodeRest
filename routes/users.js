@@ -54,13 +54,12 @@ router.get('/search', auth.authAdmin, function(req, res, next) {
 });
 
 router.post('/', auth.authAdmin, function(req, res, next) {
-    let data = {
-        username: req.body.username,
-        password: req.body.password,
-        // password: bcrypt.hashSync(req.body.password, 14),
 
-    };
-    if (data.password.length > 7) {
+    if (req.body.password.length > 7) {
+        let data = {
+            username: req.body.username,
+            password: bcrypt.hashSync(req.body.password, 14)
+        }
 
         let sql_check = "SELECT EXISTS(SELECT * FROM user WHERE `username` =  ?)";
         connection.query(sql_check, data.username, (err, results) => {

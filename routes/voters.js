@@ -158,7 +158,7 @@ router.post('/', auth.authUser, function(req, res, next) {
     };
 
 
-    let sql_check = "SELECT EXISTS(SELECT * FROM vote WHERE `jmbg` =  ?)";
+    let sql_check = "SELECT EXISTS(SELECT * FROM vote WHERE `jmbg` =  ? AND `first_name` = ? AND `last_name` = ?)";
     connection.query(sql_check, data.jmbg, (err, results) => {
         if (err) throw err;
         let resultsJson = JSON.parse(JSON.stringify(results));
@@ -168,7 +168,7 @@ router.post('/', auth.authUser, function(req, res, next) {
             connection.query(sql_update, data, (err, results) => {
                 if (err) throw err;
                 // If insert was successful get cik data
-                if (data.jmbg >= 11) {
+                if (data.jmbg == 13) {
                     zombie.get_cik(req.body);
                 }
                 res.status(HttpStatus.OK).send(JSON.stringify({

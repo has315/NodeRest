@@ -146,13 +146,11 @@ router.post('/edit_request_delete', auth.authAdmin, function (req, res, next) {
 
 function isValidVoter(vote) {
     let valid = true;
-    Object.keys(obj).forEach(key => {
+    Object.keys(vote).forEach(key => {
         if (vote[key].length < 1 && key != "jmbg") {
             valid = false;
-            console.log(`${key}`);
         } else if (key == "jmbg" && vote[key].length != 13) {
             valid = false;
-            console.log(`JMBG: ${vote[key]}`);
         }
     })
     return valid;

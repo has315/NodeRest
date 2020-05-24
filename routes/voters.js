@@ -92,7 +92,6 @@ router.post('/edit_request', auth.authUser, function (req, res, next) {
         delegated: req.body.delegated,
         added: req.body.added
     };
-    zombie.get_cik(data);
 
     let sql = "INSERT INTO vote_edit SET ?";
     connection.query(sql, data, (err, results) => {
@@ -115,6 +114,7 @@ router.post('/update', auth.authAdmin, function (req, res, next) {
         vote_id: req.body.vote_id
     };
     zombie.get_cik(data);
+
 
     let sql = "UPDATE vote SET first_name=?, last_name=?, jmbg=?, phone_number=?, delegated=? WHERE vote_id=?";
     connection.query(sql, [data.first_name, data.last_name, data.jmbg, data.phone_number, data.delegated, data.vote_id], (err, results) => {
@@ -178,8 +178,8 @@ router.post('/', auth.authUser, function (req, res, next) {
         }));
     }
 
-    let sql_check = "SELECT EXISTS(SELECT * FROM vote WHERE `jmbg` =  ?)";
-    connection.query(sql_check, data.jmbg, (err, results) => {
+    let sql_check = "SELECT EXISTS(SELECT * FROM vote WHERE `jmbg` =  ? AND `first_name` = ? AND `last_name` = ?)";
+    connection.query(sql_check, data.jmbg, data.first_name, data.last_name, (err, results) => {
         if (err) throw err;
         let resultsJson = JSON.parse(JSON.stringify(results));
         const existsJson = Object.values(resultsJson[0])[0];
@@ -188,18 +188,18 @@ router.post('/', auth.authUser, function (req, res, next) {
             connection.query(sql_update, data, (err, results) => {
                 if (err) throw err;
                 // If insert was successful get cik data
-                if (data.jmbg.length <= 11) {
-                    zombie.get_cik(data);
+                if (data.jmbg == 13) {
+                    zombie.get_cik(req.body);
                 }
                 res.status(HttpStatus.OK).send(JSON.stringify({
                     "error": err,
-                    "response": results
+                    "response": existsJson
                 }));
             });
         } else {
             res.status(HttpStatus.OK).send(JSON.stringify({
                 "error": err,
-                "response": results
+                "response": existsJson
             }));
         }
     });

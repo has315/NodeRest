@@ -54,26 +54,34 @@ router.get('/search', auth.authAdmin, function(req, res, next) {
 });
 
 router.post('/', auth.authAdmin, function(req, res, next) {
-    let data = {
-        username: req.body.username,
-        password: bcrypt.hashSync(req.body.password, 14),
-    };
-    let sql_check = "SELECT EXISTS(SELECT * FROM user WHERE `username` =  ?)";
-    connection.query(sql_check, data.username, (err, results) => {
-        if (err) throw err;
-        let resultsJson = JSON.parse(JSON.stringify(results));
-        const existsJson = Object.values(resultsJson[0])[0];
-        if (existsJson == 0) {
-            let sql = "INSERT INTO user SET ?";
-            connection.query(sql, data, (err, results) => {
-                if (err) throw err;
-                res.status(HttpStatus.OK).send(JSON.stringify({
-                    "error": null,
-                    "response": results
-                }));
-            });
+
+    if (req.body.password.length > 7) {
+        let data = {
+            username: req.body.username,
+            password: bcrypt.hashSync(req.body.password, 14)
         }
-    });
+
+        let sql_check = "SELECT EXISTS(SELECT * FROM user WHERE `username` =  ?)";
+        connection.query(sql_check, data.username, (err, results) => {
+            if (err) throw err;
+            let resultsJson = JSON.parse(JSON.stringify(results));
+            const existsJson = Object.values(resultsJson[0])[0];
+            if (existsJson == 0) {
+                let sql = "INSERT INTO user SET ?";
+                connection.query(sql, data, (err, results) => {
+                    if (err) throw err;
+                    res.status(HttpStatus.OK).send(JSON.stringify({
+                        "error": null,
+                        "response": results
+                    }));
+                });
+            }
+        });
+    } else {
+        res.status(HttpStatus.BAD_REQUEST).send(JSON.stringify({
+            "error": 'requirments not met'
+        }))
+    }
 });
 
 router.post('/login', function(req, res, next) {
@@ -102,7 +110,7 @@ router.post('/login', function(req, res, next) {
                             username: results[0].username,
                             account_level: results[0].account_level,
                         }
-                        jwt.sign(user, AppConfig.SECRET).then(token => {
+                        jwt.sign(user, AppConfig.SECRET, { expiresIn: '1h' }).then(token => {
                             // Send response
                             res.status(HttpStatus.OK).send(JSON.stringify({
                                 "error": null,
@@ -133,4 +141,21 @@ router.post('/login', function(req, res, next) {
         }
     });
 });
+
+router.post('/delete', auth.authAdmin, function(req, res, next) {
+    let data = {
+        user_id: req.body.user_id
+    };
+
+    let sql = "DELETE FROM `user` WHERE user_id = ?";
+
+    connection.query(sql, data.user_id, (err, results) => {
+        if (err) throw err;
+        res.status(HttpStatus.OK).send(JSON.stringify({
+            "error": null,
+            "response": results,
+        }));
+    });
+});
+
 module.exports = router;

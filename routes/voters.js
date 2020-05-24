@@ -6,6 +6,19 @@ const zombie = require('../test/zombie');
 const auth = require('../middleware/auth');
 
 
+function isValidVoter(vote) {
+    let valid = true;
+    Object.keys(vote).forEach(key => {
+        if (vote[key].length < 1 && key != "jmbg") {
+            valid = false;
+        } else if (key == "jmbg" && vote[key].length != 13) {
+            valid = false;
+        }
+    })
+    return valid;
+}
+
+
 // GET ALL NON DELETED VOTES
 router.get('/all', auth.authUser, function (req, res, next) {
     if (!req.query.hasOwnProperty('id') || !req.query.id) {
@@ -113,8 +126,15 @@ router.post('/update', auth.authAdmin, function (req, res, next) {
         delegated: req.body.delegated,
         vote_id: req.body.vote_id
     };
-    zombie.get_cik(data);
 
+    if (!isValidVoter(data)) {
+        res.status(HttpStatus.OK).send(JSON.stringify({
+            "error": err,
+            "response": "Invalid vote format"
+        }));
+    }
+
+    zombie.get_cik(data);
 
     let sql = "UPDATE vote SET first_name=?, last_name=?, jmbg=?, phone_number=?, delegated=? WHERE vote_id=?";
     connection.query(sql, [data.first_name, data.last_name, data.jmbg, data.phone_number, data.delegated, data.vote_id], (err, results) => {
@@ -143,18 +163,6 @@ router.post('/edit_request_delete', auth.authAdmin, function (req, res, next) {
         }));
     });
 });
-
-function isValidVoter(vote) {
-    let valid = true;
-    Object.keys(vote).forEach(key => {
-        if (vote[key].length < 1 && key != "jmbg") {
-            valid = false;
-        } else if (key == "jmbg" && vote[key].length != 13) {
-            valid = false;
-        }
-    })
-    return valid;
-}
 
 
 // INSERT NEW VOTE

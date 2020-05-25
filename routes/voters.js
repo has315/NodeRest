@@ -9,11 +9,12 @@ const auth = require('../middleware/auth');
 function isValidVoter(vote) {
     let valid = true;
     Object.keys(vote).forEach(key => {
-        if (vote[key].length < 1 && key != "jmbg") {
-            valid = false;
-        } else if (key == "jmbg" && vote[key].length != 13) {
-            valid = false;
-        }
+        if (vote[key])
+            if (key != "jmbg" && vote[key].length < 1) {
+                valid = false;
+            } else if (key == "jmbg" && vote[key].length != 13) {
+                valid = false;
+            }
     })
     return valid;
 }

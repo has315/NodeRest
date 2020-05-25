@@ -14,7 +14,7 @@ const AppConfig = {
     // REDIS_HOST: "165.22.66.219",
     REDIS_HOST: "localhost",
     REDIS_PORT: 6379,
-    LOG_DIR: "/logs"
+    LOG_DIR: "../logs"
 };
 
 module.exports.AppConfig = AppConfig;

@@ -195,7 +195,7 @@ router.post('/', auth.authUser, function(req, res, next) {
             connection.query(sql_update, data, (err, results) => {
                 if (err) throw err;
                 // If insert was successful get cik data
-                if (data.jmbg == 13) {
+                if (data.jmbg.length == 13) {
                     zombie.get_cik(req.body);
                 }
                 res.status(HttpStatus.OK).send(JSON.stringify({

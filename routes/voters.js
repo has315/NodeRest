@@ -183,7 +183,7 @@ router.post('/', auth.authUser, function (req, res, next) {
 
     if (!isValidVoter(data)) {
         res.status(HttpStatus.OK).send(JSON.stringify({
-            "error": err,
+            "error": "[INVALID FORMAT]",
             "response": "Invalid vote format"
         }));
     }

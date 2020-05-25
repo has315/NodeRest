@@ -195,13 +195,13 @@ router.post('/', auth.authUser, function(req, res, next) {
 
     let sql_check = "SELECT EXISTS(SELECT * FROM vote WHERE `jmbg` =  ?)";
     connection.query(sql_check, data.jmbg, (err, results) => {
-        if (!isValidVoter(data)) {
-            res.status(HttpStatus.OK).send(JSON.stringify({
-                "error": "[INVALID FORMAT]",
-                "response": "Invalid vote format"
-            }));
-            return
-        }
+        // if (!isValidVoter(data)) {
+        //     res.status(HttpStatus.OK).send(JSON.stringify({
+        //         "error": "[INVALID FORMAT]",
+        //         "response": "Invalid vote format"
+        //     }));
+        //     return
+        // }
         if (err) throw err;
         let resultsJson = JSON.parse(JSON.stringify(results));
         const existsJson = Object.values(resultsJson[0])[0];

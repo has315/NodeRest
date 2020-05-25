@@ -13,15 +13,15 @@ function isValidVoter(vote) {
             if (key != "jmbg" && vote[key].length < 1) {
                 valid = false;
             } else if (key == "jmbg" && vote[key].length != 13) {
-                valid = false;
-            }
+            valid = false;
+        }
     })
     return valid;
 }
 
 
 // GET ALL NON DELETED VOTES
-router.get('/all', auth.authUser, function (req, res, next) {
+router.get('/all', auth.authUser, function(req, res, next) {
     if (!req.query.hasOwnProperty('id') || !req.query.id) {
         return res.status(HttpStatus.BAD_REQUEST).json({
             status: 'Error',
@@ -55,9 +55,9 @@ router.get('/all', auth.authUser, function (req, res, next) {
 });
 
 // GET ALL EDITED VOTES
-router.get('/get_edit', auth.authAdmin, function (req, res, next) {
+router.get('/get_edit', auth.authAdmin, function(req, res, next) {
     let sql = 'SELECT * FROM `vote_edit_full_view`';
-    connection.query(sql, function (error, results, fields) {
+    connection.query(sql, function(error, results, fields) {
         if (error) throw error;
         res.status(HttpStatus.OK).send(JSON.stringify({
             "error": null,
@@ -67,9 +67,9 @@ router.get('/get_edit', auth.authAdmin, function (req, res, next) {
 });
 
 // GET ALL DELETED VOTES
-router.get('/get_deleted', auth.authAdmin, function (req, res, next) {
+router.get('/get_deleted', auth.authAdmin, function(req, res, next) {
     let sql = 'SELECT * FROM `vote` WHERE `delete_request` = 1';
-    connection.query(sql, function (error, results, fields) {
+    connection.query(sql, function(error, results, fields) {
         if (error) throw error;
         res.status(HttpStatus.OK).send(JSON.stringify({
             "error": null,
@@ -79,14 +79,14 @@ router.get('/get_deleted', auth.authAdmin, function (req, res, next) {
 });
 
 // GET ONE VOTE RECORD 
-router.get('/get_one', auth.authUser, function (req, res, next) {
+router.get('/get_one', auth.authUser, function(req, res, next) {
     let data = {
         username: req.query.username,
         vote_id: req.query.vote_id
     }
 
     let sql = "SELECT * FROM `vote` WHERE `delete_request` = 0 AND vote_id = ?";
-    connection.query(sql, data.vote_id, function (error, results, fields) {
+    connection.query(sql, data.vote_id, function(error, results, fields) {
         if (error) throw error;
         res.status(HttpStatus.OK).send(JSON.stringify({
             "error": null,
@@ -96,7 +96,7 @@ router.get('/get_one', auth.authUser, function (req, res, next) {
 });
 
 // INSERT EDITED VOTE
-router.post('/edit_request', auth.authUser, function (req, res, next) {
+router.post('/edit_request', auth.authUser, function(req, res, next) {
     let data = {
         vote_id: req.body.vote_id,
         first_name: req.body.first_name,
@@ -118,7 +118,7 @@ router.post('/edit_request', auth.authUser, function (req, res, next) {
 });
 
 // UPDATE VOTE
-router.post('/update', auth.authAdmin, function (req, res, next) {
+router.post('/update', auth.authAdmin, function(req, res, next) {
     let data = {
         first_name: req.body.first_name,
         last_name: req.body.last_name,
@@ -150,7 +150,7 @@ router.post('/update', auth.authAdmin, function (req, res, next) {
 
 
 // DECLINE AND DELETE VOTE EDIT ENTRY
-router.post('/edit_request_delete', auth.authAdmin, function (req, res, next) {
+router.post('/edit_request_delete', auth.authAdmin, function(req, res, next) {
     let data = {
         vote_id: req.body.vote_id
     }
@@ -167,7 +167,7 @@ router.post('/edit_request_delete', auth.authAdmin, function (req, res, next) {
 
 
 // INSERT NEW VOTE
-router.post('/', auth.authUser, function (req, res, next) {
+router.post('/', auth.authUser, function(req, res, next) {
     let data = {
         vote_id: req.body.user_id,
         first_name: req.body.first_name,
@@ -185,8 +185,8 @@ router.post('/', auth.authUser, function (req, res, next) {
         }));
     }
 
-    let sql_check = "SELECT EXISTS(SELECT * FROM vote WHERE `jmbg` =  ? AND `first_name` = ? AND `last_name` = ?)";
-    connection.query(sql_check, data.jmbg, data.first_name, data.last_name, (err, results) => {
+    let sql_check = "SELECT EXISTS(SELECT * FROM vote WHERE `jmbg` =  ?)";
+    connection.query(sql_check, data.jmbg, (err, results) => {
         if (err) throw err;
         let resultsJson = JSON.parse(JSON.stringify(results));
         const existsJson = Object.values(resultsJson[0])[0];
@@ -213,7 +213,7 @@ router.post('/', auth.authUser, function (req, res, next) {
 });
 
 // SEARCH FUNCTIONALITY
-router.get('/search', auth.authUser, function (req, res, next) {
+router.get('/search', auth.authUser, function(req, res, next) {
     // Escape input to prevent SQL Injection
     let data = {
         key: connection.escape(req.query.key).replace(/'/g, ""),
@@ -244,7 +244,7 @@ router.get('/search', auth.authUser, function (req, res, next) {
 });
 
 // SETS FLAG FOR DELETION = 1
-router.post('/delete_request', auth.authUser, function (req, res, next) {
+router.post('/delete_request', auth.authUser, function(req, res, next) {
     let data = {
         jmbg: req.body.jmbg
     };
@@ -260,7 +260,7 @@ router.post('/delete_request', auth.authUser, function (req, res, next) {
 });
 
 // DELETE FROM VOTE
-router.post('/delete', auth.authAdmin, function (req, res, next) {
+router.post('/delete', auth.authAdmin, function(req, res, next) {
     let data = {
         vote_id: req.body.vote_id
     };
@@ -277,7 +277,7 @@ router.post('/delete', auth.authAdmin, function (req, res, next) {
 });
 
 // DECLINE DELETE AND  SETS DELETION FLAG TO 0
-router.post('/delete_decline', auth.authAdmin, auth.authUser, function (req, res, next) {
+router.post('/delete_decline', auth.authAdmin, auth.authUser, function(req, res, next) {
     let data = {
         vote_id: req.body.vote_id
     };

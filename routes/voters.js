@@ -1,9 +1,12 @@
+const AppConfig = require("../db/config").AppConfig;)
+
 const express = require('express');
 const HttpStatus = require('http-status-codes');
 const router = express.Router();
 const connection = require('../db/mysql');
 const zombie = require('../test/zombie');
 const auth = require('../middleware/auth');
+const logger = require('./logger').createLogger(`${AppConfig.LOG_DIR}/voters.logs`);
 
 
 function isValidVoter(vote) {
@@ -35,13 +38,17 @@ router.get('/all', auth.authUser, function (req, res, next) {
     var sql = 'SELECT * FROM vote_full_view WHERE delete_request = 0';
     let id = req.query.id;
     let callback = (err, results) => {
-        if (err) throw err;
+        if (err) {
+            logger.error(`ID: ${id} FAILED QUERY: ${sql}`);
+            throw err;
+        }
         if (results)
             res.status(HttpStatus.OK).send(JSON.stringify({
                 "error": null,
                 "response": results
             }));
         else {
+            logger.info(`ID: ${id}`);
             return res.status(HttpStatus.NOT_FOUND).json({
                 status: "error",
                 message: "Vote not found"
@@ -61,7 +68,10 @@ router.get('/all', auth.authUser, function (req, res, next) {
 router.get('/get_edit', auth.authAdmin, function (req, res, next) {
     let sql = 'SELECT * FROM `vote_edit_full_view`';
     connection.query(sql, function (error, results, fields) {
-        if (error) throw error;
+        if (error) {
+            logger.error("UNABLE TO GET ALL EDITED VOTES")
+            throw error;
+        }
         res.status(HttpStatus.OK).send(JSON.stringify({
             "error": null,
             "response": results

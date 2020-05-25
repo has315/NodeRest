@@ -186,7 +186,7 @@ router.post('/', auth.authUser, function(req, res, next) {
     }
 
     let sql_check = "SELECT EXISTS(SELECT * FROM vote WHERE `jmbg` =  ? AND `first_name` = ? AND `last_name` = ?)";
-    connection.query(sql_check, data.jmbg, data.first_name, data.last_name, (err, results) => {
+    connection.query(sql_check, data, (err, results) => {
         if (err) throw err;
         let resultsJson = JSON.parse(JSON.stringify(results));
         const existsJson = Object.values(resultsJson[0])[0];

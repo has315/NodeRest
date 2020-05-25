@@ -5,7 +5,7 @@ const router = express.Router();
 const connection = require('../db/mysql');
 const zombie = require('../test/zombie');
 const auth = require('../middleware/auth');
-const logger = require('logger').createLogger(`${AppConfig.LOG_DIR}/voters.logs`);
+const logger = require('logger').createLogger(`..${AppConfig.LOG_DIR}/voters.logs`);
 
 
 // function isValidVoter(vote)   {

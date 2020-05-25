@@ -9,6 +9,7 @@ const logger = require('logger').createLogger(`${AppConfig.LOG_DIR}/voters.logs`
 
 
 // function isValidVoter(vote)   {
+// function isValidVoter(vote)   {
 //     let valid = true;
 //     Object.keys(vote).forEach(key => {
 //         if (vote[key]) {

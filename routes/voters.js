@@ -9,11 +9,13 @@ const logger = require('logger').createLogger(`voters.logs`);
 
 
 function isValidVoter(vote) {
-    console.log(vote);
     let valid = true;
     if (vote.jmbg.length != 13)
         valid = false;
-    else if (vote.first_name.length < 1 || vote.last_name.length < 1 || vote.delegated.length < 1 || vote.added.length < 1)
+    else if (vote.first_name.length < 1
+        || vote.last_name.length < 1
+        || vote.delegated.length < 1
+        || vote.added.length < 1)
         valid = false;
 
     return valid;

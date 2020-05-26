@@ -9,19 +9,13 @@ const logger = require('logger').createLogger(`voters.logs`);
 
 
 function isValidVoter(vote) {
+    console.log(vote);
     let valid = true;
-    Object.keys(vote).forEach(key => {
-        console.log(key);
-        if (vote[key]) {
-            if (key == "jmbg" && vote[key].length != 13) {
-                valid = false;
-            } else if (key != "jmbg" && vote[key].length < 1) {
-                valid = false;
-            }
-        } else {
-            valid = false;
-        }
-    })
+    if (vote.jmbg.length != 13)
+        valid = false;
+    else if (vote.first_name.length < 1 || vote.last_name.length < 1 || vote.delegated.length < 1 || vote.added.length < 1)
+        valid = false;
+
     return valid;
 }
 

@@ -7,6 +7,7 @@ const zombie = require('../test/zombie');
 const auth = require('../middleware/auth');
 const logger = require('logger').createLogger(`voters.logs`);
 
+logger.info("-================ LOGGER STARTED ================-")
 
 function isValidVoter(vote) {
     let valid = true;

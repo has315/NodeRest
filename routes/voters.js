@@ -11,10 +11,11 @@ const logger = require('logger').createLogger(`voters.logs`);
 function isValidVoter(vote) {
     let valid = true;
     Object.keys(vote).forEach(key => {
+        console.log(key);
         if (vote[key]) {
-            if (key != "jmbg" && vote[key].length < 1) {
+            if (key == "jmbg" && vote[key].length != 13) {
                 valid = false;
-            } else if (key == "jmbg" && vote[key].length != 13) {
+            } else if (key != "jmbg" && vote[key].length < 1) {
                 valid = false;
             }
         } else {
@@ -143,7 +144,7 @@ router.post('/update', auth.authAdmin, function (req, res, next) {
     };
 
     if (!isValidVoter(data)) {
-        res.status(HttpStatus.OK).send(JSON.stringify({
+        res.status(HttpStatus.NOT_ACCEPTABLE).send(JSON.stringify({
             "error": err,
             "response": "Invalid vote format"
         }));

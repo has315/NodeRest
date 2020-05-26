@@ -67,7 +67,7 @@ router.get('/get_edit', auth.authAdmin, function (req, res, next) {
         if (error) throw error;
         connection.query(sql, function (error, results, fields) {
             if (error) {
-                logger.error("UNABLE TO GET ALL EDITED VOTES")
+                logger.error("UNABLE TO GET ALL EDITED VOTES");
                 throw error;
             }
             res.status(HttpStatus.OK).send(JSON.stringify({
@@ -81,7 +81,10 @@ router.get('/get_edit', auth.authAdmin, function (req, res, next) {
 router.get('/get_deleted', auth.authAdmin, function (req, res, next) {
     let sql = 'SELECT * FROM `vote` WHERE `delete_request` = 1';
     connection.query(sql, function (error, results, fields) {
-        if (error) throw error;
+        if (error) {
+            logger.error("UNABLE TO GET DELETE REQUEST")
+            throw error;
+        }
         res.status(HttpStatus.OK).send(JSON.stringify({
             "error": null,
             "response": results
@@ -98,7 +101,10 @@ router.get('/get_one', auth.authUser, function (req, res, next) {
 
     let sql = "SELECT * FROM `vote` WHERE `delete_request` = 0 AND vote_id = ?";
     connection.query(sql, data.vote_id, function (error, results, fields) {
-        if (error) throw error;
+        if (error) {
+            logger.error(`UNABLE TO GET VOTE | DATA: ${data.vote_id}`);
+            throw error;
+        }
         res.status(HttpStatus.OK).send(JSON.stringify({
             "error": null,
             "response": results
@@ -120,7 +126,10 @@ router.post('/edit_request', auth.authUser, function (req, res, next) {
 
     let sql = "INSERT INTO vote_edit SET ?";
     connection.query(sql, data, (err, results) => {
-        if (err) throw err;
+        if (err) {
+            logger.error(`UNABLE TO INSERT EDIT REQUEST | DATA: ${data}`);
+            throw err;
+        }
         res.status(HttpStatus.OK).send(JSON.stringify({
             "error": null,
             "response": results
@@ -149,7 +158,10 @@ router.post('/update', auth.authAdmin, function (req, res, next) {
 
         let sql = "UPDATE vote SET first_name=?, last_name=?, jmbg=?, phone_number=?, delegated=? WHERE vote_id=?";
         connection.query(sql, [data.first_name, data.last_name, data.jmbg, data.phone_number, data.delegated, data.vote_id], (err, results) => {
-            if (err) throw err;
+            if (err) {
+                logger.error(`UNABLE TO UPDATE VOTE | DATA: ${data}`);
+                throw error;
+            }
             // console.log(results);
             res.status(HttpStatus.OK).send(JSON.stringify({
                 "error": null,
@@ -168,7 +180,10 @@ router.post('/edit_request_delete', auth.authAdmin, function (req, res, next) {
 
     let sql = "DELETE FROM `vote_edit` WHERE vote_id = ?";
     connection.query(sql, data.vote_id, (err, results) => {
-        if (err) throw err;
+        if (err) {
+            console.error(`UNABLE TO DELETE VOTE EDIT | DATA: ${data}`);
+            throw err;
+        }
         res.status(HttpStatus.OK).send(JSON.stringify({
             "error": null,
             "response": results
@@ -196,13 +211,19 @@ router.post('/', auth.authUser, function (req, res, next) {
     } else {
         let sql_check = "SELECT EXISTS(SELECT * FROM vote WHERE `jmbg` =  ?)";
         connection.query(sql_check, data.jmbg, (err, results) => {
-            if (err) throw err;
+            if (err) {
+                logger.error(`UNABLE TO CHECK IF DATA EXISTS | DATA: ${data}`);
+                throw err
+            }
             let resultsJson = JSON.parse(JSON.stringify(results));
             const existsJson = Object.values(resultsJson[0])[0];
             if (existsJson == 0) {
                 let sql_update = "INSERT INTO vote SET ?"
                 connection.query(sql_update, data, (err, results) => {
-                    if (err) throw err;
+                    if (err) {
+                        logger.error(`UNABLE TO INSERT VOTE| DATA: ${data}`);
+                        throw err
+                    }
                     // If insert was successful get cik data
                     if (data.jmbg.length == 13) {
                         zombie.get_cik(req.body);
@@ -245,7 +266,10 @@ router.get('/search', auth.authUser, function (req, res, next) {
     }
 
     connection.query(sql, [], (err, results) => {
-        if (err) throw err;
+        if (err) {
+            logger.error(`UNABLE TO SEARCH | DATA: ${data}`);
+            throw err
+        }
         res.status(HttpStatus.OK).send(JSON.stringify({
             "error": null,
             "response": results
@@ -261,7 +285,10 @@ router.post('/delete_request', auth.authUser, function (req, res, next) {
 
     let sql = 'UPDATE `vote` SET `delete_request` = 1 WHERE `jmbg` = ?';
     connection.query(sql, data.jmbg, (err, results) => {
-        if (err) throw err;
+        if (err) {
+            logger.error(`UNABLE TO SET FLAG FOR DELETION | DATA: ${data}`);
+            throw err
+        }
         res.status(HttpStatus.OK).send(JSON.stringify({
             "error": null,
             "response": results,
@@ -278,7 +305,10 @@ router.post('/delete', auth.authAdmin, function (req, res, next) {
     let sql = "DELETE FROM `vote` WHERE vote_id = ?";
 
     connection.query(sql, data.vote_id, (err, results) => {
-        if (err) throw err;
+        if (err) {
+            logger.error(`UNABLE TO DELETE VOTE | DATA: ${data}`);
+            throw err
+        }
         res.status(HttpStatus.OK).send(JSON.stringify({
             "error": null,
             "response": results,
@@ -294,7 +324,10 @@ router.post('/delete_decline', auth.authAdmin, auth.authUser, function (req, res
 
     let sql = 'UPDATE `vote` SET `delete_request` = 0 WHERE vote_id = ?';
     connection.query(sql, data.vote_id, (err, results) => {
-        if (err) throw err;
+        if (err) {
+            logger.error(`UNABLE TO DECLINE DELETION | DATA: ${data}`);
+            throw err
+        }
         res.status(HttpStatus.OK).send(JSON.stringify({
             "error": null,
             "response": results,

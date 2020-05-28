@@ -128,7 +128,7 @@ router.post('/edit_request', auth.authUser, function (req, res, next) {
     let sql = "INSERT INTO vote_edit SET ?";
     connection.query(sql, data, (err, results) => {
         if (err) {
-            logger.error(`UNABLE TO INSERT EDIT REQUEST | DATA: ${data}`);
+            logger.error(`UNABLE TO INSERT EDIT REQUEST | DATA: ${JSON.stringify(data)}`);
             throw err;
         }
         res.status(HttpStatus.OK).send(JSON.stringify({
@@ -160,7 +160,7 @@ router.post('/update', auth.authAdmin, function (req, res, next) {
         let sql = "UPDATE vote SET first_name=?, last_name=?, jmbg=?, phone_number=?, delegated=? WHERE vote_id=?";
         connection.query(sql, [data.first_name, data.last_name, data.jmbg, data.phone_number, data.delegated, data.vote_id], (err, results) => {
             if (err) {
-                logger.error(`UNABLE TO UPDATE VOTE | DATA: ${data}`);
+                logger.error(`UNABLE TO UPDATE VOTE | DATA: ${JSON.stringify(data)}`);
                 throw error;
             }
             // console.log(results);
@@ -182,7 +182,7 @@ router.post('/edit_request_delete', auth.authAdmin, function (req, res, next) {
     let sql = "DELETE FROM `vote_edit` WHERE vote_id = ?";
     connection.query(sql, data.vote_id, (err, results) => {
         if (err) {
-            console.error(`UNABLE TO DELETE VOTE EDIT | DATA: ${data}`);
+            console.error(`UNABLE TO DELETE VOTE EDIT | DATA: ${JSON.stringify(data)}`);
             throw err;
         }
         res.status(HttpStatus.OK).send(JSON.stringify({
@@ -213,7 +213,7 @@ router.post('/', auth.authUser, function (req, res, next) {
         let sql_check = "SELECT EXISTS(SELECT * FROM vote WHERE `jmbg` =  ?)";
         connection.query(sql_check, data.jmbg, (err, results) => {
             if (err) {
-                logger.error(`UNABLE TO CHECK IF DATA EXISTS | DATA: ${data}`);
+                logger.error(`UNABLE TO CHECK IF DATA EXISTS | DATA: ${JSON.stringify(data)}`);
                 throw err
             }
             let resultsJson = JSON.parse(JSON.stringify(results));
@@ -222,7 +222,7 @@ router.post('/', auth.authUser, function (req, res, next) {
                 let sql_update = "INSERT INTO vote SET ?"
                 connection.query(sql_update, data, (err, results) => {
                     if (err) {
-                        logger.error(`UNABLE TO INSERT VOTE| DATA: ${data}`);
+                        logger.error(`UNABLE TO INSERT VOTE| DATA: ${JSON.stringify(data)}`);
                         throw err
                     }
                     // If insert was successful get cik data
@@ -268,7 +268,7 @@ router.get('/search', auth.authUser, function (req, res, next) {
 
     connection.query(sql, [], (err, results) => {
         if (err) {
-            logger.error(`UNABLE TO SEARCH | DATA: ${data}`);
+            logger.error(`UNABLE TO SEARCH | DATA: ${JSON.stringify(data)}`);
             throw err
         }
         res.status(HttpStatus.OK).send(JSON.stringify({
@@ -287,7 +287,7 @@ router.post('/delete_request', auth.authUser, function (req, res, next) {
     let sql = 'UPDATE `vote` SET `delete_request` = 1 WHERE `jmbg` = ?';
     connection.query(sql, data.jmbg, (err, results) => {
         if (err) {
-            logger.error(`UNABLE TO SET FLAG FOR DELETION | DATA: ${data}`);
+            logger.error(`UNABLE TO SET FLAG FOR DELETION | DATA: ${JSON.stringify(data)}`);
             throw err
         }
         res.status(HttpStatus.OK).send(JSON.stringify({
@@ -307,7 +307,7 @@ router.post('/delete', auth.authAdmin, function (req, res, next) {
 
     connection.query(sql, data.vote_id, (err, results) => {
         if (err) {
-            logger.error(`UNABLE TO DELETE VOTE | DATA: ${data}`);
+            logger.error(`UNABLE TO DELETE VOTE | DATA: ${JSON.stringify(data)}`);
             throw err
         }
         res.status(HttpStatus.OK).send(JSON.stringify({
@@ -326,7 +326,7 @@ router.post('/delete_decline', auth.authAdmin, auth.authUser, function (req, res
     let sql = 'UPDATE `vote` SET `delete_request` = 0 WHERE vote_id = ?';
     connection.query(sql, data.vote_id, (err, results) => {
         if (err) {
-            logger.error(`UNABLE TO DECLINE DELETION | DATA: ${data}`);
+            logger.error(`UNABLE TO DECLINE DELETION | DATA: ${JSON.stringify(data)}`);
             throw err
         }
         res.status(HttpStatus.OK).send(JSON.stringify({

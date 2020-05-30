@@ -10,7 +10,7 @@ var cors = require('cors');
 var http = require('http');
 var debug = require('debug')('newproject:server');
 var bodyParser = require('body-parser');
-var port = 3000;
+var port = 3003;
 var corsOptions = {
     origin: '*',
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
@@ -28,7 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json()) // handle json data
 app.use(bodyParser.urlencoded({ extended: true })) // handle URL-encoded data
 
-app.use(function (req, res, next) {
+app.use(function(req, res, next) {
     console.log('In');
     res.locals.connection = connection
     console.log('out');
@@ -40,12 +40,12 @@ app.use('/users', usersRouter);
 app.use('/voters', votersRouter);
 
 // catch 404 and forward to error handler
-app.use(function (req, res, next) {
+app.use(function(req, res, next) {
     next(createError(404));
 });
 
 // error handler
-app.use(function (err, req, res, next) {
+app.use(function(err, req, res, next) {
     // set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -60,7 +60,7 @@ app.use(function (err, req, res, next) {
 
 
 // app.listen(port, () => {
-//   console.log(`Listening to requests on http://localhost:${port}`);
+//     console.log(`Listening to requests on http://localhost:${port}`);
 // });
 
 var server = http.createServer(app);

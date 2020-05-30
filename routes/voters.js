@@ -6,6 +6,7 @@ const connection = require('../db/mysql');
 const zombie = require('../test/zombie');
 const auth = require('../middleware/auth');
 const logger = require('logger').createLogger(`voters.logs`);
+const utility = require('../helpers/utility')
 
 logger.info("-================ LOGGER STARTED ================-")
 
@@ -13,10 +14,10 @@ function isValidVoter(vote) {
     let valid = true;
     if (vote.jmbg.length != 13)
         valid = false;
-    else if (vote.first_name.length < 1
-        || vote.last_name.length < 1
-        || vote.delegated.length < 1
-        || vote.added.length < 1)
+    else if (vote.first_name.length < 1 ||
+        vote.last_name.length < 1 ||
+        vote.delegated.length < 1 ||
+        vote.added.length < 1)
         valid = false;
 
     return valid;
@@ -24,13 +25,15 @@ function isValidVoter(vote) {
 
 
 // GET ALL NON DELETED VOTES
-router.get('/all', auth.authUser, function (req, res, next) {
+router.get('/all', auth.authUser, function(req, res) {
     if (!req.query.hasOwnProperty('id') || !req.query.id) {
         return res.status(HttpStatus.BAD_REQUEST).json({
             status: 'Error',
             message: 'ID not found'
         });
     }
+
+    utility.idCheck(req);
 
     var sql = 'SELECT * FROM vote_full_view WHERE delete_request = 0';
     let id = req.query.id;
@@ -62,11 +65,11 @@ router.get('/all', auth.authUser, function (req, res, next) {
 });
 
 // GET ALL EDITED VOTES
-router.get('/get_edit', auth.authAdmin, function (req, res, next) {
+router.get('/get_edit', auth.authAdmin, function(req, res, next) {
     let sql = 'SELECT * FROM `vote_edit_full_view`';
-    connection.query(sql, function (error, results, fields) {
+    connection.query(sql, function(error, results, fields) {
         if (error) throw error;
-        connection.query(sql, function (error, results, fields) {
+        connection.query(sql, function(error, results, fields) {
             if (error) {
                 logger.error("UNABLE TO GET ALL EDITED VOTES");
                 throw error;
@@ -79,9 +82,9 @@ router.get('/get_edit', auth.authAdmin, function (req, res, next) {
     });
 });
 // GET ALL DELETED VOTES
-router.get('/get_deleted', auth.authAdmin, function (req, res, next) {
+router.get('/get_deleted', auth.authAdmin, function(req, res, next) {
     let sql = 'SELECT * FROM `vote` WHERE `delete_request` = 1';
-    connection.query(sql, function (error, results, fields) {
+    connection.query(sql, function(error, results, fields) {
         if (error) {
             logger.error("UNABLE TO GET DELETE REQUEST")
             throw error;
@@ -94,14 +97,14 @@ router.get('/get_deleted', auth.authAdmin, function (req, res, next) {
 });
 
 // GET ONE VOTE RECORD 
-router.get('/get_one', auth.authUser, function (req, res, next) {
+router.get('/get_one', auth.authUser, function(req, res, next) {
     let data = {
         username: req.query.username,
         vote_id: req.query.vote_id
     }
 
     let sql = "SELECT * FROM `vote` WHERE `delete_request` = 0 AND vote_id = ?";
-    connection.query(sql, data.vote_id, function (error, results, fields) {
+    connection.query(sql, data.vote_id, function(error, results, fields) {
         if (error) {
             logger.error(`UNABLE TO GET VOTE | DATA: ${data.vote_id}`);
             throw error;
@@ -114,7 +117,7 @@ router.get('/get_one', auth.authUser, function (req, res, next) {
 });
 
 // INSERT EDITED VOTE
-router.post('/edit_request', auth.authUser, function (req, res, next) {
+router.post('/edit_request', auth.authUser, function(req, res, next) {
     let data = {
         vote_id: req.body.vote_id,
         first_name: req.body.first_name,
@@ -139,7 +142,7 @@ router.post('/edit_request', auth.authUser, function (req, res, next) {
 });
 
 // UPDATE VOTE
-router.post('/update', auth.authAdmin, function (req, res, next) {
+router.post('/update', auth.authAdmin, function(req, res, next) {
     let data = {
         first_name: req.body.first_name,
         last_name: req.body.last_name,
@@ -172,9 +175,8 @@ router.post('/update', auth.authAdmin, function (req, res, next) {
     }
 });
 
-
 // DECLINE AND DELETE VOTE EDIT ENTRY
-router.post('/edit_request_delete', auth.authAdmin, function (req, res, next) {
+router.post('/edit_request_delete', auth.authAdmin, function(req, res, next) {
     let data = {
         vote_id: req.body.vote_id
     }
@@ -194,7 +196,7 @@ router.post('/edit_request_delete', auth.authAdmin, function (req, res, next) {
 
 
 // INSERT NEW VOTE
-router.post('/', auth.authUser, function (req, res, next) {
+router.post('/', auth.authUser, function(req, res, next) {
     let data = {
         vote_id: req.body.user_id,
         first_name: req.body.first_name,
@@ -245,7 +247,7 @@ router.post('/', auth.authUser, function (req, res, next) {
 });
 
 // SEARCH FUNCTIONALITY
-router.get('/search', auth.authUser, function (req, res, next) {
+router.get('/search', auth.authUser, function(req, res, next) {
     // Escape input to prevent SQL Injection
     let data = {
         key: connection.escape(req.query.key).replace(/'/g, ""),
@@ -279,7 +281,7 @@ router.get('/search', auth.authUser, function (req, res, next) {
 });
 
 // SETS FLAG FOR DELETION = 1
-router.post('/delete_request', auth.authUser, function (req, res, next) {
+router.post('/delete_request', auth.authUser, function(req, res, next) {
     let data = {
         jmbg: req.body.jmbg
     };
@@ -298,7 +300,7 @@ router.post('/delete_request', auth.authUser, function (req, res, next) {
 });
 
 // DELETE FROM VOTE
-router.post('/delete', auth.authAdmin, function (req, res, next) {
+router.post('/delete', auth.authAdmin, function(req, res, next) {
     let data = {
         vote_id: req.body.vote_id
     };
@@ -318,7 +320,7 @@ router.post('/delete', auth.authAdmin, function (req, res, next) {
 });
 
 // DECLINE DELETE AND  SETS DELETION FLAG TO 0
-router.post('/delete_decline', auth.authAdmin, auth.authUser, function (req, res, next) {
+router.post('/delete_decline', auth.authAdmin, auth.authUser, function(req, res, next) {
     let data = {
         vote_id: req.body.vote_id
     };

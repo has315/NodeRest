@@ -10,7 +10,7 @@ var cors = require('cors');
 var http = require('http');
 var debug = require('debug')('newproject:server');
 var bodyParser = require('body-parser');
-var port = 3003;
+var port = 3000;
 var corsOptions = {
     origin: '*',
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
@@ -63,10 +63,10 @@ app.use(function(err, req, res, next) {
 //     console.log(`Listening to requests on http://localhost:${port}`);
 // });
 
-var server = http.createServer(app);
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
+// var server = http.createServer(app);
+// server.listen(port);
+// server.on('error', onError);
+// server.on('listening', onListening);
 
 
 /**

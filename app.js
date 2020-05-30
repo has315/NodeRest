@@ -59,9 +59,9 @@ app.use(function(err, req, res, next) {
 });
 
 
-app.listen(port, () => {
-    console.log(`Listening to requests on http://localhost:${port}`);
-});
+// app.listen(port, () => {
+//     console.log(`Listening to requests on http://localhost:${port}`);
+// });
 
 var server = http.createServer(app);
 server.listen(port);

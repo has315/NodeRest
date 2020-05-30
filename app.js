@@ -63,10 +63,10 @@ app.use(function(err, req, res, next) {
 //     console.log(`Listening to requests on http://localhost:${port}`);
 // });
 
-// var server = http.createServer(app);
-// server.listen(port);
-// server.on('error', onError);
-// server.on('listening', onListening);
+var server = http.createServer(app);
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
 
 
 /**

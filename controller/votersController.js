@@ -314,7 +314,7 @@ const createEditReq = (req, res) => {
 
 // DECLINE AND DELETE VOTE EDIT ENTRY
 const removeEditReq = (req, res) => {
-  const voteIds = selectedRreq.body.votes.map((el) => el.vote_id);
+  const voteIds = req.body.votes.map((el) => el.vote_id);
   console.log(voteIds);
 
   for (const voteId of voteIds) {
@@ -382,7 +382,7 @@ const createDelReq = (req, res) => {
 
 // DECLINE DELETE AND  SETS DELETION FLAG TO 0
 const removeDelReq = (req, res) => {
-  const voteIds = selectedRreq.body.votes.map((el) => el.vote_id);
+  const voteIds = req.body.votes.map((el) => el.vote_id);
   console.log(voteIds);
 
   for (const voteId of voteIds) {

@@ -45,7 +45,7 @@ router.get("/get_edit", auth.authAdmin, (req, res) =>
 
 // DECLINE AND DELETE VOTE EDIT ENTRY
 router.post("/edit_request_delete", auth.authAdmin, (req, res) =>
-  votersController.declineEditReq(req, res)
+  votersController.removeEditReq(req, res)
 );
 
 // SETS FLAG FOR DELETION
@@ -60,7 +60,7 @@ router.get("/get_deleted", auth.authAdmin, (req, res) =>
 
 // DECLINE DELETE AND  SETS DELETION FLAG TO 0
 router.post("/delete_decline", auth.authAdmin, auth.authUser, (req, res) =>
-  votersController.declineDelReq(req, res)
+  votersController.removeDelReq(req, res)
 );
 
 module.exports = router;

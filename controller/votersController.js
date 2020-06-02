@@ -202,24 +202,27 @@ const update = (req, res) => {
 
 // DELETE VOTE
 const remove = (req, res) => {
-  let data = {
-    vote_id: req.body.vote_id,
-  };
+  const voteIds = req.body.votes.map((el) => el.vote_id);
+  for (const voteId of voteIds) {
+    let data = {
+      vote_id: voteId,
+    };
 
-  let sql = "DELETE FROM `vote` WHERE vote_id = ?";
+    let sql = "DELETE FROM `vote` WHERE vote_id = ?";
 
-  connection.query(sql, data.vote_id, (err, results) => {
-    if (err) {
-      logger.error(`UNABLE TO DELETE VOTE | DATA: ${JSON.stringify(data)}`);
-      throw err;
-    }
-    res.status(HttpStatus.OK).send(
-      JSON.stringify({
-        error: null,
-        response: results,
-      })
-    );
-  });
+    connection.query(sql, data.vote_id, (err, results) => {
+      if (err) {
+        logger.error(`UNABLE TO DELETE VOTE | DATA: ${JSON.stringify(data)}`);
+        throw err;
+      }
+      res.status(HttpStatus.OK).send(
+        JSON.stringify({
+          error: null,
+          response: results,
+        })
+      );
+    });
+  }
 };
 
 // SEARCH VOTES

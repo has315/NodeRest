@@ -6,7 +6,6 @@ const redisConfig = {
   host: AppConfig.REDIS_HOST,
   password: AppConfig.REDIS_PASSWORD,
 };
-const client = [];
 const client = redis.createClient(redisConfig);
 client.auth(AppConfig.REDIS_PASSWORD);
 client.on("connect", function () {

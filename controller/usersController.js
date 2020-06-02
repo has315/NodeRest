@@ -1,12 +1,12 @@
 const HttpStatus = require("http-status-codes");
 const jwt_redis = require("jwt-redis");
 const JWTR = jwt_redis.default;
+const redisClient = require("../db/redis").client;
 const jwt = new JWTR(redisClient);
 const bcrypt = require("bcryptjs");
 
 const AppConfig = require("../db/config").AppConfig;
 const connection = require("../db/mysql");
-const redisClient = require("../db/redis").client;
 const SALT_ROUNDS = 10;
 const logger = require("logger").createLogger(`users.log`);
 

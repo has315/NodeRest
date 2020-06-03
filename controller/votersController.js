@@ -286,15 +286,14 @@ const getAllEditReq = (req, res) => {
 
 // INSERT EDITED VOTE
 const createEditReq = (req, res) => {
-  const vote = req.body.vote;
   let data = {
-    vote_id: vote.vote_id,
-    first_name: vote.first_name,
-    last_name: vote.last_name,
-    jmbg: vote.jmbg,
-    phone_number: vote.phone_number,
-    delegated: vote.delegated,
-    added: vote.added,
+    vote_id: req.body.vote_id,
+    first_name: req.body.first_name,
+    last_name: req.body.last_name,
+    jmbg: req.body.jmbg,
+    phone_number: req.body.phone_number,
+    delegated: req.body.delegated,
+    added: req.body.added,
   };
 
   let sql = "INSERT INTO vote_edit SET ?";

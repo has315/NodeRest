@@ -315,9 +315,16 @@ const createEditReq = (req, res) => {
 // ACCEPT EDTITED VOTE
 const acceptEditReq = (req, res) => {
 
-
-    for (const data of req.body.votes) {
-
+    for (const vote of votes) {
+        let data = {
+            vote_id: vote.vote_id,
+            first_name: vote.first_name,
+            last_name: vote.last_name,
+            jmbg: vote.jmbg,
+            phone_number: vote.phone_number,
+            delegated: vote.delegated,
+            added: vote.added,
+        };
 
         if (!isValidVoter(data)) {
             res.status(HttpStatus.NOT_ACCEPTABLE).send(

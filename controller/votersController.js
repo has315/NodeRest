@@ -286,33 +286,32 @@ const getAllEditReq = (req, res) => {
 
 // INSERT EDITED VOTE
 const createEditReq = (req, res) => {
-  for (const vote of req.body.votes) {
-    let data = {
-      vote_id: vote.vote_id,
-      first_name: vote.first_name,
-      last_name: vote.last_name,
-      jmbg: vote.jmbg,
-      phone_number: vote.phone_number,
-      delegated: vote.delegated,
-      added: vote.added,
-    };
+  const vote = req.body.vote;
+  let data = {
+    vote_id: vote.vote_id,
+    first_name: vote.first_name,
+    last_name: vote.last_name,
+    jmbg: vote.jmbg,
+    phone_number: vote.phone_number,
+    delegated: vote.delegated,
+    added: vote.added,
+  };
 
-    let sql = "INSERT INTO vote_edit SET ?";
-    connection.query(sql, data, (err, results) => {
-      if (err) {
-        logger.error(
-          `UNABLE TO INSERT EDIT REQUEST | DATA: ${JSON.stringify(data)}`
-        );
-        throw err;
-      }
-      res.status(HttpStatus.OK).send(
-        JSON.stringify({
-          error: null,
-          response: results,
-        })
+  let sql = "INSERT INTO vote_edit SET ?";
+  connection.query(sql, data, (err, results) => {
+    if (err) {
+      logger.error(
+        `UNABLE TO INSERT EDIT REQUEST | DATA: ${JSON.stringify(data)}`
       );
-    });
-  }
+      throw err;
+    }
+    res.status(HttpStatus.OK).send(
+      JSON.stringify({
+        error: null,
+        response: results,
+      })
+    );
+  });
 };
 
 // DECLINE AND DELETE VOTE EDIT ENTRY

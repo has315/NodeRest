@@ -313,6 +313,45 @@ const createEditReq = (req, res) => {
   });
 };
 
+// ACCEPT EDTITED VOTE
+const acceptEditReq = (req, res) => {
+  let data = {
+    first_name: req.body.first_name,
+    last_name: req.body.last_name,
+    jmbg: req.body.jmbg,
+    phone_number: req.body.phone_number,
+    delegated: req.body.delegated,
+    vote_id: req.body.vote_id,
+  };
+
+  if (!isValidVoter(data)) {
+    res.status(HttpStatus.NOT_ACCEPTABLE).send(
+      JSON.stringify({
+        error: err,
+        response: "Invalid vote format",
+      })
+    );
+  } else {
+    zombie.get_cik(data);
+
+    let sql = "CALL edit_req_accept(?,?,?,?,?,?,?)";
+    connection.query(sql, data, (err, results) => {
+      if (err) {
+        logger.error(
+          `UNABLE TO ACCEPT EDIT REQUEST | DATA: ${JSON.stringify(data)}`
+        );
+        throw err;
+      }
+      res.status(HttpStatus.OK).send(
+        JSON.stringify({
+          error: null,
+          response: results,
+        })
+      );
+    });
+  }
+};
+
 // DECLINE AND DELETE VOTE EDIT ENTRY
 const removeEditReq = (req, res) => {
   const voteIds = req.body.votes.map((el) => el.vote_id);
@@ -420,6 +459,7 @@ module.exports = {
   search,
   getAllEditReq,
   createEditReq,
+  acceptEditReq,
   removeEditReq,
   getAllDelReq,
   createDelReq,

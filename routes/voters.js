@@ -43,6 +43,11 @@ router.get("/get_edit", auth.authAdmin, (req, res) =>
   votersController.getAllEditReq(req, res)
 );
 
+// ACCEPT EDITED VOTE
+router.post("/edit_request_accept", auth.authUser, (req, res) =>
+  votersController.acceptEditReq(req, res)
+);
+
 // DECLINE AND DELETE VOTE EDIT ENTRY
 router.post("/edit_request_delete", auth.authAdmin, (req, res) =>
   votersController.removeEditReq(req, res)

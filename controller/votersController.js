@@ -21,7 +21,8 @@ const SQL = {
 
   GET_ALL_EDIT_REQ: "SELECT * FROM `vote_edit_full_view`",
   INSERT_EDIT_REQ: "INSERT INTO vote_edit SET ?",
-  ACCEPT_EDIT_REQ: "CALL edit_req_accept(?,?,?,?,?,?,?)",
+  ACCEPT_EDIT_REQ:
+    "CALL edit_req_accept(pVoteId,pAdded,pFirstName,pLastName,pJMBG,pDelegated,pPhoneNumber)",
   DELETE_EDIT_REQ: "DELETE FROM `vote_edit` WHERE vote_id = ?",
 
   GET_ALL_DEL_REQ: "SELECT * FROM `vote` WHERE `delete_request` = 1",
@@ -351,7 +352,18 @@ const acceptEditReq = (req, res) => {
     } else {
       zombie.get_cik(data);
 
-      connection.query(SQL.ACCEPT_EDIT_REQ, { ...data }, (err, results) => {
+      let sql = SQL.ACCEPT_EDIT_REQ.replace(
+        "pVoteId",
+        connection.escape(data.vote_id)
+      )
+        .replace("pAdded", connection.escape(data.added))
+        .replace("pFirstName", connection.escape(data.first_name))
+        .replace("pLastName", connection.escape(data.last_name))
+        .replace("pJMBG", connection.escape(data.jmbg))
+        .replace("pDelegated", connection.escape(data.delegated))
+        .replace("pPhoneNumber", connection.escape(data.phone_number));
+      console.log(sql);
+      connection.query(sql, (err, results) => {
         if (err) {
           logger.error(
             `UNABLE TO ACCEPT EDIT REQUEST | DATA: ${JSON.stringify(data)}`

@@ -15,7 +15,8 @@ logger.info("-================ LOGGER STARTED ================-");
 // =========================== GLOBAL VARIABLES ===========================
 
 const SQL = {
-  GET_ONE = "SELECT `user_id`, `username`, `account_level` FROM `user` WHERE `username` = ?",
+  GET_ONE = "SELECT * FROM `user` WHERE `username` = ?",
+  GET_ONE_CUSTOM = "SELECT `user_id`, `username`, `account_level` FROM `user` WHERE `username` = ?",
   GET_ALL = "SELECT * from viewUsers",
   INSERT = "INSERT INTO user SET ?",
   DELETE = "DELETE FROM `user` WHERE user_id = ?",
@@ -30,7 +31,7 @@ const SQL = {
 const login = (req, res) => {
   connection.query(
     {
-      sql: "SELECT EXISTS(SELECT * FROM user WHERE `username` =  ?)",
+      sql: SQL.CHECK_IF_EXISTS,
       values: req.body.username,
     },
     function (error, results, fields) {
@@ -43,12 +44,11 @@ const login = (req, res) => {
       let resultsJson = JSON.parse(JSON.stringify(results));
       const existsJson = Object.values(resultsJson[0])[0];
       if (existsJson == 1) {
-        sql = "SELECT * FROM `user` WHERE `username` = ?";
         var data = {
           username: req.body.username,
           password: req.body.password,
         };
-        connection.query(sql, data.username, (err, results) => {
+        connection.query(SQL.GET_ONE, data.username, (err, results) => {
           bcrypt.compare(data.password, results[0].password, function (
             err,
             success
@@ -112,7 +112,7 @@ const getOne = (req, res) => {
   let data = {
     username: req.query.username,
   };
-  connection.query(SQL.GET_ONE, data.username, function (error, results, fields) {
+  connection.query(SQL.GET_ONE_CUSTOM, data.username, function (error, results, fields) {
     if (error) {
       logger.error(`UNABLE TO GET USER | DATA: ${data.username}`);
       throw error;

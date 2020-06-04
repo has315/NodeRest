@@ -325,7 +325,7 @@ const createEditReq = (req, res) => {
     res.status(HttpStatus.OK).send(
       JSON.stringify({
         error: null,
-        response: results,
+        response: results.affectedRows,
       })
     );
   });

@@ -34,9 +34,7 @@ router.get("/search", auth.authUser, (req, res) =>
 );
 
 // INSERT EDITED VOTE
-router.post("/edit_request", auth.authUser, (req, res) =>
-  votersController.createEditReq(req, res)
-);
+router.post("/edit_request", auth.authUser, votersController.createEditReq);
 
 // GET ALL EDITED VOTES
 router.get("/get_edit", auth.authAdmin, (req, res) =>

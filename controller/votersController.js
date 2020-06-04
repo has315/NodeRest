@@ -24,7 +24,7 @@ const SQL = {
   ACCEPT_EDIT_REQ: "CALL edit_req_accept(?,?,?,?,?,?,?)",
   DELETE_EDIT_REQ: "DELETE FROM `vote_edit` WHERE vote_id = ?",
 
-  GET_ALL_EDIT_REQ: "SELECT * FROM `vote` WHERE `delete_request` = 1",
+  GET_ALL_DEL_REQ: "SELECT * FROM `vote` WHERE `delete_request` = 1",
   SET_DEL_REQ: "UPDATE `vote` SET `delete_request` = 1 WHERE `jmbg` = ?",
   UNSET_DEL_REQ: "UPDATE `vote` SET `delete_request` = 0 WHERE vote_id = ?",
 };

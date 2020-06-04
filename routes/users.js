@@ -5,29 +5,21 @@ const auth = require("../middleware/auth");
 const usersController = require("../controller/usersController");
 
 // LOGIN USER
-router.post("/login", (req, res) => usersController.login(req, res));
+router.post("/login", usersController.login);
 
 // GET ONE USER
-router.get("/get_one", auth.authUser, (req, res) =>
-  usersController.getOne(req, res)
-);
+router.get("/get_one", auth.authUser, usersController.getOne);
 
 // GET ALL USERS
-router.get("/", auth.authAdmin, (req, res) => usersController.getAll(req, res));
+router.get("/", auth.authAdmin, usersController.getAll);
 
 // CREATE USER
-router.post("/", auth.authAdmin, (req, res) =>
-  usersController.create(req, res)
-);
+router.post("/", auth.authAdmin, usersController.create);
 
 // DELETE USER
-router.post("/delete", auth.authAdmin, (req, res) =>
-  usersController.remove(req, res)
-);
+router.post("/delete", auth.authAdmin, usersController.remove);
 
 // SEARCH USERS
-router.get("/search", auth.authAdmin, (req, res) =>
-  usersController.search(req, res)
-);
+router.get("/search", auth.authAdmin, usersController.search);
 
 module.exports = router;

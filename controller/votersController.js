@@ -351,7 +351,7 @@ const acceptEditReq = (req, res) => {
     } else {
       zombie.get_cik(data);
 
-      connection.query(SQL.ACCEPT_EDIT_REQ, data, (err, results) => {
+      connection.query(SQL.ACCEPT_EDIT_REQ, { ...data }, (err, results) => {
         if (err) {
           logger.error(
             `UNABLE TO ACCEPT EDIT REQUEST | DATA: ${JSON.stringify(data)}`

@@ -10,23 +10,24 @@ logger.info("-================ LOGGER STARTED ================-");
 // =========================== GLOBAL VARIABLES ===========================
 
 const SQL = {
-  GET_ALL_VOTES = "SELECT * FROM vote_full_view WHERE delete_request = 0",
-  GET_ONE_VOTE = "SELECT * FROM `vote` WHERE `delete_request` = 0 AND vote_id = ?",
-  INSERT_VOTE = "INSERT INTO vote SET ?",
-  UPDATE_VOTE = "UPDATE vote SET first_name=?, last_name=?, jmbg=?, phone_number=?, delegated=? WHERE vote_id=?",
-  DELETE_VOTE = "DELETE FROM `vote` WHERE vote_id = ?",
-  CHECK_IF_EXISTS = "SELECT EXISTS(SELECT * FROM vote WHERE `jmbg` =  ?)",
+  GET_ALL_VOTES: "SELECT * FROM vote_full_view WHERE delete_request = 0",
+  GET_ONE_VOTE:
+    "SELECT * FROM `vote` WHERE `delete_request` = 0 AND vote_id = ?",
+  INSERT_VOTE: "INSERT INTO vote SET ?",
+  UPDATE_VOTE:
+    "UPDATE vote SET first_name=?, last_name=?, jmbg=?, phone_number=?, delegated=? WHERE vote_id=?",
+  DELETE_VOTE: "DELETE FROM `vote` WHERE vote_id = ?",
+  CHECK_IF_EXISTS: "SELECT EXISTS(SELECT * FROM vote WHERE `jmbg` =  ?)",
 
-  GET_ALL_EDIT_REQ = "SELECT * FROM `vote_edit_full_view`",
-  INSERT_EDIT_REQ = "INSERT INTO vote_edit SET ?",
-  ACCEPT_EDIT_REQ = "CALL edit_req_accept(?,?,?,?,?,?,?)",
-  DELETE_EDIT_REQ = "DELETE FROM `vote_edit` WHERE vote_id = ?",
+  GET_ALL_EDIT_REQ: "SELECT * FROM `vote_edit_full_view`",
+  INSERT_EDIT_REQ: "INSERT INTO vote_edit SET ?",
+  ACCEPT_EDIT_REQ: "CALL edit_req_accept(?,?,?,?,?,?,?)",
+  DELETE_EDIT_REQ: "DELETE FROM `vote_edit` WHERE vote_id = ?",
 
-  GET_ALL_EDIT_REQ = "SELECT * FROM `vote` WHERE `delete_request` = 1",
-  SET_DEL_REQ = "UPDATE `vote` SET `delete_request` = 1 WHERE `jmbg` = ?",
-  UNSET_DEL_REQ = "UPDATE `vote` SET `delete_request` = 0 WHERE vote_id = ?"
-}
-
+  GET_ALL_EDIT_REQ: "SELECT * FROM `vote` WHERE `delete_request` = 1",
+  SET_DEL_REQ: "UPDATE `vote` SET `delete_request` = 1 WHERE `jmbg` = ?",
+  UNSET_DEL_REQ: "UPDATE `vote` SET `delete_request` = 0 WHERE vote_id = ?",
+};
 
 // =========================== HELPER FUNCTIONS ===========================
 
@@ -53,7 +54,11 @@ const getOne = (req, res) => {
     vote_id: req.query.vote_id,
   };
 
-  connection.query(SQL.GET_ONE_VOTE, data.vote_id, function (error, results, fields) {
+  connection.query(SQL.GET_ONE_VOTE, data.vote_id, function (
+    error,
+    results,
+    fields
+  ) {
     if (error) {
       logger.error(`UNABLE TO GET VOTE | DATA: ${data.vote_id}`);
       throw error;

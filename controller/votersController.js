@@ -287,19 +287,16 @@ const search = (req, res) => {
 // GET ALL EDITED VOTES
 const getAllEditReq = (req, res) => {
   connection.query(SQL.GET_ALL_EDIT_REQ, function (error, results, fields) {
-    if (error) throw error;
-    connection.query(sql, function (error, results, fields) {
-      if (error) {
-        logger.error("UNABLE TO GET ALL EDITED VOTES");
-        throw error;
-      }
-      res.status(HttpStatus.OK).send(
-        JSON.stringify({
-          error: null,
-          response: results,
-        })
-      );
-    });
+    if (error) {
+      logger.error("UNABLE TO GET ALL EDITED VOTES");
+      throw error;
+    }
+    res.status(HttpStatus.OK).send(
+      JSON.stringify({
+        error: null,
+        response: results,
+      })
+    );
   });
 };
 

@@ -7,6 +7,27 @@ const logger = require("logger").createLogger(`voters.log`);
 
 logger.info("-================ LOGGER STARTED ================-");
 
+// =========================== GLOBAL VARIABLES ===========================
+
+const SQL = {
+  GET_ALL_VOTES = "SELECT * FROM vote_full_view WHERE delete_request = 0",
+  GET_ONE_VOTE = "SELECT * FROM `vote` WHERE `delete_request` = 0 AND vote_id = ?",
+  INSERT_VOTE = "INSERT INTO vote SET ?",
+  UPDATE_VOTE = "UPDATE vote SET first_name=?, last_name=?, jmbg=?, phone_number=?, delegated=? WHERE vote_id=?",
+  DELETE_VOTE = "DELETE FROM `vote` WHERE vote_id = ?",
+  CHECK_IF_EXISTS = "SELECT EXISTS(SELECT * FROM vote WHERE `jmbg` =  ?)",
+
+  GET_ALL_EDIT_REQ = "SELECT * FROM `vote_edit_full_view`",
+  INSERT_EDIT_REQ = "INSERT INTO vote_edit SET ?",
+  ACCEPT_EDIT_REQ = "CALL edit_req_accept(?,?,?,?,?,?,?)",
+  DELETE_EDIT_REQ = "DELETE FROM `vote_edit` WHERE vote_id = ?",
+
+  GET_ALL_EDIT_REQ = "SELECT * FROM `vote` WHERE `delete_request` = 1",
+  SET_DEL_REQ = "UPDATE `vote` SET `delete_request` = 1 WHERE `jmbg` = ?",
+  UNSET_DEL_REQ = "UPDATE `vote` SET `delete_request` = 0 WHERE vote_id = ?"
+}
+
+
 // =========================== HELPER FUNCTIONS ===========================
 
 function isValidVoter(vote) {
@@ -32,8 +53,7 @@ const getOne = (req, res) => {
     vote_id: req.query.vote_id,
   };
 
-  let sql = "SELECT * FROM `vote` WHERE `delete_request` = 0 AND vote_id = ?";
-  connection.query(sql, data.vote_id, function (error, results, fields) {
+  connection.query(SQL.GET_ONE_VOTE, data.vote_id, function (error, results, fields) {
     if (error) {
       logger.error(`UNABLE TO GET VOTE | DATA: ${data.vote_id}`);
       throw error;
@@ -58,7 +78,7 @@ const getAll = (req, res) => {
 
   utility.idCheck(req);
 
-  var sql = "SELECT * FROM vote_full_view WHERE delete_request = 0";
+  let sql = SQL.GET_ALL_VOTES;
   let id = req.query.id;
   let callback = (err, results) => {
     if (err) {
@@ -108,7 +128,7 @@ const create = (req, res) => {
       })
     );
   } else {
-    let sql_check = "SELECT EXISTS(SELECT * FROM vote WHERE `jmbg` =  ?)";
+    let sql_check = SQL.CHECK_IF_EXISTS;
     connection.query(sql_check, data.jmbg, (err, results) => {
       if (err) {
         logger.error(
@@ -119,8 +139,7 @@ const create = (req, res) => {
       let resultsJson = JSON.parse(JSON.stringify(results));
       const existsJson = Object.values(resultsJson[0])[0];
       if (existsJson == 0) {
-        let sql_update = "INSERT INTO vote SET ?";
-        connection.query(sql_update, data, (err, results) => {
+        connection.query(SQL.INSERT_VOTE, data, (err, results) => {
           if (err) {
             logger.error(
               `UNABLE TO INSERT VOTE| DATA: ${JSON.stringify(data)}`
@@ -171,10 +190,8 @@ const update = (req, res) => {
   } else {
     zombie.get_cik(data);
 
-    let sql =
-      "UPDATE vote SET first_name=?, last_name=?, jmbg=?, phone_number=?, delegated=? WHERE vote_id=?";
     connection.query(
-      sql,
+      SQL.UPDATE_VOTE,
       [
         data.first_name,
         data.last_name,
@@ -208,9 +225,7 @@ const remove = (req, res) => {
       vote_id: voteId,
     };
 
-    let sql = "DELETE FROM `vote` WHERE vote_id = ?";
-
-    connection.query(sql, data.vote_id, (err, results) => {
+    connection.query(SQL.DELETE_VOTE, data.vote_id, (err, results) => {
       if (err) {
         logger.error(`UNABLE TO DELETE VOTE | DATA: ${JSON.stringify(data)}`);
         throw err;
@@ -266,8 +281,7 @@ const search = (req, res) => {
 
 // GET ALL EDITED VOTES
 const getAllEditReq = (req, res) => {
-  let sql = "SELECT * FROM `vote_edit_full_view`";
-  connection.query(sql, function (error, results, fields) {
+  connection.query(SQL.GET_ALL_EDIT_REQ, function (error, results, fields) {
     if (error) throw error;
     connection.query(sql, function (error, results, fields) {
       if (error) {
@@ -296,8 +310,7 @@ const createEditReq = (req, res) => {
     added: req.body.added,
   };
 
-  let sql = "INSERT INTO vote_edit SET ?";
-  connection.query(sql, data, (err, results) => {
+  connection.query(SQL.INSERT_EDIT_REQ, data, (err, results) => {
     if (err) {
       logger.error(
         `UNABLE TO INSERT EDIT REQUEST | DATA: ${JSON.stringify(data)}`
@@ -336,8 +349,7 @@ const acceptEditReq = (req, res) => {
     } else {
       zombie.get_cik(data);
 
-      let sql = "CALL edit_req_accept(?,?,?,?,?,?,?)";
-      connection.query(sql, data, (err, results) => {
+      connection.query(SQL.ACCEPT_EDIT_REQ, data, (err, results) => {
         if (err) {
           logger.error(
             `UNABLE TO ACCEPT EDIT REQUEST | DATA: ${JSON.stringify(data)}`
@@ -365,8 +377,7 @@ const removeEditReq = (req, res) => {
       vote_id: voteId,
     };
 
-    let sql = "DELETE FROM `vote_edit` WHERE vote_id = ?";
-    connection.query(sql, data.vote_id, (err, results) => {
+    connection.query(SQL.DELETE_EDIT_REQ, data.vote_id, (err, results) => {
       if (err) {
         logger.error(
           `UNABLE TO DELETE VOTE EDIT | DATA: ${JSON.stringify(data)}`
@@ -385,8 +396,7 @@ const removeEditReq = (req, res) => {
 
 // GET ALL DELETE REQUESTS
 const getAllDelReq = (req, res) => {
-  let sql = "SELECT * FROM `vote` WHERE `delete_request` = 1";
-  connection.query(sql, function (error, results, fields) {
+  connection.query(SQL.GET_ALL_DEL_REQ, function (error, results, fields) {
     if (error) {
       logger.error("UNABLE TO GET DELETE REQUEST");
       throw error;
@@ -406,8 +416,7 @@ const createDelReq = (req, res) => {
     jmbg: req.body.jmbg,
   };
 
-  let sql = "UPDATE `vote` SET `delete_request` = 1 WHERE `jmbg` = ?";
-  connection.query(sql, data.jmbg, (err, results) => {
+  connection.query(SQL.SET_DEL_REQ, data.jmbg, (err, results) => {
     if (err) {
       logger.error(
         `UNABLE TO SET FLAG FOR DELETION | DATA: ${JSON.stringify(data)}`
@@ -433,8 +442,7 @@ const removeDelReq = (req, res) => {
       vote_id: voteId,
     };
 
-    let sql = "UPDATE `vote` SET `delete_request` = 0 WHERE vote_id = ?";
-    connection.query(sql, data.vote_id, (err, results) => {
+    connection.query(SQL.UNSET_DEL_REQ, data.vote_id, (err, results) => {
       if (err) {
         logger.error(
           `UNABLE TO DECLINE DELETION | DATA: ${JSON.stringify(data)}`

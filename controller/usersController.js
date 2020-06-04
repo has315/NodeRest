@@ -12,6 +12,17 @@ const logger = require("logger").createLogger(`users.log`);
 
 logger.info("-================ LOGGER STARTED ================-");
 
+// =========================== GLOBAL VARIABLES ===========================
+
+const SQL = {
+  GET_ONE = "SELECT `user_id`, `username`, `account_level` FROM `user` WHERE `username` = ?",
+  GET_ALL = "SELECT * from viewUsers",
+  INSERT = "INSERT INTO user SET ?",
+  DELETE = "DELETE FROM `user` WHERE user_id = ?",
+  CHECK_IF_EXISTS = "SELECT EXISTS(SELECT * FROM user WHERE `username` =  ?)",
+
+};
+
 // =========================== HELPER FUNCTIONS ===========================
 
 // =========================== CORE FUNCTIONS ===========================
@@ -102,9 +113,7 @@ const getOne = (req, res) => {
   let data = {
     username: req.query.username,
   };
-  let sql =
-    "SELECT `user_id`, `username`, `account_level` FROM `user` WHERE `username` = ?";
-  connection.query(sql, data.username, function (error, results, fields) {
+  connection.query(SQL.GET_ONE, data.username, function (error, results, fields) {
     if (error) {
       logger.error(`UNABLE TO GET USER | DATA: ${data.username}`);
       throw error;
@@ -120,8 +129,7 @@ const getOne = (req, res) => {
 
 // GET ALL USERS
 const getAll = (req, res) => {
-  let sql = "SELECT * from viewUsers";
-  connection.query(sql, function (error, results, fields) {
+  connection.query(SQL.GET_ALL, function (error, results, fields) {
     if (error) {
       logger.error(`UNABLE TO GET ALL USERS`);
       throw error;
@@ -143,8 +151,7 @@ const create = (req, res) => {
       password: bcrypt.hashSync(req.body.password, 14),
     };
 
-    let sql_check = "SELECT EXISTS(SELECT * FROM user WHERE `username` =  ?)";
-    connection.query(sql_check, data.username, (err, results) => {
+    connection.query(SQL.CHECK_IF_EXISTS, data.username, (err, results) => {
       if (err) {
         logger.error(`UNABLE TO CHECK IF USER EXISTS | DATA: ${data.username}`);
         throw err;
@@ -152,8 +159,7 @@ const create = (req, res) => {
       let resultsJson = JSON.parse(JSON.stringify(results));
       const existsJson = Object.values(resultsJson[0])[0];
       if (existsJson == 0) {
-        let sql = "INSERT INTO user SET ?";
-        connection.query(sql, data, (err, results) => {
+        connection.query(SQL.INSERT, data, (err, results) => {
           if (err) {
             logger.error(`UNABLE TO INSERT NEW USER | DATA: ${data.username}`);
             throw err;
@@ -182,9 +188,7 @@ const remove = (req, res) => {
     user_id: req.body.user_id,
   };
 
-  let sql = "DELETE FROM `user` WHERE user_id = ?";
-
-  connection.query(sql, data.user_id, (err, results) => {
+  connection.query(SQL.DELETE, data.user_id, (err, results) => {
     if (err) {
       logger.error(`UNABLE TO DELETE USER | DATA: ${data.user_id}`);
       throw err;

@@ -19,8 +19,7 @@ const SQL = {
   GET_ALL = "SELECT * from viewUsers",
   INSERT = "INSERT INTO user SET ?",
   DELETE = "DELETE FROM `user` WHERE user_id = ?",
-  CHECK_IF_EXISTS = "SELECT EXISTS(SELECT * FROM user WHERE `username` =  ?)",
-
+  CHECK_IF_EXISTS = "SELECT EXISTS(SELECT * FROM user WHERE `username` =  ?)"
 };
 
 // =========================== HELPER FUNCTIONS ===========================

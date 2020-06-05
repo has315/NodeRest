@@ -350,8 +350,6 @@ const acceptEditReq = (req, res) => {
         })
       );
     } else {
-      zombie.get_cik(data);
-
       let sql = SQL.ACCEPT_EDIT_REQ.replace(
         "pVoteId",
         connection.escape(data.vote_id)
@@ -370,10 +368,12 @@ const acceptEditReq = (req, res) => {
           );
           throw err;
         }
+
+        zombie.get_cik(data);
         res.status(HttpStatus.OK).send(
           JSON.stringify({
             error: null,
-            response: results,
+            response: results.affectedRows,
           })
         );
       });

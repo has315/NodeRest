@@ -1,4 +1,4 @@
-const connection = require("../db/mysql");
+const connection = require("./db/mysql");
 
 
 

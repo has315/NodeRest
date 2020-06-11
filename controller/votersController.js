@@ -140,6 +140,7 @@ const create = (req, res) => {
                 throw err;
             }
             let resultsJson = JSON.parse(JSON.stringify(results));
+            let realData = JSON.parse(JSON.stringify(data));
             const existsJson = Object.values(resultsJson[0])[0];
             if (existsJson == 0) {
                 connection.query(SQL.INSERT_VOTE, data, (err, results) => {
@@ -150,7 +151,7 @@ const create = (req, res) => {
                         throw err;
                     }
                     // If insert was successful get cik data
-                    logger.log('data' + JSON.stringify(data));
+                    logger.log('dataa' + realData);
                     zombie.get_cik(data);
                     res.status(HttpStatus.OK).send(
                         JSON.stringify({

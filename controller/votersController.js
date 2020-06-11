@@ -154,7 +154,7 @@ const create = (req, res) => {
                     realData.vote_id = results.insertId;
                     console.log(`${realData} ${results}`);
                     logger.log('dataa' + realData);
-                    zombie.get_cik(data);
+                    zombie.get_cik(realData);
                     res.status(HttpStatus.OK).send(
                         JSON.stringify({
                             error: err,

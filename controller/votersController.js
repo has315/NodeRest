@@ -115,7 +115,7 @@ const getAll = (req, res) => {
 // INSERT NEW VOTE
 const create = (req, res) => {
     let data = {
-        vote_id: req.body.user_id,
+        vote_id: req.body.vote_id,
         first_name: req.body.first_name,
         last_name: req.body.last_name,
         jmbg: req.body.jmbg,

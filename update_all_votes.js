@@ -17,3 +17,5 @@ function execUpdateVotes() {
     });
 
 }
+
+execUpdateVotes()

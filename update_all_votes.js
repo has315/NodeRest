@@ -6,6 +6,7 @@ logger.info("-================ LOGGER STARTED ================-");
 
 
 function execUpdateVotes() {
+    logger.info("-================ FUNCTION CALL");
 
     const sql = 'select * from vote where voting_location is null';
 

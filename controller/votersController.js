@@ -150,7 +150,7 @@ const create = (req, res) => {
                         throw err;
                     }
                     // If insert was successful get cik data
-                    logger.log('data' + data);
+                    logger.log('data' + JSON.stringify(data));
                     zombie.get_cik(data);
                     res.status(HttpStatus.OK).send(
                         JSON.stringify({

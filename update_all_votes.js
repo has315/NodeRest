@@ -14,9 +14,10 @@ function execUpdateVotes() {
         if (res) {
             const a = JSON.stringify(res);
             for (const vote in a) {
-                let count = count++;
+                let count = 0
                 console.log(count)
                 zombie.get_cik(vote);
+                count++
             }
         }
     });

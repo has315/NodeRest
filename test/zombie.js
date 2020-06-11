@@ -5,7 +5,7 @@ const logger = require("logger").createLogger(`zombie.log`);
 
 logger.info("-================ LOGGER STARTED ================-");
 
-browser = new Browser({ waitDuration: 3 * 1000 });
+browser = new Browser({ waitDuration: 20 * 1000 });
 
 let zombie = {
     get_cik: (data) => {

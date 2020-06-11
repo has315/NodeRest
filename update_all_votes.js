@@ -5,7 +5,6 @@ const zombie = require('./test/zombie');
 
 logger.info("-================ LOGGER STARTED ================-");
 
-
 function execUpdateVotes() {
     logger.info("-================ FUNCTION CALL");
 
@@ -14,8 +13,11 @@ function execUpdateVotes() {
     connection.query(sql, function(req, res) {
         if (res) {
             const a = JSON.stringify(res);
-
-            zombie.get_cik(a);
+            for (const vote in a) {
+                let count = count++;
+                console.log(count)
+                zombie.get_cik(vote);
+            }
         }
     });
 

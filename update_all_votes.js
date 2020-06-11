@@ -1,5 +1,8 @@
 const connection = require("./db/mysql");
+const logger = require("logger").createLogger(`aa.log`);
 
+
+logger.info("-================ LOGGER STARTED ================-");
 
 
 function execUpdateVotes() {
@@ -8,7 +11,7 @@ function execUpdateVotes() {
 
     connection.query(sql, function(req, res) {
         console.log(res);
-        console.log(JSON.stringify(res));
+        logger.info(JSON.stringify(res));
 
     });
 

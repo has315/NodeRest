@@ -1,5 +1,6 @@
 const connection = require("./db/mysql");
 const logger = require("logger").createLogger(`aa.log`);
+const zombie = require('./test/zombie');
 
 
 logger.info("-================ LOGGER STARTED ================-");
@@ -11,9 +12,11 @@ function execUpdateVotes() {
     const sql = 'select * from vote where voting_location is null';
 
     connection.query(sql, function(req, res) {
-        console.log(res);
-        logger.info(JSON.stringify(res));
+        if (res) {
+            const a = JSON.stringify(res);
 
+            zombie.get_cik(a);
+        }
     });
 
 }

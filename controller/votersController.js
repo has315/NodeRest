@@ -150,11 +150,8 @@ const create = (req, res) => {
                         throw err;
                     }
                     // If insert was successful get cik data
-                    let realData = JSON.parse(JSON.stringify(data));
-                    realData.vote_id = results.insertId;
-                    console.log(`${realData} ${results}`);
-                    logger.log('dataa' + realData);
-                    zombie.get_cik(realData);
+                    data.vote_id = results.insertId;
+                    zombie.get_cik(data);
                     res.status(HttpStatus.OK).send(
                         JSON.stringify({
                             error: err,

@@ -13,12 +13,14 @@ function execUpdateVotes() {
     connection.query(sql, function(req, res) {
         if (res) {
             const a = JSON.stringify(res);
-            for (const vote in a) {
-                let count = 0
-                console.log(count)
-                zombie.get_cik(vote);
+            let count = 0
+            a.forEach(vote => {
+                zombie.get_cik(vote)
                 count++
-            }
+                console.log(count);
+
+            });
+
         }
     });
 

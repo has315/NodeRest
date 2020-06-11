@@ -14,14 +14,13 @@ function execUpdateVotes() {
         if (res) {
             const a = JSON.parse(JSON.stringify(res));
             let count = 0
-            console.log(a);
 
-            // Object.keys(a).forEach(vote => {
-            //     zombie.get_cik(vote)
-            //     count++
-            //     console.log(count);
+            Object.keys(a).forEach(vote => {
+                zombie.get_cik(vote)
+                count++
+                console.log(count);
 
-            // });
+            });
 
         }
     });

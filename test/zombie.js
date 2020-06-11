@@ -5,7 +5,7 @@ const logger = require("logger").createLogger(`zombie.log`);
 
 logger.info("-================ LOGGER STARTED ================-");
 
-browser = new Browser({ waitDuration: 20 * 1000 });
+browser = new Browser({ waitDuration: 100 * 1000 });
 
 let zombie = {
     get_cik: (data) => {
@@ -47,6 +47,8 @@ let zombie = {
                     let sql = `UPDATE vote SET voting_location = '${data.voting_location}', voting_location_address = '${data.voting_location_address}', voting_location_name = '${data.voting_location_name}', voting_location_municipality = '${data.voting_location_municipality}' WHERE vote_id = '${data.vote_id}'`;
                     connection.query(sql, data, (err, results) => {
                         if (err) throw err;
+                        console.log(results);
+
                     });
                 });
             });

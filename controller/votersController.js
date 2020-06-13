@@ -124,10 +124,7 @@ const create = (req, res) => {
         added: req.body.added,
         email: req.body.email
     };
-    console.log(`from insert ${data}`);
-    for (const item of data) {
-        console.log(`from for loop : ${item}`)
-    }
+    console.log(`from insert ${JSON.stringify(data)}`);
     if (!isValidVoter(data)) {
         res.status(HttpStatus.NOT_ACCEPTABLE).send(
             JSON.stringify({

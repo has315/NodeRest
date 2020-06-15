@@ -122,7 +122,7 @@ const create = (req, res) => {
         phone_number: req.body.phone_number,
         delegated: req.body.delegated,
         added: req.body.added,
-        email: req.body.email
+        // email: req.body.email
     };
     console.log(`from insert ${JSON.stringify(data)}`);
     if (!isValidVoter(data)) {

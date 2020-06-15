@@ -53,9 +53,9 @@ CREATE TABLE IF NOT EXISTS vote_edit (
 
 CREATE VIEW vote_full_view AS
 SELECT vote.vote_id, vote.first_name, vote.last_name, vote.jmbg, 
-vote.phone_number, vote.delegated, vote.added, user.username, 
+vote.phone_number, vote.email, vote.delegated, vote.added, user.username, 
 vote.delete_request, vote.voting_location, 
-vote.voting_location_address, vote.voting_location_name, 
+vote.voting_location_address, vote.voting_location_name,
 vote.voting_location_municipality FROM vote
 INNER JOIN user ON user.user_id = vote.added;
 

@@ -330,7 +330,7 @@ const createEditReq = (req, res) => {
 const acceptEditReq = (req, res) => {
     for (const vote of req.body.votes) {
         console.log('vote' + vote);
-        console.log(req.body.votes);
+        console.log('votes ' + req.body.votes);
         let data = {
             vote_id: vote.vote_id,
             added: vote.added,
@@ -359,12 +359,15 @@ const acceptEditReq = (req, res) => {
                 .replace("pJMBG", connection.escape(data.jmbg))
                 .replace("pDelegated", connection.escape(data.delegated))
                 .replace("pPhoneNumber", connection.escape(data.phone_number));
-            console.log(sql);
             connection.query(sql, (err, results) => {
                 if (err) {
                     logger.error(
                         `UNABLE TO ACCEPT EDIT REQUEST | DATA: ${JSON.stringify(data)}`
                     );
+                    res.status(HttpStatus.BAD_REQUEST).send(JSON.stringify({
+                        error: err,
+                        response: results
+                    }))
                     throw err;
                 }
 

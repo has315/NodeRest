@@ -122,9 +122,9 @@ const create = (req, res) => {
         phone_number: req.body.phone_number,
         delegated: req.body.delegated,
         added: req.body.added,
-        // email: req.body.email
     };
     console.log(`from insert ${JSON.stringify(data)}`);
+    logger.log
     if (!isValidVoter(data)) {
         res.status(HttpStatus.NOT_ACCEPTABLE).send(
             JSON.stringify({
@@ -308,7 +308,6 @@ const createEditReq = (req, res) => {
         phone_number: req.body.phone_number,
         delegated: req.body.delegated,
         added: req.body.added,
-        // email: req.body.email
     };
 
     connection.query(SQL.INSERT_EDIT_REQ, data, (err, results) => {
@@ -330,6 +329,8 @@ const createEditReq = (req, res) => {
 // ACCEPT EDTITED VOTE
 const acceptEditReq = (req, res) => {
     for (const vote of req.body.votes) {
+        console.log('vote' + vote);
+        console.log(req.body.votes);
         let data = {
             vote_id: vote.vote_id,
             added: vote.added,
@@ -338,7 +339,6 @@ const acceptEditReq = (req, res) => {
             jmbg: vote.jmbg,
             delegated: vote.delegated,
             phone_number: vote.phone_number,
-            // email: vote.email
         };
 
         if (!isValidVoter(data)) {

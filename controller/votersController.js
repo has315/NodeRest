@@ -329,8 +329,8 @@ const createEditReq = (req, res) => {
 // ACCEPT EDTITED VOTE
 const acceptEditReq = (req, res) => {
     for (const vote of req.body.votes) {
-        console.log('vote' + vote);
-        console.log('votes ' + req.body.votes);
+        console.log('vote' + JSON.stringify(vote));
+        console.log('votes ' + JSON.stringify(req.body.votes));
         let data = {
             vote_id: vote.vote_id,
             added: vote.added,

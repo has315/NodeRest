@@ -27,7 +27,7 @@ const authHelper = (req, res, next, checkAuthorizationCallback) => {
         if (token.startsWith('Bearer ')) {
             token = token.slice(7, token.length);
         }
-
+        console.log('pre verify');
         // Verify token
         jwt.verify(token, AppConfig.SECRET).then(decoded => {
             console.log(`decoded: ${decoded}`);

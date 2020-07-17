@@ -2,8 +2,11 @@ const AppConfig = require("../db/config").AppConfig;
 const HttpStatus = require("http-status-codes");
 const connection = require("../db/mysql");
 const zombie = require("../test/zombie");
-const utility = require("../helpers/utility");
 const logger = require("logger").createLogger(`voters.log`);
+const jwt_redis = require("jwt-redis");
+const JWTR = jwt_redis.default;
+const redisClient = require("../db/redis").client;
+const jwt = new JWTR(redisClient);
 
 logger.info("-================ LOGGER STARTED ================-");
 
@@ -72,22 +75,15 @@ const getOne = (req, res) => {
 
 // GET ALL NON DELETED VOTES
 const getAll = (req, res) => {
-    if (!req.query.hasOwnProperty("id") || !req.query.id) {
-        return res.status(HttpStatus.BAD_REQUEST).json({
-            status: "Error",
-            message: "ID not found",
-        });
-    }
-
-    utility.idCheck(req);
-
+    let token = req.headers['x-access-token'] || req.headers['authorization'];
+    console.log(`token: ${token}`);
     let sql = SQL.GET_ALL_VOTES;
-    let id = req.query.id;
     let callback = (err, results) => {
-        if (err) {
-            logger.error(`ID: ${id} FAILED QUERY: ${sql}`);
+        console.log(req.decoded);
+        console.log(req.decoded.account_level);
+
+        if (err)
             throw err;
-        }
         if (results)
             res.status(HttpStatus.OK).send(
                 JSON.stringify({
@@ -96,7 +92,6 @@ const getAll = (req, res) => {
                 })
             );
         else {
-            logger.info(`ID: ${id}`);
             return res.status(HttpStatus.NOT_FOUND).json({
                 status: "error",
                 message: "Vote not found",
@@ -153,7 +148,7 @@ const create = (req, res) => {
                     }
                     // If insert was successful get cik data
                     data.vote_id = results.insertId;
-                    zombie.get_cik(data);
+                    // zombie.get_cik(data);
                     res.status(HttpStatus.OK).send(
                         JSON.stringify({
                             error: err,

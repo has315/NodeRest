@@ -75,12 +75,10 @@ const getOne = (req, res) => {
 
 // GET ALL NON DELETED VOTES
 const getAll = (req, res) => {
+    let id = 1;
     let token = req.headers['x-access-token'] || req.headers['authorization'];
-    console.log(`token: ${token}`);
     let sql = SQL.GET_ALL_VOTES;
     let callback = (err, results) => {
-        console.log(req.decoded);
-        console.log(req.decoded.account_level);
 
         if (err)
             throw err;

@@ -82,8 +82,8 @@ const getOne = (req, res) => {
 
 // GET ALL NON DELETED VOTES
 const getAll = (req, res) => {
-    let id = 1;
-    let token = req.headers['x-access-token'] || req.headers['authorization'];
+    let account_level = req.token.decoded.account_level;
+    let user_id = req.token.decoded.user_id;
     let sql = SQL.GET_ALL_VOTES;
     let callback = (err, results) => {
 
@@ -104,11 +104,11 @@ const getAll = (req, res) => {
         }
     };
 
-    if (id == 1) {
+    if (account_level == 1) {
         connection.query(sql, callback);
     } else {
         sql += " AND added = ?";
-        connection.query(sql, id, callback);
+        connection.query(sql, user_id, callback);
     }
 };
 

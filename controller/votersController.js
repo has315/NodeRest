@@ -29,6 +29,15 @@ const SQL = {
 
 // =========================== HELPER FUNCTIONS ===========================
 
+function canBeNull(key) {
+    NULL_KEYS.forEach(element => {
+        if (element === key) {
+            return true;
+        }
+    });
+    return false;
+}
+
 function isValidMember(vote) {
     let valid = true;
     for (let [key, value] of Object.entries(vote)) {

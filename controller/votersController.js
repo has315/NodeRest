@@ -3,10 +3,7 @@ const HttpStatus = require("http-status-codes");
 const connection = require("../db/mysql");
 const zombie = require("../test/zombie");
 const logger = require("logger").createLogger(`voters.log`);
-const jwt_redis = require("jwt-redis");
-const JWTR = jwt_redis.default;
-const redisClient = require("../db/redis").client;
-const jwt = new JWTR(redisClient);
+const async = require("async");
 
 logger.info("-================ LOGGER STARTED ================-");
 
@@ -32,17 +29,18 @@ const SQL = {
 
 // =========================== HELPER FUNCTIONS ===========================
 
-function isValidVoter(vote) {
+function isValidMember(vote) {
     let valid = true;
-    if (vote.jmbg.length != 13) valid = false;
-    else if (
-        vote.first_name.length < 1 ||
-        vote.last_name.length < 1 ||
-        vote.delegated.length < 1 ||
-        vote.added.length < 1
-    )
-        valid = false;
-
+    for (let [key, value] of Object.entries(vote)) {
+        if (value === null || value === undefined || value.toString().length < 1) {
+            if (canBeNull(key)) {
+                continue
+            }
+            console.log(`INVALID BECAUSE OF ${key} = ${value}`);
+            valid = false;
+            break;
+        }
+    }
     return valid;
 }
 

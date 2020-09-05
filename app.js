@@ -7,7 +7,7 @@ var connection = require('./db/mysql');
 var usersRouter = require('./routes/users');
 var votersRouter = require('./routes/voters');
 var cors = require('cors');
-var http = require('http');
+var https = require('https');
 var debug = require('debug')('newproject:server');
 var bodyParser = require('body-parser');
 var port = 3000;
@@ -63,7 +63,7 @@ app.use(function(err, req, res, next) {
 //     console.log(`Listening to requests on http://localhost:${port}`);
 // });
 
-var server = http.createServer(app);
+var server = https.createServer(app);
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);

@@ -1,21 +1,21 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var connection = require('./db/mysql');
-var usersRouter = require('./routes/users');
-var votersRouter = require('./routes/voters');
-var cors = require('cors');
-var https = require('https');
-var debug = require('debug')('newproject:server');
-var bodyParser = require('body-parser');
-var port = 3000;
-var corsOptions = {
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const connection = require('./db/mysql');
+const usersRouter = require('./routes/users');
+const votersRouter = require('./routes/voters');
+const cors = require('cors');
+const https = require('http');
+const debug = require('debug')('newproject:server');
+const bodyParser = require('body-parser');
+const port = 3000;
+const corsOptions = {
     origin: '*',
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
-var app = express();
+const app = express();
 require('tls').DEFAULT_MIN_VERSION = 'TLSv1'
 app.use(logger('dev'));
 app.use(cors(corsOptions));
@@ -63,7 +63,7 @@ app.use(function(err, req, res, next) {
 //     console.log(`Listening to requests on http://localhost:${port}`);
 // });
 
-var server = https.createServer(app);
+const server = https.createServer(app);
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
@@ -78,7 +78,7 @@ function onError(error) {
         throw error;
     }
 
-    var bind = typeof port === 'string' ?
+    let bind = typeof port === 'string' ?
         'Pipe ' + port :
         'Port ' + port;
 

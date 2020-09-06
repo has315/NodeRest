@@ -82,8 +82,8 @@ const getOne = (req, res) => {
 
 // GET ALL NON DELETED VOTES
 const getAll = (req, res) => {
-    let account_level = req.token.decoded.account_level;
-    let user_id = req.token.decoded.user_id;
+    let account_level = req.decoded.account_level;
+    let user_id = req.decoded.user_id;
     let sql = SQL.GET_ALL_VOTES;
     let callback = (err, results) => {
 

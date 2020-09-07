@@ -62,11 +62,7 @@ const getOne = (req, res) => {
         vote_id: req.query.vote_id,
     };
 
-    connection.query(SQL.GET_ONE_VOTE, data.vote_id, function(
-        error,
-        results,
-        fields
-    ) {
+    connection.query(SQL.GET_ONE_VOTE, data.vote_id, function(error, results) {
         if (error) {
             logger.error(`UNABLE TO GET VOTE | DATA: ${data.vote_id}`);
             throw error;
@@ -82,13 +78,14 @@ const getOne = (req, res) => {
 
 // GET ALL NON DELETED VOTES
 const getAll = (req, res) => {
-    let account_level = req.decoded.account_level;
     let user_id = req.decoded.user_id;
-    let sql = SQL.GET_ALL_VOTES;
+    let account_level = req.decoded.account_level;
     let callback = (err, results) => {
 
-        if (err)
+        if (err) {
+            logger.error(`ID: ${id} FAILED QUERY: ${sql}`);
             throw err;
+        }
         if (results)
             res.status(HttpStatus.OK).send(
                 JSON.stringify({
@@ -124,7 +121,6 @@ const create = (req, res) => {
         added: req.body.added,
     };
     console.log(`from insert ${JSON.stringify(data)}`);
-    logger.log
     if (!isValidVoter(data)) {
         res.status(HttpStatus.NOT_ACCEPTABLE).send(
             JSON.stringify({
@@ -153,7 +149,7 @@ const create = (req, res) => {
                     }
                     // If insert was successful get cik data
                     data.vote_id = results.insertId;
-                    // zombie.get_cik(data);
+                    zombie.get_cik(data);
                     res.status(HttpStatus.OK).send(
                         JSON.stringify({
                             error: err,

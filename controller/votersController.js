@@ -27,24 +27,14 @@ const SQL = {
     UNSET_DEL_REQ: "UPDATE `vote` SET `delete_request` = 0 WHERE vote_id = ?",
 };
 
+
 // =========================== HELPER FUNCTIONS ===========================
 
-function canBeNull(key) {
-    NULL_KEYS.forEach(element => {
-        if (element === key) {
-            return true;
-        }
-    });
-    return false;
-}
 
 function isValidVoter(vote) {
     let valid = true;
     for (let [key, value] of Object.entries(vote)) {
         if (value === null || value === undefined || value.toString().length < 1) {
-            if (canBeNull(key)) {
-                continue
-            }
             console.log(`INVALID BECAUSE OF ${key} = ${value}`);
             valid = false;
             break;

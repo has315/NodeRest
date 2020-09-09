@@ -42,6 +42,7 @@ function canBeNull(key) {
 
 function isValidVoter(vote) {
     let valid = true;
+    console.log('Obj entries: ' + Object.entries(vote));
     for (let [key, value] of Object.entries(vote)) {
         if (value === null || value === undefined || value.toString().length < 1) {
             if (canBeNull(key)) {

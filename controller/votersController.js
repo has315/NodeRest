@@ -33,7 +33,7 @@ const NULL_KEYS = ['vote_id']
 
 function canBeNull(key) {
     NULL_KEYS.forEach(element => {
-        if (element === key) {
+        if (element == key) {
             return true;
         }
     });

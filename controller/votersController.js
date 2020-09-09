@@ -38,7 +38,7 @@ function canBeNull(key) {
     return false;
 }
 
-function isValidMember(vote) {
+function isValidVoter(vote) {
     let valid = true;
     for (let [key, value] of Object.entries(vote)) {
         if (value === null || value === undefined || value.toString().length < 1) {

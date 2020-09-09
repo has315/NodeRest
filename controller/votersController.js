@@ -123,6 +123,7 @@ const create = (req, res) => {
     };
     console.log(`from insert ${JSON.stringify(data)}`);
     if (!isValidVoter(data)) {
+        console.log('Voters validation didn\'t pass');
         res.status(HttpStatus.NOT_ACCEPTABLE).send(
             JSON.stringify({
                 error: "[INVALID FORMAT]",

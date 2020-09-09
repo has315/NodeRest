@@ -7,7 +7,7 @@ const votersController = require("../controller/votersController");
 router.get("/get_one", auth.authUser, votersController.getOne);
 
 // GET ALL NON DELETED VOTES
-router.get("/all", auth.authUser, votersController.getAll);
+router.get("/all", auth.authUser, votersController.getAll); //change the method to post
 
 // INSERT NEW VOTE
 router.post("/", auth.authUser, votersController.create);
@@ -29,16 +29,16 @@ router.get("/get_edit", auth.authAdmin, votersController.getAllEditReq);
 
 // ACCEPT EDITED VOTE
 router.post(
-  "/edit_request_accept",
-  auth.authUser,
-  votersController.acceptEditReq
+    "/edit_request_accept",
+    auth.authUser,
+    votersController.acceptEditReq
 );
 
 // DECLINE AND DELETE VOTE EDIT ENTRY
 router.post(
-  "/edit_request_delete",
-  auth.authAdmin,
-  votersController.removeEditReq
+    "/edit_request_delete",
+    auth.authAdmin,
+    votersController.removeEditReq
 );
 
 // SETS FLAG FOR DELETION
@@ -49,10 +49,10 @@ router.get("/get_deleted", auth.authAdmin, votersController.getAllDelReq);
 
 // DECLINE DELETE AND  SETS DELETION FLAG TO 0
 router.post(
-  "/delete_decline",
-  auth.authAdmin,
-  auth.authUser,
-  votersController.removeDelReq
+    "/delete_decline",
+    auth.authAdmin,
+    auth.authUser,
+    votersController.removeDelReq
 );
 
 module.exports = router;

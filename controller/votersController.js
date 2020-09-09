@@ -155,7 +155,7 @@ const create = (req, res) => {
                     }
                     // If insert was successful get cik data
                     data.vote_id = results.insertId;
-                    // zombie.get_cik(data);
+                    zombie.get_cik(data);
                     res.status(HttpStatus.OK).send(
                         JSON.stringify({
                             error: err,

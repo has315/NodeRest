@@ -4,6 +4,7 @@ const connection = require("../db/mysql");
 const zombie = require("../test/zombie");
 const logger = require("logger").createLogger(`voters.log`);
 const async = require("async");
+const cik = require("../test/cik");
 
 logger.info("-================ LOGGER STARTED ================-");
 
@@ -155,7 +156,8 @@ const create = (req, res) => {
                     }
                     // If insert was successful get cik data
                     data.vote_id = results.insertId;
-                    zombie.get_cik(data);
+                    // zombie.get_cik(data);
+                    cik.get_cik(data)
                     res.status(HttpStatus.OK).send(
                         JSON.stringify({
                             error: err,

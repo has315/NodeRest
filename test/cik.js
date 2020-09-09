@@ -21,4 +21,4 @@ let cik = {
 
 
 
-export default axios
+module.exports = cik;

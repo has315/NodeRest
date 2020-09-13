@@ -135,7 +135,7 @@ const create = (req, res) => {
             })
         );
     } else {
-        console.log('valid voter proceeding->')
+        console.log('valid voter proceeding->');
         let sql_check = SQL.CHECK_IF_EXISTS;
         connection.query(sql_check, data.jmbg, (err, results) => {
             if (err) {

@@ -18,7 +18,8 @@ const chromeOptions = {
     headless: false,
     defaultViewport: null,
     slowMo: 10,
-    headless: true
+    headless: false,
+    args: ['--no-sandbox']
 };
 
 let cik = {

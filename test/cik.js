@@ -75,11 +75,7 @@ let cik = {
 
                 });
             }
-        });
+        }).catch(err => console.error(err));
     }
 }
-async function main(data) {
-
-}
-
 module.exports = cik

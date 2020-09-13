@@ -22,7 +22,7 @@ const chromeOptions = {
 };
 
 let cik = {
-    get_cik: (data) => {
+    get_cik: async(data) => {
         const browser = await puppeteer.launch(chromeOptions);
         const page = await browser.newPage();
         const first_name = data.first_name;

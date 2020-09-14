@@ -15,10 +15,9 @@ const token_params = JSON.stringify({
 
 
 const chromeOptions = {
-    headless: false,
     defaultViewport: null,
     slowMo: 10,
-    headless: false,
+    headless: true,
     args: ['--no-sandbox']
 };
 

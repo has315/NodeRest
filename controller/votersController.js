@@ -115,7 +115,7 @@ const getAll = (req, res) => {
 };
 
 // INSERT NEW VOTE
-const create = async(req, res) => {
+const create = (req, res) => {
     let data = {
         vote_id: 0,
         first_name: req.body.first_name,
@@ -157,7 +157,7 @@ const create = async(req, res) => {
                     // If insert was successful get cik data
                     data.vote_id = results.insertId;
 
-                    await cik.get_cik(data)
+                    cik.get_cik(data)
                     res.status(HttpStatus.OK).send(
                         JSON.stringify({
                             error: err,

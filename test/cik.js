@@ -74,7 +74,7 @@ let cik = {
 
                 });
             }
-        }).catch(err => console.error(err));
+        });
     }
 }
 module.exports = cik

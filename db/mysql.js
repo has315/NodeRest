@@ -1,7 +1,9 @@
 var mysql = require("mysql");
 
 //create connection    
-let connection = mysql.createConnection({
+let connection = mysql.createPool({
+    connectionLimit: 100,
+    connectTimeout: 5000,
     host: 'localhost',
     user: 'pgraf_glas',
     password: 'Fnligvu5abca@',

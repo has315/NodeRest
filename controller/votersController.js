@@ -127,7 +127,6 @@ const create = (req, res) => {
     };
     console.log(`from insert ${JSON.stringify(data)}`);
     if (!isValidVoter(data)) {
-        console.log('Voters validation didn\'t pass');
         res.status(HttpStatus.NOT_ACCEPTABLE).send(
             JSON.stringify({
                 error: "[INVALID FORMAT]",
@@ -135,7 +134,6 @@ const create = (req, res) => {
             })
         );
     } else {
-        console.log('valid voter proceeding->');
         let sql_check = SQL.CHECK_IF_EXISTS;
         connection.query(sql_check, data.jmbg, (err, results) => {
             if (err) {
@@ -157,16 +155,10 @@ const create = (req, res) => {
                     // If insert was successful get cik data
                     data.vote_id = results.insertId;
 
-                    cik.get_cik(data)
-                    res.status(HttpStatus.OK).send(
-                        JSON.stringify({
-                            error: err,
-                            response: existsJson,
-                        })
-                    );
+                    cik.get_cik(data);
                 });
             } else {
-                res.status(HttpStatus.OK).send(
+                res.status(HttpStatus.EXPECTATION_FAILED).send(
                     JSON.stringify({
                         error: err,
                         response: existsJson,

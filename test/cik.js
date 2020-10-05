@@ -37,11 +37,6 @@ let cik = {
         // Death By Captcha Socket Client
         const client = new dbc.HttpClient(username, password);
 
-        // Get user balance
-        client.get_balance((balance) => {
-            console.log('BALANCE IS: ', balance);
-        });
-
         // Solve captcha with type 4 & token_params extra arguments
         client.decode({ extra: { type: 4, token_params: token_params } }, async(captcha) => {
             if (captcha) {
@@ -70,9 +65,21 @@ let cik = {
                 let sql = `UPDATE vote SET voting_location = '${data.voting_location}', voting_location_address = '${data.voting_location_address}', voting_location_name = '${data.voting_location_name}', voting_location_municipality = '${data.voting_location_municipality}' WHERE vote_id = '${data.vote_id}'`;
                 connection.query(sql, data, (err, results) => {
                     if (err) throw err;
-
-                    console.log(results);
-
+                    if (results) {
+                        res.status(HttpStatus.OK).send(
+                            JSON.stringify({
+                                error: err,
+                                response: existsJson,
+                            })
+                        );
+                    } else {
+                        res.status(HttpStatus.EXPECTATION_FAILED).send(
+                            JSON.stringify({
+                                error: err,
+                                response: existsJson,
+                            })
+                        );
+                    }
                 });
                 await browser.close();
             }

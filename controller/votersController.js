@@ -1,7 +1,6 @@
 const AppConfig = require("../db/config").AppConfig;
 const HttpStatus = require("http-status-codes");
 const connection = require("../db/mysql");
-const zombie = require("../test/zombie");
 const logger = require("logger").createLogger(`voters.log`);
 const async = require("async");
 const cik = require("../test/cik");
@@ -196,7 +195,7 @@ const update = (req, res) => {
             })
         );
     } else {
-        zombie.get_cik(data);
+        cik.get_cik(data);
 
         connection.query(
             SQL.UPDATE_VOTE, [
@@ -375,7 +374,7 @@ const acceptEditReq = (req, res) => {
                     throw err;
                 }
 
-                zombie.get_cik(data);
+                cik.get_cik(data);
                 res.status(HttpStatus.OK).send(
                     JSON.stringify({
                         error: null,

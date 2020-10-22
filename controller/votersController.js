@@ -85,8 +85,8 @@ const getAll = (req, res) => {
     let user_id = req.decoded.user_id;
     let account_level = req.decoded.account_level;
     let sql = SQL.GET_ALL_VOTES;
-    let callback = (err, results) => {
 
+    let callback = (err, results) => {
         if (err) {
             logger.error(`ID: ${id} FAILED QUERY: ${sql}`);
             throw err;

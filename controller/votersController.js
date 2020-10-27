@@ -187,7 +187,7 @@ const create = (req, res) => {
             }
             console.log(data);
             // Add only valid data
-            if (isValidMember(data)) {
+            if (isValidVoter(data)) {
                 // If data is valid. Check if entry exists in DB
                 connection.query(
                     SQL.CHECK_IF_EXISTS, [

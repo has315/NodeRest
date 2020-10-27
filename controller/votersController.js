@@ -180,7 +180,7 @@ const getAll = (req, res) => {
 const create = (req, res) => {
     const data = {};
     let insertCount = 0;
-    async.eachSeries(req.body, (obj, callback) => {
+    async.eachSeries(req.body.data, (obj, callback) => {
             // Preapre data for insert
             for (const [key, value] of Object.entries(obj)) {
                     data[key] = value;
@@ -207,7 +207,7 @@ const create = (req, res) => {
 
                         // If entry doesn't exist, add it to DB
                         if (existsJson == 0) {
-                            connection.query(sql, Object.values(data), (err, results) => {
+                            connection.query(SQL.INSERT_VOTE, Object.values(data), (err, results) => {
                                 if (err) {
                                     logger.error(
                                         `UNABLE TO INSERT DATA | DATA: ${JSON.stringify(data)} | ERROR: ${err}`

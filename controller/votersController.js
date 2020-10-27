@@ -114,67 +114,141 @@ const getAll = (req, res) => {
 };
 
 // INSERT NEW VOTE
-const create = (req, res) => {
-    let data = {
-        vote_id: 0,
-        first_name: req.body.first_name,
-        last_name: req.body.last_name,
-        jmbg: req.body.jmbg,
-        phone_number: req.body.phone_number,
-        delegated: req.body.delegated,
-        added: req.body.added,
-    };
-    console.log(`from insert ${JSON.stringify(data)}`);
-    if (!isValidVoter(data)) {
-        console.log('Voters validation didn\'t pass');
-        res.status(HttpStatus.NOT_ACCEPTABLE).send(
-            JSON.stringify({
-                error: "[INVALID FORMAT]",
-                response: "Invalid vote format",
-            })
-        );
-    } else {
-        console.log('valid voter proceeding->');
-        let sql_check = SQL.CHECK_IF_EXISTS;
-        connection.query(sql_check, data.jmbg, (err, results) => {
-            if (err) {
-                logger.error(
-                    `UNABLE TO CHECK IF DATA EXISTS | DATA: ${JSON.stringify(data)}`
-                );
-                throw err;
-            }
-            let resultsJson = JSON.parse(JSON.stringify(results));
-            const existsJson = Object.values(resultsJson[0])[0];
-            if (existsJson == 0) {
-                connection.query(SQL.INSERT_VOTE, data, (err, results) => {
-                    if (err) {
-                        logger.error(
-                            `UNABLE TO INSERT VOTE| DATA: ${JSON.stringify(data)}`
-                        );
-                        throw err;
-                    }
-                    // If insert was successful get cik data
-                    data.vote_id = results.insertId;
+// const create = (req, res) => {
+//     let data = {
+//         vote_id: 0,
+//         first_name: req.body.first_name,
+//         last_name: req.body.last_name,
+//         jmbg: req.body.jmbg,
+//         phone_number: req.body.phone_number,
+//         delegated: req.body.delegated,
+//         added: req.body.added,
+//     };
+//     if (!isValidVoter(data)) {
+//         console.log('Voters validation didn\'t pass');
+//         res.status(HttpStatus.NOT_ACCEPTABLE).send(
+//             JSON.stringify({
+//                 error: "[INVALID FORMAT]",
+//                 response: "Invalid vote format",
+//             })
+//         );
+//     } else {
+//         console.log('valid voter proceeding->');
+//         let sql_check = SQL.CHECK_IF_EXISTS;
+//         connection.query(sql_check, data.jmbg, (err, results) => {
+//             if (err) {
+//                 logger.error(
+//                     `UNABLE TO CHECK IF DATA EXISTS | DATA: ${JSON.stringify(data)}`
+//                 );
+//                 throw err;
+//             }
+//             let resultsJson = JSON.parse(JSON.stringify(results));
+//             const existsJson = Object.values(resultsJson[0])[0];
+//             if (existsJson == 0) {
+//                 connection.query(SQL.INSERT_VOTE, data, (err, results) => {
+//                     if (err) {
+//                         logger.error(
+//                             `UNABLE TO INSERT VOTE| DATA: ${JSON.stringify(data)}`
+//                         );
+//                         throw err;
+//                     }
+//                     // If insert was successful get cik data
+//                     data.vote_id = results.insertId;
 
-                    cik.get_cik(data)
-                    res.status(HttpStatus.OK).send(
-                        JSON.stringify({
-                            error: err,
-                            response: existsJson,
-                        })
-                    );
-                });
-            } else {
-                res.status(HttpStatus.OK).send(
-                    JSON.stringify({
-                        error: err,
-                        response: existsJson,
-                    })
-                );
+//                     cik.get_cik(data)
+//                     res.status(HttpStatus.OK).send(
+//                         JSON.stringify({
+//                             error: err,
+//                             response: existsJson,
+//                         })
+//                     );
+//                 });
+//             } else {
+//                 res.status(HttpStatus.OK).send(
+//                     JSON.stringify({
+//                         error: err,
+//                         response: existsJson,
+//                     })
+//                 );
+//             }
+//         });
+//     }
+// };
+
+
+
+const create = (req, res) => {
+    const data = {};
+    let insertCount = 0;
+
+    async.eachSeries(req.body, (obj, callback) => {
+            // Preapre data for insert
+            for (const [key, value] of Object.entries(obj)) {
+                    data[key] = value;
             }
-        });
-    }
+            console.log(data);
+            // Add only valid data
+            if (isValidMember(data)) {
+                // If data is valid. Check if entry exists in DB
+                connection.query(
+                    SQL.CHECK_IF_EXISTS, [
+                        data["first_name"],
+                        data["last_name"],
+                        data["jmbg"],
+                    ],
+                    (err, results) => {
+                        if (err) {
+                            logger.error(
+                                `UNABLE TO CHECK IF DATA EXISTS | DATA: ${JSON.stringify(data)}`
+                            );
+                            callback();
+                        }
+                        const resultsJson = JSON.parse(JSON.stringify(results));
+                        const existsJson = Object.values(resultsJson[0])[0];
+
+                        // If entry doesn't exist, add it to DB
+                        if (existsJson == 0) {
+                            connection.query(sql, Object.values(data), (err, results) => {
+                                if (err) {
+                                    logger.error(
+                                        `UNABLE TO INSERT DATA | DATA: ${JSON.stringify(data)} | ERROR: ${err}`
+                                    );
+                                } else {
+                                    ++insertCount;
+                                }
+                                callback();
+                            });
+                        } else {
+                            callback();
+                        }
+                    }
+                );
+            } else {
+                callback();
+            }
+        },
+        (err) => {
+            if (err) {
+                console.error(`Error: ${err}`);
+            }
+            // Return number of inserted items
+            res.status(HttpStatus.OK).send(
+                JSON.stringify({
+                    error: null,
+                    response: insertCount,
+                })
+            );
+        }
+    );
+
 };
+
+
+
+
+
+
+
 
 // UPDATE VOTE
 const update = (req, res) => {

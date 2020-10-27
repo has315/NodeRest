@@ -180,7 +180,6 @@ const getAll = (req, res) => {
 const create = (req, res) => {
     const data = {};
     let insertCount = 0;
-
     async.eachSeries(req.body, (obj, callback) => {
             // Preapre data for insert
             for (const [key, value] of Object.entries(obj)) {

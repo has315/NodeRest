@@ -115,31 +115,6 @@ const getAll = (req, res) => {
     }
 };
 
-const getAllMobile = (req,res) => {
-
-    let callback = (err, results) => {
-
-        if (err) {
-            logger.error(`ID: ${id} FAILED QUERY: ${sql}`);
-            throw err;
-        }
-        if (results)
-            res.status(HttpStatus.OK).send(
-                JSON.stringify({
-                    error: null,
-                    response: results,
-                })
-            );
-        else {
-            return res.status(HttpStatus.NOT_FOUND).json({
-                status: "error",
-                message: "Vote not found",
-            });
-        }
-    };
-    connection.query(SQL.GET_ONE_VOTE, data.vote_id, callback);
-}
-
 // INSERT NEW VOTE
 const create = (req, res) => {
     let data = {

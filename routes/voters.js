@@ -51,8 +51,6 @@ router.post("/delete_request", auth.authUser, votersController.createDelReq);
 // GET ALL DELETE REQUESTS
 router.get("/get_deleted", auth.authAdmin, votersController.getAllDelReq);
 
-router.get("/get_votes_on_mobile", auth.authUser, votersController.getVotesMobile);
-
 
 // DECLINE DELETE AND  SETS DELETION FLAG TO 0
 router.post(

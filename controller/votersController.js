@@ -519,7 +519,6 @@ const removeDelReq = (req, res) => {
 module.exports = {
     getOne,
     getAll,
-    getAllMobile,
     create,
     update,
     updateStatus,

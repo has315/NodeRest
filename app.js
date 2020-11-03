@@ -11,7 +11,6 @@ const https = require('http');
 const debug = require('debug')('newproject:server');
 const bodyParser = require('body-parser');
 const LogRocket = require('logrocket');
-LogRocket.init('d3xrdo/noderest');
 
 const port = 3000;
 const corsOptions = {

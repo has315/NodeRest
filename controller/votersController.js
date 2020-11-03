@@ -12,8 +12,10 @@ logger.info("-================ LOGGER STARTED ================-");
 const SQL = {
     GET_ALL_VOTES: "SELECT * FROM vote_full_view WHERE delete_request = 0",
     GET_ONE_VOTE: "SELECT * FROM `vote` WHERE `delete_request` = 0 AND vote_id = ?",
+    GET_ALL_VOTES_MOBILE: "SELECT (first_name,last_name,jmbg) FROM `vote` WHERE `delete_request` = 0",
     INSERT_VOTE: "INSERT INTO vote SET ?",
     UPDATE_VOTE: "UPDATE vote SET first_name=?, last_name=?, jmbg=?, phone_number=?, delegated=? WHERE vote_id=?",
+    UPDATE_VOTE_STATUS: "UPDATE vote SET status=? where vote_id = ?",
     DELETE_VOTE: "DELETE FROM `vote` WHERE vote_id = ?",
     CHECK_IF_EXISTS: "SELECT EXISTS(SELECT * FROM vote WHERE `jmbg` =  ?)",
 
@@ -113,6 +115,22 @@ const getAll = (req, res) => {
     }
 };
 
+const getAllMobile = (req,res) => {
+
+    connection.query(SQL.GET_ONE_VOTE, data.vote_id, function(error, results) {
+        if (error) {
+            logger.error(`UNABLE TO GET VOTE | DATA: ${data.vote_id}`);
+            throw error;
+        }
+        res.status(HttpStatus.OK).send(
+            JSON.stringify({
+                error: null,
+                response: results,
+            })
+        );
+    });
+}
+
 // INSERT NEW VOTE
 const create = (req, res) => {
     let data = {
@@ -206,6 +224,40 @@ const update = (req, res) => {
                 data.delegated,
                 data.vote_id,
             ],
+            (err, results) => {
+                if (err) {
+                    logger.error(`UNABLE TO UPDATE VOTE | DATA: ${JSON.stringify(data)}`);
+                    throw error;
+                }
+                // console.log(results);
+                res.status(HttpStatus.OK).send(
+                    JSON.stringify({
+                        error: null,
+                        response: results.affectedRows,
+                    })
+                );
+            }
+        );
+    }
+};
+
+// UPDATE VOTE FROM MOBILE
+const updateStatus = (req, res) => {
+    let data = {
+        vote_id: req.body.vote_id,
+        status: req.body.status
+    };
+
+    if (!isValidVoter(data)) {
+        res.status(HttpStatus.NOT_ACCEPTABLE).send(
+            JSON.stringify({
+                error: err,
+                response: "Invalid vote format",
+            })
+        );
+    } else {
+        connection.query(
+            SQL.UPDATE_VOTE_STATUS, data,
             (err, results) => {
                 if (err) {
                     logger.error(`UNABLE TO UPDATE VOTE | DATA: ${JSON.stringify(data)}`);
@@ -483,8 +535,10 @@ const removeDelReq = (req, res) => {
 module.exports = {
     getOne,
     getAll,
+    getAllMobile,
     create,
     update,
+    updateStatus,
     remove,
     search,
     getAllEditReq,

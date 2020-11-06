@@ -48,7 +48,7 @@ let cik = {
                 console.log('Captcha ' + captcha['captcha'] + ' solved: ' + captcha['text']);
                 await page.type('#g-recaptcha-response', captcha['text']);
                 const js = `document.getElementById("g-recaptcha-response").innerHTML="${captcha['text']}";`;
-                page.evaluate(js);
+                await page.evaluate(js);
                 await page.click('#ctl04_cmdProvjeri');
                 // let results = {};
                 const result = await page.$eval('.Result', e => e.innerHTML);
